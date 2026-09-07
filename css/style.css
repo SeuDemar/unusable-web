@@ -1,0 +1,228 @@
+/* SuperMercado Kaos 3000 - folha de estilo deliberadamente hostil */
+
+:root{
+  --amarelo:#ffe600;
+  --rosa:#ff2d95;
+  --ciano:#00e5ff;
+  --roxo:#5b0f8b;
+  --verde:#00c853;
+  --vermelho:#d50000;
+  --papel:#fffbe6;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:"Comic Sans MS","Comic Neue",cursive,sans-serif;
+  background:repeating-linear-gradient(45deg,#ffef8a 0 22px,#ffe600 22px 44px);
+  color:#111;
+  overflow:hidden;
+  user-select:none;
+  cursor:progress;
+}
+
+/* ---------- telas ---------- */
+.tela{display:none;height:100vh;width:100vw}
+.tela.ativa{display:flex}
+
+/* ---------- titulo ---------- */
+#tela-titulo{align-items:center;justify-content:center;flex-direction:column}
+.titulo-caixa{
+  background:var(--papel);
+  border:8px ridge var(--rosa);
+  padding:28px 40px;
+  max-width:680px;
+  text-align:center;
+  box-shadow:14px 14px 0 var(--roxo);
+}
+.logo{
+  font-size:44px;margin:0;
+  color:var(--roxo);
+  text-shadow:3px 3px 0 var(--ciano), 6px 6px 0 var(--rosa);
+  animation:tremer 3.5s infinite;
+}
+.logo span{color:var(--vermelho)}
+@keyframes tremer{
+  0%,92%{transform:rotate(0deg)}
+  94%{transform:rotate(-1.5deg)}
+  96%{transform:rotate(1.5deg)}
+  98%{transform:rotate(-.8deg)}
+}
+.slogan{font-size:18px;margin:12px 0 0}
+.letrinha{font-size:9px;color:#777;margin:2px 0 18px}
+.ajuda{margin-top:22px;text-align:left;font-size:13px;background:#fff;border:2px dashed #999;padding:8px}
+.ajuda ul{margin:8px 0 0;padding-left:20px;line-height:1.6}
+.ajuda summary{cursor:pointer;font-weight:bold}
+
+/* ---------- botoes ---------- */
+.btn{
+  font-family:inherit;
+  border:4px outset var(--ciano);
+  background:linear-gradient(#fff,#cfefff);
+  padding:10px 18px;
+  font-size:16px;
+  cursor:pointer;
+  transition:transform .12s;
+}
+.btn:hover{background:linear-gradient(#cfefff,#fff)}
+.btn:active{border-style:inset}
+.btn-gigante{font-size:26px;padding:16px 34px;border-color:var(--rosa);background:linear-gradient(#fff,#ffd0e8)}
+.btn-fantasma{opacity:.55;font-size:12px;border-color:#aaa}
+.btn-mini{font-size:13px;padding:6px 10px}
+.btn-perigo{border-color:var(--vermelho);background:linear-gradient(#fff,#ffd0d0)}
+.linha-botoes{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap}
+.linha-botoes-mini{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+
+/* ---------- loja ---------- */
+#tela-loja{flex-direction:row;flex-wrap:wrap;align-content:flex-start;padding:8px;gap:8px}
+#topo-loja{
+  width:100%;display:flex;gap:16px;align-items:flex-start;
+  background:var(--papel);border:4px ridge var(--roxo);padding:6px 10px;
+}
+.busca-caixa{position:relative;display:flex;align-items:center;gap:8px;font-size:13px}
+.busca-caixa input{
+  font-family:inherit;font-size:14px;padding:4px 8px;width:220px;
+  border:3px inset #bbb;
+}
+.busca-status{font-size:11px;color:var(--vermelho);min-width:130px}
+#busca-resultados{
+  position:absolute;top:34px;left:120px;z-index:40;margin:0;padding:0;
+  list-style:none;background:#fff;border:2px solid var(--roxo);min-width:220px;
+}
+#busca-resultados li{padding:4px 8px;font-size:13px;cursor:pointer;border-bottom:1px dotted #ccc}
+#busca-resultados li:hover{background:var(--amarelo)}
+.cronometro{margin-left:auto;font-size:13px;background:#111;color:var(--verde);padding:6px 10px;font-family:monospace}
+.cronometro.alerta{color:#fff;background:var(--vermelho);animation:piscar .35s infinite}
+@keyframes piscar{50%{opacity:.25}}
+
+#palco{position:relative;border:6px ridge var(--ciano);background:#d9d2c5;line-height:0}
+#mapa{display:block}
+#minimapa-caixa{
+  position:absolute;right:6px;bottom:6px;background:#000a;padding:4px;
+  color:#fff;font-size:9px;text-align:center;line-height:1.3;
+}
+#minimapa{display:block;border:1px solid #fff}
+
+#painel-lateral{flex:1;min-width:250px;display:flex;flex-direction:column;gap:8px}
+.bloco{background:var(--papel);border:4px ridge var(--rosa);padding:8px 12px}
+.bloco h2{margin:0 0 6px;font-size:17px;color:var(--roxo)}
+#lista-compras,#lista-carrinho{margin:0;padding-left:18px;font-size:13px;line-height:1.7;max-height:170px;overflow:auto}
+#lista-compras li.ok{color:var(--verde);text-decoration:line-through}
+#lista-carrinho .vazio{list-style:none;margin-left:-18px;color:#999;font-style:italic}
+.total{margin:8px 0 0;font-size:15px}
+
+/* ---------- overlays ---------- */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:60;
+  background:#000a;align-items:center;justify-content:center;
+}
+.overlay.ativa{display:flex}
+.modal{
+  background:var(--papel);border:8px ridge var(--roxo);
+  padding:18px 22px;max-width:880px;box-shadow:16px 16px 0 #0007;
+}
+.modal header{display:flex;align-items:center;gap:16px}
+.modal h2{margin:0 0 8px;color:var(--roxo)}
+.fechar{
+  margin-left:auto;border:3px outset var(--vermelho);background:#fff;
+  font-family:inherit;font-size:14px;width:30px;height:30px;cursor:pointer;
+}
+.dica{font-size:12px;color:#555;margin:10px 0 0;font-style:italic}
+
+/* ---------- prateleira ---------- */
+.prateleira-corpo{display:flex;gap:20px;margin-top:10px}
+.prateleira-itens{
+  position:relative;width:430px;height:300px;
+  background:repeating-linear-gradient(#c9a227 0 4px,#e0b94a 4px 96px,#8c6d1f 96px 104px);
+  border:5px solid #6b5416;overflow:hidden;
+}
+.produto{
+  position:absolute;width:74px;height:86px;
+  background:#fff;border:3px solid #333;border-radius:4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:10px;text-align:center;cursor:grab;padding:2px;
+  box-shadow:2px 2px 0 #0004;
+}
+.produto .emoji{font-size:26px;line-height:1}
+.produto .preco{color:#0a8a3a;font-weight:bold}
+.produto.arrastando{cursor:grabbing;z-index:20}
+.cesta{
+  position:relative;width:300px;height:300px;
+  background:#9aa0a6;border:6px dashed #3c4043;
+  overflow:hidden;
+}
+.cesta.alvo{background:#b7f5c0;border-color:var(--verde)}
+.cesta-rotulo{position:absolute;top:8px;left:0;right:0;text-align:center;font-size:12px;color:#fff}
+
+/* ---------- quantidade ---------- */
+.modal-qtd{text-align:center;width:420px}
+.qtd-numero{font-size:52px;margin:6px 0;font-family:monospace}
+.qtd-area{position:relative;height:150px;border:3px dotted #bbb;margin-top:6px}
+.btn-mais{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-size:30px;width:74px;height:74px;border-color:var(--verde);
+  background:linear-gradient(#fff,#c8f5cf);transition:left .25s,top .25s;
+}
+
+/* ---------- caixa ---------- */
+.modal-caixa{width:780px;min-height:430px}
+.etapa{display:none}
+.etapa.ativa{display:block}
+.barra{height:26px;border:3px inset #999;background:#fff;margin:14px 0}
+#fila-barra{height:100%;width:0;background:repeating-linear-gradient(90deg,var(--verde) 0 10px,#0a0 10px 20px)}
+.scanner-area{display:flex;gap:24px;margin-top:12px;align-items:center}
+.scanner-pilha{position:relative;width:440px;height:262px;background:#e6e2d8;border:4px solid #888}
+.leitor{
+  width:230px;height:170px;background:#222;color:#0f0;
+  display:flex;align-items:center;justify-content:center;font-family:monospace;
+  border:6px solid #555;box-shadow:inset 0 0 30px #0f04;
+}
+.leitor.lendo{background:#003b00;color:#7fff7f}
+.item-scan{
+  position:absolute;width:112px;height:74px;background:#fff;border:2px solid #000;
+  cursor:grab;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:10px;gap:3px;z-index:5;
+}
+.barras{
+  width:94px;height:32px;
+  background:repeating-linear-gradient(90deg,#000 0 2px,#fff 2px 4px,#000 4px 7px,#fff 7px 11px);
+}
+.scanner-status{margin-top:10px;font-size:13px}
+
+.captcha-grade{display:grid;grid-template-columns:repeat(3,86px);gap:6px;margin:14px 0}
+.captcha-cel{
+  height:86px;font-size:36px;background:#fff;border:3px solid #999;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.captcha-cel.sel{border-color:var(--ciano);background:#d6f6ff;transform:scale(.93)}
+
+.cartao-modelo{font-family:monospace;background:#fff;padding:2px 6px}
+.cartao-visor{font-family:monospace;font-size:24px;letter-spacing:3px;background:#111;color:var(--amarelo);padding:10px;text-align:center;margin:12px 0}
+.teclado{display:grid;grid-template-columns:repeat(5,72px);gap:8px;justify-content:center}
+.tecla{
+  height:56px;font-family:monospace;font-size:22px;cursor:pointer;
+  border:4px outset #aaa;background:#eee;
+}
+.tecla:active{border-style:inset}
+
+/* ---------- confirmacao ---------- */
+.modal-confirma{width:470px;text-align:center}
+
+/* ---------- final ---------- */
+#tela-final{align-items:center;justify-content:center}
+.recibo{
+  background:#fff;padding:24px 34px;border:2px dashed #333;max-width:520px;
+  box-shadow:0 0 0 12px #fff, 14px 14px 0 #0004;
+}
+.recibo h1{font-family:monospace;font-size:20px;text-align:center;letter-spacing:3px}
+.recibo pre{font-family:monospace;font-size:13px;line-height:1.5;white-space:pre-wrap}
+.recibo-piada{text-align:center;font-size:15px;margin-top:14px}
+
+/* ---------- toast ---------- */
+#toast-layer{position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:99;pointer-events:none}
+.toast{
+  background:#111;color:#fff;padding:6px 14px;margin-bottom:4px;font-size:13px;
+  border-left:6px solid var(--rosa);animation:sumir .4s forwards;
+}
+@keyframes sumir{0%{opacity:1}70%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}

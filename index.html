@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SuperMercado Kaos 3000</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="toast-layer"></div>
+
+<!-- ============ TELA TITULO ============ -->
+<section id="tela-titulo" class="tela ativa">
+  <div class="titulo-caixa">
+    <h1 class="logo">Super<span>Mercado</span> Kaos 3000</h1>
+    <p class="slogan">a experiencia de compra mais premiada* do brasil</p>
+    <p class="letrinha">*nenhum premio foi recebido ate o momento</p>
+    <div id="botoes-titulo" class="linha-botoes">
+      <button class="btn btn-gigante" data-acao="comecar">COMEÇAR A COMPRAR</button>
+      <button class="btn btn-fantasma" data-acao="sair">Sair sem comprar</button>
+    </div>
+    <details class="ajuda">
+      <summary>Como jogar (leia, por favor)</summary>
+      <ul>
+        <li><b>W</b> anda pra frente, <b>S</b> da re.</li>
+        <li><b>A</b> e <b>D</b> viram o carrinho. A rodinha esquerda esta empenada.</li>
+        <li>Pra abrir uma prateleira: <b>estacione</b> o carrinho na vaga amarela e <b>pare completamente</b>.</li>
+        <li>Arraste os produtos pra dentro da cesta. Devagar. Eles caem.</li>
+        <li>Com tudo na lista, estacione no <b>CAIXA</b> (retangulo verde).</li>
+      </ul>
+    </details>
+  </div>
+</section>
+
+<!-- ============ TELA LOJA ============ -->
+<section id="tela-loja" class="tela">
+  <div id="topo-loja">
+    <div class="busca-caixa">
+      <label for="busca">Localizar produto</label>
+      <input id="busca" type="text" autocomplete="off" placeholder="digite bem devagar...">
+      <span id="busca-status" class="busca-status"></span>
+      <ul id="busca-resultados"></ul>
+    </div>
+    <div id="cronometro" class="cronometro">carrinho estavel</div>
+  </div>
+
+  <div id="palco">
+    <canvas id="mapa" width="900" height="560"></canvas>
+    <div id="minimapa-caixa">
+      <canvas id="minimapa" width="150" height="100"></canvas>
+      <span>mapa (sem zoom)</span>
+    </div>
+  </div>
+
+  <aside id="painel-lateral">
+    <div class="bloco">
+      <h2>Lista de compras</h2>
+      <ul id="lista-compras"></ul>
+    </div>
+    <div class="bloco">
+      <h2>Carrinho <span id="contador-carrinho">(0)</span></h2>
+      <ul id="lista-carrinho"><li class="vazio">vazio, igual sua geladeira</li></ul>
+      <p class="total">Total: <b id="total-carrinho">R$ 0,00</b></p>
+      <div id="botoes-carrinho" class="linha-botoes-mini">
+        <button class="btn btn-mini" data-acao="ir-caixa">Ir pro caixa</button>
+        <button class="btn btn-mini btn-perigo" data-acao="limpar">Limpar tudo</button>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<!-- ============ OVERLAY PRATELEIRA ============ -->
+<div id="overlay-prateleira" class="overlay">
+  <div class="modal modal-prateleira">
+    <header>
+      <h2 id="prateleira-titulo">Prateleira</h2>
+      <button class="fechar" data-acao="fechar-prateleira">x</button>
+    </header>
+    <div class="prateleira-corpo">
+      <div id="prateleira-itens" class="prateleira-itens"></div>
+      <div id="cesta" class="cesta">
+        <span class="cesta-rotulo">cesta do carrinho</span>
+      </div>
+    </div>
+    <p class="dica">arraste devagar. se soltar no ar, cai no chao.</p>
+  </div>
+</div>
+
+<!-- ============ OVERLAY QUANTIDADE ============ -->
+<div id="overlay-qtd" class="overlay">
+  <div class="modal modal-qtd">
+    <h2>Quantas unidades de <span id="qtd-nome"></span>?</h2>
+    <p class="qtd-numero" id="qtd-numero">0</p>
+    <div class="qtd-area" id="qtd-area">
+      <button class="btn btn-mais" id="btn-mais">+</button>
+    </div>
+    <div class="linha-botoes-mini">
+      <button class="btn btn-mini" data-acao="confirmar-qtd">Confirmar</button>
+      <button class="btn btn-mini btn-fantasma" data-acao="cancelar-qtd">Desistir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ OVERLAY CAIXA ============ -->
+<div id="overlay-caixa" class="overlay">
+  <div class="modal modal-caixa">
+
+    <div class="etapa" id="etapa-fila">
+      <h2>Fila do caixa 3</h2>
+      <p id="fila-texto">A senhora na sua frente esta discutindo um cupom de 2019.</p>
+      <div class="barra"><div id="fila-barra"></div></div>
+      <button class="btn btn-mini" id="btn-fila-pular">Pular a fila</button>
+    </div>
+
+    <div class="etapa" id="etapa-scanner">
+      <h2>Passe os produtos no leitor</h2>
+      <p class="dica">arraste o produto ate o leitor. gire com a <b>roda do mouse</b> ate o codigo ficar reto.</p>
+      <div class="scanner-area">
+        <div id="scanner-pilha" class="scanner-pilha"></div>
+        <div id="leitor" class="leitor"><span>LEITOR</span></div>
+      </div>
+      <p class="scanner-status" id="scanner-status">faltam <b>0</b> itens</p>
+    </div>
+
+    <div class="etapa" id="etapa-captcha">
+      <h2>Confirme que voce nao e um carrinho</h2>
+      <p class="dica">clique em <b>todos</b> os carrinhos e depois em verificar.</p>
+      <div id="captcha-grade" class="captcha-grade"></div>
+      <button class="btn btn-mini" id="btn-captcha">Verificar</button>
+    </div>
+
+    <div class="etapa" id="etapa-pagamento">
+      <h2>Pagamento</h2>
+      <p class="dica">digite o numero do cartao: <b class="cartao-modelo">4242 4242 4242 4242</b></p>
+      <p class="cartao-visor" id="cartao-visor">________ ________</p>
+      <div id="teclado" class="teclado"></div>
+      <button class="btn btn-mini btn-perigo" id="btn-limpar-cartao">Limpar tudo</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ OVERLAY CONFIRMACAO ============ -->
+<div id="overlay-confirma" class="overlay">
+  <div class="modal modal-confirma">
+    <h2 id="confirma-texto">Tem certeza?</h2>
+    <div id="confirma-botoes" class="linha-botoes-mini"></div>
+  </div>
+</div>
+
+<!-- ============ TELA FINAL ============ -->
+<section id="tela-final" class="tela">
+  <div class="recibo">
+    <h1>CUPOM NAO FISCAL</h1>
+    <pre id="recibo-corpo"></pre>
+    <p id="recibo-piada" class="recibo-piada"></p>
+    <div id="botoes-final" class="linha-botoes-mini"></div>
+  </div>
+</section>
+
+<script src="js/util.js"></script>
+<script src="js/dados.js"></script>
+<script src="js/estado.js"></script>
+<script src="js/loja.js"></script>
+<script src="js/prateleira.js"></script>
+<script src="js/caixa.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
