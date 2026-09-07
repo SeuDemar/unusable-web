@@ -41,7 +41,7 @@ Se uma ideia é cruel mas não é engraçada, ou é engraçada mas trava o jogo,
 
 - **Vanilla puro.** HTML + CSS + JavaScript. Sem framework, sem bundler, sem npm, sem
   dependência externa, sem CDN.
-- **Sem etapa de build.** `index.html` tem que abrir com duplo clique e funcionar.
+- **Sem etapa de build.** `public/index.html` tem que abrir com duplo clique e funcionar.
 - **Tem que rodar em `file://`.** Por isso os scripts são clássicos (`<script src>`), e
   **não** ES modules — `type="module"` quebra em `file://` por CORS. Não converta para
   `import`/`export`.
@@ -50,6 +50,9 @@ Se uma ideia é cruel mas não é engraçada, ou é engraçada mas trava o jogo,
   o mapa é desenhado no canvas. Nada de `.png`, `.mp3`, fontes baixadas.
 - **Sem persistência.** Não há `localStorage`, backend nem estado entre sessões.
   Recarregar a página reinicia o jogo, e isso é intencional.
+- **Só `public/` vai para a web.** É o diretório publicado na Cloudflare. Documentação,
+  configuração e qualquer coisa fora de `public/` nunca é servida. Ao criar um arquivo
+  novo do site, ele vai dentro de `public/`. Ver `docs/DEPLOY.md`.
 
 ---
 
@@ -73,18 +76,18 @@ Se uma ideia é cruel mas não é engraçada, ou é engraçada mas trava o jogo,
 ## 5. Mapa dos arquivos
 
 ```
-index.html            estrutura de todas as telas e overlays (nada é criado só em JS)
-css/style.css         visual inteiro; a feiura é proposital
-js/util.js            helpers + anti-padrões reutilizáveis (toast 400ms, embaralhar, confirmar)
-js/dados.js           mapa da loja, prateleiras, catálogo, obstáculos, sorteio da lista
-js/estado.js          estado do jogo (lista, carrinho) e render do painel lateral
-js/loja.js            canvas, física do carrinho, colisão, estacionamento, minimapa
-js/prateleira.js      overlay da prateleira: arrastar com gravidade + modal de quantidade
-js/caixa.js           overlay do caixa: fila, leitor, captcha, pagamento
-js/main.js            telas, busca com cooldown, botões que fogem, tela final
+public/index.html            estrutura de todas as telas e overlays (nada é criado só em JS)
+public/css/style.css         visual inteiro; a feiura é proposital
+public/js/util.js            helpers + anti-padrões reutilizáveis (toast 400ms, embaralhar, confirmar)
+public/js/dados.js           mapa da loja, prateleiras, catálogo, obstáculos, sorteio da lista
+public/js/estado.js          estado do jogo (lista, carrinho) e render do painel lateral
+public/js/loja.js            canvas, física do carrinho, colisão, estacionamento, minimapa
+public/js/prateleira.js      overlay da prateleira: arrastar com gravidade + modal de quantidade
+public/js/caixa.js           overlay do caixa: fila, leitor, captcha, pagamento
+public/js/main.js            telas, busca com cooldown, botões que fogem, tela final
 ```
 
-Ordem obrigatória no `index.html` (dependência de definição em tempo de carga):
+Ordem obrigatória no `public/index.html` (dependência de definição em tempo de carga):
 
 ```
 util.js → dados.js → estado.js → loja.js → prateleira.js → caixa.js → main.js
@@ -99,16 +102,16 @@ Referências cruzadas entre módulos (`Loja` chama `Prateleira.abrir`, `Caixa` c
 
 | Quero... | Vá em |
 |---|---|
-| mudar dificuldade de dirigir | `js/loja.js`, função `atualizar` |
-| mudar tolerância de estacionamento | `js/loja.js`, `verificarEstacionamento` |
-| adicionar prateleira ou produto | `js/dados.js`, array `PRATELEIRAS` |
-| mudar o mapa / obstáculos | `js/dados.js` (`MUNDO`, `CAIXA`, `OBSTACULOS`) |
-| mexer no arrastar produto | `js/prateleira.js`, `moverArraste` / `soltarArraste` |
-| mexer no leitor de código de barras | `js/caixa.js`, `soltarItemScan` |
-| mexer no captcha ou no teclado | `js/caixa.js`, `montarCaptcha` / `embaralharTeclado` |
-| mexer na busca com cooldown | `js/main.js`, `ligarBusca` |
-| mexer no cupom final | `js/main.js`, `finalizar` |
-| novo anti-padrão global reutilizável | `js/util.js` + registrar em `docs/DESIGN.md` |
+| mudar dificuldade de dirigir | `public/js/loja.js`, função `atualizar` |
+| mudar tolerância de estacionamento | `public/js/loja.js`, `verificarEstacionamento` |
+| adicionar prateleira ou produto | `public/js/dados.js`, array `PRATELEIRAS` |
+| mudar o mapa / obstáculos | `public/js/dados.js` (`MUNDO`, `CAIXA`, `OBSTACULOS`) |
+| mexer no arrastar produto | `public/js/prateleira.js`, `moverArraste` / `soltarArraste` |
+| mexer no leitor de código de barras | `public/js/caixa.js`, `soltarItemScan` |
+| mexer no captcha ou no teclado | `public/js/caixa.js`, `montarCaptcha` / `embaralharTeclado` |
+| mexer na busca com cooldown | `public/js/main.js`, `ligarBusca` |
+| mexer no cupom final | `public/js/main.js`, `finalizar` |
+| novo anti-padrão global reutilizável | `public/js/util.js` + registrar em `docs/DESIGN.md` |
 
 ---
 
@@ -116,8 +119,8 @@ Referências cruzadas entre módulos (`Loja` chama `Prateleira.abrir`, `Caixa` c
 
 Não há suíte de testes. A validação é manual:
 
-1. `node --check js/*.js` para pegar erro de sintaxe.
-2. Abrir `index.html` no navegador e **jogar até o cupom final**. O caminho completo é
+1. `node --check public/js/*.js` para pegar erro de sintaxe.
+2. Abrir `public/index.html` no navegador e **jogar até o cupom final**. O caminho completo é
    o teste de regressão: dirigir → estacionar → pegar 3 itens → dirigir até o caixa →
    fila → leitor → captcha → pagamento → cupom.
 3. Conferir o console: o jogo deve rodar sem nenhum erro. Fricção é intencional;

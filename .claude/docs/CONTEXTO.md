@@ -70,7 +70,7 @@ repositório).
 
 ## 5. O que não é óbvio olhando o código
 
-- **Os controles A/D estão invertidos de propósito.** Em `js/loja.js`, a variável se
+- **Os controles A/D estão invertidos de propósito.** Em `public/js/loja.js`, a variável se
   chama `viraDireita` e é alimentada pela tecla `a`. Isso é a intenção, não um bug de
   nomenclatura. Está comentado no arquivo — não "corrija".
 - **A deriva da rodinha depende do sinal da velocidade** (`velAng -= 0.0016 * vel`), ou
@@ -97,8 +97,8 @@ foi aprovada pelo autor; trate como cardápio, não como backlog comprometido.
 ## 7. Como retomar rápido numa sessão nova
 
 1. Ler `AGENTS.md` (regras) e este arquivo (contexto).
-2. Abrir `index.html` no navegador e jogar dois minutos. O jogo se explica jogando, e
+2. Abrir `public/index.html` no navegador e jogar dois minutos. O jogo se explica jogando, e
    a sensação das tolerâncias é impossível de avaliar lendo números.
 3. Consultar `docs/GAMEPLAY.md` para a tabela de parâmetros antes de balancear qualquer
    coisa.
-4. `node --check js/*.js` depois de editar, e jogar o trecho afetado antes de concluir.
+4. `node --check public/js/*.js` depois de editar, e jogar o trecho afetado antes de concluir.

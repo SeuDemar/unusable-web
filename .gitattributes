@@ -1,0 +1,9 @@
+# normaliza quebra de linha: LF no repositorio, nativo no disco
+* text=auto eol=lf
+
+# binarios, se um dia existirem
+*.png binary
+*.jpg binary
+*.gif binary
+*.mp3 binary
+*.woff2 binary

@@ -1,0 +1,20 @@
+# dependencias (o projeto nao usa, mas wrangler pode criar)
+node_modules/
+
+# estado local do wrangler
+.wrangler/
+.dev.vars
+
+# segredos e ambiente
+.env
+.env.*
+
+# sistema operacional
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# editores
+.vscode/
+.idea/
+*.swp

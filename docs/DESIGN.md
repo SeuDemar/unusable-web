@@ -123,7 +123,7 @@ Estas ideias são tentadoras e estão **fora**:
    numa linha, provavelmente não é.
 2. Verifique as três condições da seção 1.
 3. Decida se é **local** (uma etapa) ou **ambiente** (o tempo todo). Ambientes vão para
-   `js/util.js` e devem ser reutilizáveis.
+   `public/js/util.js` e devem ser reutilizáveis.
 4. Implemente com feedback explícito para o jogador.
 5. Registre na taxonomia acima e, se tiver número de balanceamento, em
    `docs/GAMEPLAY.md`.

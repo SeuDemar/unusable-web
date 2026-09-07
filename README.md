@@ -12,7 +12,7 @@ Tudo funciona. Tudo é terminável. Nada é agradável.
 
 ## Como rodar
 
-Abra `index.html` no navegador. É isso.
+Abra `public/index.html` no navegador. É isso.
 
 Sem build, sem `npm install`, sem servidor — HTML, CSS e JavaScript puros, escritos para
 funcionar em `file://`.
@@ -32,13 +32,18 @@ Sim, `A` e `D` estão invertidos. Não, não é bug.
 ## Estrutura
 
 ```
-index.html            todas as telas e overlays
-css/style.css         o visual, deliberadamente feio
-js/                   sete módulos vanilla, carregados em ordem
-AGENTS.md             regras para agentes de IA que forem mexer no projeto
-docs/                 documentação do projeto
-.claude/docs/         contexto e arquitetura para sessões de Claude Code
+public/              o site publicado — só isto vai pro ar
+  index.html         todas as telas e overlays
+  css/style.css      o visual, deliberadamente feio
+  js/                sete módulos vanilla, carregados em ordem
+wrangler.jsonc       config de deploy na Cloudflare
+AGENTS.md            regras para agentes de IA que forem mexer no projeto
+docs/                documentação do projeto
+.claude/docs/        contexto e arquitetura para sessões de Claude Code
 ```
+
+Tudo que estiver dentro de `public/` fica público na web. Documentação e configuração
+ficam de fora de propósito.
 
 ## Documentação
 
@@ -48,6 +53,7 @@ docs/                 documentação do projeto
 | [`docs/DESIGN.md`](docs/DESIGN.md) | o manifesto da má UX: taxonomia dos anti-padrões e o que é proibido |
 | [`docs/GAMEPLAY.md`](docs/GAMEPLAY.md) | manual do jogador e tabela de todos os parâmetros de balanceamento |
 | [`docs/ROADMAP.md`](docs/ROADMAP.md) | ideias levantadas e ainda não implementadas |
+| [`docs/DEPLOY.md`](docs/DEPLOY.md) | como publicar na Cloudflare (Workers ou Pages) |
 | [`.claude/docs/CONTEXTO.md`](.claude/docs/CONTEXTO.md) | por que o projeto existe, decisões tomadas, estado atual |
 | [`.claude/docs/ARQUITETURA.md`](.claude/docs/ARQUITETURA.md) | mapa do código, fluxo de chamadas, limites conhecidos |
 

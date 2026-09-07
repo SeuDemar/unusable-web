@@ -25,7 +25,7 @@ roteador, framework, estado reativo nem build. O jogo alterna entre **telas**
                           └─────────────────────────┘            └──────────────┘
 ```
 
-Todo HTML existe estaticamente no `index.html`. O JavaScript só preenche conteúdo e
+Todo HTML existe estaticamente no `public/index.html`. O JavaScript só preenche conteúdo e
 alterna as classes `.ativa`. Nenhuma tela é construída do zero em runtime.
 
 ---
@@ -35,7 +35,7 @@ alterna as classes `.ativa`. Nenhuma tela é construída do zero em runtime.
 Cada arquivo grande é uma IIFE que devolve um objeto público. Comunicação é por chamada
 direta ao objeto global do outro módulo, resolvida em tempo de execução.
 
-### `js/util.js` — sem estado
+### `public/js/util.js` — sem estado
 Helpers puros e os anti-padrões reutilizáveis.
 
 | Função | Papel |
@@ -51,7 +51,7 @@ Helpers puros e os anti-padrões reutilizáveis.
 `overlayAberto()` é consultado pelo laço da loja para congelar a física — qualquer
 overlay novo precisa usar a classe `.overlay`/`.ativa` para herdar esse comportamento.
 
-### `js/dados.js` — sem estado
+### `public/js/dados.js` — sem estado
 Conteúdo estático do mundo: `MUNDO` (1800×1100), `PRATELEIRAS` (4, cada uma com seus
 produtos e sua vaga), `CAIXA`, `OBSTACULOS`. Mais `todosProdutos()`, `acharProduto(id)`
 e `sortearLista()` (3 itens de prateleiras diferentes, quantidade 1–3).
@@ -64,7 +64,7 @@ Cada prateleira tem a forma:
   produtos: [ { id, nome, emoji, preco } ] }
 ```
 
-### `js/estado.js` — estado do jogo
+### `public/js/estado.js` — estado do jogo
 Objeto `Estado` com `lista` (compras a fazer), `carrinho` (linhas com `qtd`),
 `destaque` (prateleira realçada pela busca) e `jogoAtivo`.
 
@@ -74,7 +74,7 @@ Funções: `iniciarEstado`, `adicionarAoCarrinho`, `limparCarrinho`, `totalCarri
 `renderPainel()` é o único ponto que escreve o painel lateral. Qualquer mutação do
 carrinho deve chamá-lo (as funções acima já fazem isso).
 
-### `js/loja.js` — o motor
+### `public/js/loja.js` — o motor
 Único módulo com laço de animação. Responsabilidades: entrada de teclado, física do
 carrinho, colisão, câmera, desenho do mapa e do minimapa, detecção de estacionamento e
 o cronômetro de abandono.
@@ -103,7 +103,7 @@ vaga, `|vel| < 0.12`, erro angular `< 22°`, sustentado por `450 ms`. Aí chama
 
 Público: `iniciar`, `parar`, `carrinho`, `zerarOcio`.
 
-### `js/prateleira.js` — pegar produtos
+### `public/js/prateleira.js` — pegar produtos
 Overlay com a prateleira à esquerda e a cesta à direita.
 
 Arraste: `pointerdown` no `.produto` promove o elemento para `position:fixed` no
@@ -121,7 +121,7 @@ posição aleatória dentro da área. Confirmar com 0 é recusado.
 
 Público: `iniciar`, `abrir`.
 
-### `js/caixa.js` — checkout em 4 etapas
+### `public/js/caixa.js` — checkout em 4 etapas
 Um overlay, quatro `<div class="etapa">` alternadas por `etapa(id)`.
 
 1. **Fila** — barra que avança `0,55%` a cada `100 ms` (~18 s). O botão "Pular a fila"
@@ -138,7 +138,7 @@ Ao completar os 16 dígitos, chama `Jogo.finalizar()`.
 
 Público: `iniciar`, `abrir`.
 
-### `js/main.js` — cola e telas
+### `public/js/main.js` — cola e telas
 `Jogo.iniciar()` (no `DOMContentLoaded`) inicializa `Prateleira` e `Caixa` e liga os
 três grupos de eventos: título, busca e painel.
 

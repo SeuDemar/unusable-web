@@ -1,0 +1,10 @@
+{
+  // Deploy do site estatico na Cloudflare Workers.
+  // Nao existe campo "main": o projeto nao tem codigo de servidor,
+  // so os arquivos estaticos de ./public.
+  "name": "unusable-web",
+  "compatibility_date": "2026-09-07",
+  "assets": {
+    "directory": "./public/"
+  }
+}

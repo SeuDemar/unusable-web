@@ -55,7 +55,7 @@ A cada 7–14 segundos a roda trava por cerca de 1 segundo e o esterçamento é 
 ---
 
 ## 2. Parâmetros — física do carrinho
-`js/loja.js`, função `atualizar`
+`public/js/loja.js`, função `atualizar`
 
 | Parâmetro | Valor | Efeito |
 |---|---|---|
@@ -73,7 +73,7 @@ A cada 7–14 segundos a roda trava por cerca de 1 segundo e o esterçamento é 
 0,7–1,4 s; intervalo seguinte 7–14 s.
 
 ## 3. Parâmetros — estacionamento
-`js/loja.js`, `verificarEstacionamento`
+`public/js/loja.js`, `verificarEstacionamento`
 
 | Parâmetro | Valor |
 |---|---|
@@ -86,7 +86,7 @@ Cada vaga tem um ângulo alvo (`vaga.ang`, em graus) desenhado como seta. `0` ap
 a direita, `-90` para cima, `90` para baixo.
 
 ## 4. Parâmetros — carrinho abandonado
-`js/loja.js`, `verificarOcio`
+`public/js/loja.js`, `verificarOcio`
 
 | Parâmetro | Valor |
 |---|---|
@@ -94,7 +94,7 @@ a direita, `-90` para cima, `90` para baixo.
 | esvaziamento do carrinho | `60 s` sem input |
 
 ## 5. Parâmetros — prateleira
-`js/prateleira.js`
+`public/js/prateleira.js`
 
 | Parâmetro | Valor | Efeito |
 |---|---|---|
@@ -104,7 +104,7 @@ a direita, `-90` para cima, `90` para baixo.
 | quantidade mínima aceita | `1` | confirmar com 0 é recusado |
 
 ## 6. Parâmetros — caixa
-`js/caixa.js`
+`public/js/caixa.js`
 
 | Parâmetro | Valor |
 |---|---|
@@ -124,14 +124,14 @@ a direita, `-90` para cima, `90` para baixo.
 
 | Parâmetro | Valor | Arquivo |
 |---|---|---|
-| duração do toast | `400 ms` | `js/util.js` |
-| cooldown da busca | `800 ms` por letra | `js/main.js` |
-| reordenação dos resultados | a cada `1100 ms` com o mouse em cima | `js/main.js` |
-| troca dos botões do título | a cada `3200 ms` | `js/main.js` |
-| troca dos botões do painel | a cada `4000 ms` | `js/main.js` |
+| duração do toast | `400 ms` | `public/js/util.js` |
+| cooldown da busca | `800 ms` por letra | `public/js/main.js` |
+| reordenação dos resultados | a cada `1100 ms` com o mouse em cima | `public/js/main.js` |
+| troca dos botões do título | a cada `3200 ms` | `public/js/main.js` |
+| troca dos botões do painel | a cada `4000 ms` | `public/js/main.js` |
 
 ## 8. Parâmetros — cupom final
-`js/main.js`, `finalizar`
+`public/js/main.js`, `finalizar`
 
 | Item | Valor |
 |---|---|
@@ -139,7 +139,7 @@ a direita, `-90` para cima, `90` para baixo.
 | estacionamento do carrinho | `R$ 18,50` |
 
 ## 9. Mapa e conteúdo
-`js/dados.js`
+`public/js/dados.js`
 
 | Elemento | Valor |
 |---|---|
@@ -162,4 +162,4 @@ leitor `12 → 20`, velocidade de arraste `26 → 40`, fila `0.55 → 1.5`.
 `0.0016 → 0.0030`, velocidade de arraste `26 → 16`, abandono `60 s → 30 s`.
 
 **Encurtar uma sessão de teste:** aumente o avanço da fila e reduza o cartão para 8
-dígitos (`CARTAO` em `js/caixa.js`) — mas devolva antes de commitar.
+dígitos (`CARTAO` em `public/js/caixa.js`) — mas devolva antes de commitar.
