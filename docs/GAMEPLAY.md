@@ -22,8 +22,9 @@ a dificuldade de dirigir vem só da inércia e dos controles invertidos.
 
 ### Fluxo completo
 
-1. **Abertura** — não há tela de início. A página carrega já jogável, com o carrinho
-   embaixo, no centro do mapa. O painel da direita mostra a lista sorteada (3 itens de
+1. **Abertura** — não há tela de início. A página carrega com o **painel de instruções
+   já aberto** e o jogo pausado atrás dele; fechar o painel começa a partida. O carrinho
+   nasce embaixo, ao lado do PASSAR COMPRAS. O painel da direita mostra a lista sorteada (3 itens de
    seções diferentes). O botão **? Instruções**, no menu lateral, explica tudo e pausa
    o jogo enquanto estiver aberto.
 2. **Estacionar** — entre no retângulo tracejado em frente à prateleira e **fique parado

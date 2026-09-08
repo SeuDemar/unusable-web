@@ -166,7 +166,8 @@ Público: `iniciar`, `abrir`.
 superior e **começa o jogo imediatamente** — não há tela de título.
 
 - **`ligarInstrucoes()`**: abre o `#overlay-instrucoes`, move o foco para o botão de
-  fechar e fecha com `Esc`. Único componente acessível do app.
+  fechar e fecha com `Esc`. Único componente acessível do app. `comecar()` o abre no
+  boot, então a partida começa pausada atrás dele.
 - **`ligarOferta()`**: contagem regressiva que se reinicia sozinha, e o opt-in de
   piscada acima de 3 Hz — com `window.confirm` nomeando o risco de epilepsia.
 - **`ligarCookies()`**: barra que aparece 1,5 s após carregar; "ACEITAR TUDO" encerra,

@@ -63,7 +63,8 @@ padrão e a versão acima do limiar só existe atrás de um opt-in com aviso e c
 
 **Completo e jogável do início ao fim.** Implementado:
 
-1. **Sem tela de título.** `Jogo.iniciar()` chama `comecar()` no `DOMContentLoaded`.
+1. **Sem tela de título.** `Jogo.iniciar()` chama `comecar()` no `DOMContentLoaded`, e
+   `comecar()` abre o painel de instruções — o jogo nasce pausado atrás dele.
 2. **Mapa em tela cheia.** Canvas dimensionado pela janela, recalculado no `resize`.
    Sem menu lateral, sem banner grande, sem rodapé, sem minimapa.
 3. **Seis prateleiras em 3 colunas de 2** — Roupas, Calçados, Bolsas, Acessórios,

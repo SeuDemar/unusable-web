@@ -24,6 +24,9 @@ var Jogo = (function () {
     iniciarEstado();
     Estado.jogoAtivo = true;
     Loja.iniciar();
+    // O jogo abre com as instrucoes na frente. Como qualquer overlay congela a
+    // fisica, o carrinho so comeca a andar depois que a pessoa fecha o painel.
+    abrirInstrucoes();
   }
 
   /* ---------- instrucoes: o unico componente honesto ---------- */

@@ -38,8 +38,9 @@ Para abrir uma prateleira, entre no retângulo tracejado à frente dela e **fiqu
 completa, faça o mesmo na vaga do **PASSAR COMPRAS**, embaixo, perto de onde você
 começou.
 
-O botão **Instruções**, na barra de cima, explica o resto. É o único componente honesto
-do app.
+A página abre com o painel de instruções na frente e o jogo pausado atrás; fechar o
+painel começa a partida. O botão **Instruções**, na barra de cima, traz o painel de
+volta a qualquer momento. É o único componente honesto do app.
 
 ## O mapa
 
