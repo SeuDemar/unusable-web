@@ -17,8 +17,8 @@ Manual do jogador e tabela de referência de todos os números ajustáveis.
 | `D` / `→` | vira para a **esquerda** (invertido de propósito) |
 | roda do mouse | gira o produto no leitor (etapa do caixa) |
 
-O carrinho só esterça em movimento. A rodinha esquerda é empenada e puxa sozinha.
-A cada 7–14 segundos a roda trava por cerca de 1 segundo e o esterçamento é ignorado.
+O carrinho só esterça em movimento. Não há rodinha empenada nem travamento aleatório:
+a dificuldade de dirigir vem só da inércia e dos controles invertidos.
 
 ### Fluxo completo
 
@@ -26,14 +26,15 @@ A cada 7–14 segundos a roda trava por cerca de 1 segundo e o esterçamento é 
    embaixo, no centro do mapa. O painel da direita mostra a lista sorteada (3 itens de
    seções diferentes). O botão **? Instruções**, no menu lateral, explica tudo e pausa
    o jogo enquanto estiver aberto.
-2. **Estacionar** — dirija até a vaga tracejada de uma seção. Pare dentro dela, alinhado
-   com a seta. Ficando parado e alinhado por meio segundo, a seção abre.
+2. **Estacionar** — entre no retângulo tracejado em frente à prateleira e **fique parado
+   3 segundos**. Um contador circular aparece em cima do carrinho. O ângulo do carrinho
+   não importa.
 3. **Pegar produtos** — arraste o produto da arara para a sacola. Devagar: se o mouse se
    mover rápido demais, o produto escorrega e cai. O que cai volta sozinho.
 4. **Quantidade** — só existe o botão `+`. Depois de 5 cliques ele começa a fugir.
    Confirmar com 0 é recusado.
-5. **Checkout** — com a lista completa, dirija até a vaga verde na frente do CHECKOUT e
-   estacione do mesmo jeito.
+5. **Passar compras** — com a lista completa, pare 3 segundos na vaga do **PASSAR
+   COMPRAS**, o retângulo largo embaixo, perto de onde você começou.
 6. **Fila** — cerca de 18 segundos. O botão "Pular a fila" piora sua situação.
 7. **Leitor** — arraste cada produto até o leitor preto com o código de barras reto.
    Use a roda do mouse para girar. Torto demais, erro de leitura.
@@ -46,14 +47,13 @@ A cada 7–14 segundos a roda trava por cerca de 1 segundo e o esterçamento é 
 
 - O carrinho parado por 60 segundos é **recolhido por abandono** e esvazia. A contagem
   regressiva aparece no canto superior direito a partir dos 30 segundos.
-- A busca do header e o **menu de categorias** fazem a mesma coisa: destacam a seção em
-  laranja no mapa e no minimapa. A busca aceita uma letra a cada 800 ms; o menu é
-  instantâneo.
-- O botão "Finalizar pedido" não finaliza nada. Ele só te lembra de dirigir até o
-  CHECKOUT.
-- O badge 🛒 do header conta **linhas** de produto; o painel conta **unidades**. Os dois
-  números discordam de propósito.
-- Bater nas araras e obstáculos empurra o carrinho de volta e sacode o ângulo.
+- A busca da barra superior destaca a seção em preto no mapa. Aceita uma letra a cada
+  800 ms.
+- O botão "Finalizar" não finaliza nada. Ele só te lembra de dirigir até PASSAR COMPRAS.
+- O badge da barra superior conta **linhas** de produto; o HUD conta **unidades**. Os
+  dois números discordam de propósito.
+- A barra de cookies volta 7 segundos depois de você recusar.
+- Bater nas prateleiras e obstáculos empurra o carrinho de volta.
 
 ---
 
@@ -66,14 +66,13 @@ A cada 7–14 segundos a roda trava por cerca de 1 segundo e o esterçamento é 
 | aceleração de ré | `-0.15` por frame | ré propositalmente mais fraca |
 | velocidade máxima | `3.3` / `-1.7` | teto de frente e de ré |
 | atrito | `×0.955` por frame | quanto menor, mais o carrinho patina |
-| força do esterçamento | `0.0045 × |vel|` | só age acima de `|vel| > 0.14` |
+| força do esterçamento | `0.0050 × |vel|` | só age acima de `|vel| > 0.14` |
 | amortecimento angular | `×0.88` por frame | quanto maior, mais o giro "escorrega" |
-| deriva da rodinha | `-0.0016 × vel` | o defeito permanente; sinal inverte na ré |
-| raio de colisão | `20 px` | círculo do carrinho contra retângulos |
+| raio de colisão | `19 px` | círculo do carrinho contra retângulos |
 | repique da batida | `vel × -0.35` | quanto empurra de volta |
 
-**Trava aleatória da roda** (`rodinha`): primeira trava entre 6–12 s do início; duração
-0,7–1,4 s; intervalo seguinte 7–14 s.
+A rodinha empenada e o travamento aleatório da roda **foram removidos**: o foco do
+projeto é a má experiência de uso, não a dificuldade motora de pilotar.
 
 ## 3. Parâmetros — estacionamento
 `public/js/loja.js`, `verificarEstacionamento`
@@ -81,12 +80,14 @@ A cada 7–14 segundos a roda trava por cerca de 1 segundo e o esterçamento é 
 | Parâmetro | Valor |
 |---|---|
 | velocidade máxima para contar como parado | `0.12` |
-| tolerância de ângulo | `22°` |
-| tempo parado e alinhado exigido | `450 ms` |
-| tamanho típico da vaga | `130 × 84 px` |
+| **tempo parado exigido** | `3000 ms` (`TEMPO_PARADO`) |
+| tamanho da vaga de prateleira | `140 × 96 px` |
+| tamanho da vaga do PASSAR COMPRAS | `160 × 100 px` |
 
-Cada vaga tem um ângulo alvo (`vaga.ang`, em graus) desenhado como seta. `0` aponta para
-a direita, `-90` para cima, `90` para baixo.
+**Não há exigência de ângulo.** Basta estar dentro da vaga e parado. A contagem é
+desenhada como um anel com o número de segundos restantes acima do carrinho
+(`desenharContagem` em `public/js/loja.js`). Sair da vaga ou voltar a se mover zera a
+contagem.
 
 ## 4. Parâmetros — carrinho abandonado
 `public/js/loja.js`, `verificarOcio`
@@ -128,10 +129,12 @@ a direita, `-90` para cima, `90` para baixo.
 | Parâmetro | Valor | Arquivo |
 |---|---|---|
 | duração do toast | `400 ms` | `public/js/util.js` |
-| piscada do banner (padrão) | `0,5 s` de período = **2 Hz** | `public/css/style.css` |
-| piscada do banner (modo intenso, opt-in) | `0,14 s` = ≈7 Hz | `public/css/style.css` |
-| contagem da promoção | reinicia sozinha entre `180` e `900 s` | `public/js/main.js` |
-| links inúteis no rodapé | `40`, com `8 px` de altura | `public/js/main.js` |
+| piscada da oferta (padrão) | `0,5 s` de período = **2 Hz** | `public/css/style.css` |
+| piscada da oferta (modo intenso, opt-in) | `0,14 s` = ≈7 Hz | `public/css/style.css` |
+| contagem da oferta | reinicia sozinha entre `180` e `900 s` | `public/js/main.js` |
+| barra de cookies: primeira aparição | `1500 ms` após carregar | `public/js/main.js` |
+| barra de cookies: volta após recusar | `7000 ms` | `public/js/main.js` |
+| botão de recusar cookies | `12 × 12 px` | `public/css/style.css` |
 | cooldown da busca | `800 ms` por letra | `public/js/main.js` |
 | reordenação dos resultados | a cada `1100 ms` com o mouse em cima | `public/js/main.js` |
 | troca dos botões do título | a cada `3200 ms` | `public/js/main.js` |
@@ -150,23 +153,23 @@ a direita, `-90` para cima, `90` para baixo.
 
 | Elemento | Valor |
 |---|---|
-| tamanho do mundo | `1800 × 1100` |
-| viewport do canvas | `820 × 460` |
-| minimapa | `130 × 86` |
-| posição inicial do carrinho | `x 900, y 980`, apontando para cima |
-| seções | Roupas, Bolsas e Acessórios, Beleza, Casa e Decor (4 produtos cada) |
+| tamanho do mundo | `1600 × 1100` |
+| viewport do canvas | tela cheia, recalculado no `resize` |
+| posição inicial do carrinho | `x 1080, y 980` (`INICIO_CARRINHO`), apontando para cima |
+| seções | Roupas, Calçados, Bolsas, Acessórios, Beleza, Casa — 6, com 4 produtos cada |
+| disposição | 3 colunas × 2 linhas; PASSAR COMPRAS embaixo, perto do início |
 | itens na lista de compras | 3, de seções diferentes, quantidade 1–3 |
-| obstáculos decorativos | 5 |
+| obstáculos decorativos | 2 |
 
 ---
 
 ## 10. Receitas rápidas de balanceamento
 
-**Deixar mais fácil (para demonstração):** tolerância de ângulo `22 → 35`, tolerância do
+**Deixar mais fácil (para demonstração):** `TEMPO_PARADO` `3000 → 1500`, tolerância do
 leitor `12 → 20`, velocidade de arraste `26 → 40`, fila `0.55 → 1.5`.
 
-**Deixar mais cruel:** tolerância de ângulo `22 → 12`, deriva da rodinha
-`0.0016 → 0.0030`, velocidade de arraste `26 → 16`, abandono `60 s → 30 s`.
+**Deixar mais cruel:** `TEMPO_PARADO` `3000 → 6000`, velocidade de arraste `26 → 16`,
+abandono `60 s → 30 s`, volta dos cookies `7000 → 3000`.
 
 **Encurtar uma sessão de teste:** aumente o avanço da fila e reduza o cartão para 8
 dígitos (`CARTAO` em `public/js/caixa.js`) — mas devolva antes de commitar.

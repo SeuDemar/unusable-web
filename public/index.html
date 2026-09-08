@@ -7,97 +7,79 @@
 <!-- WCAG 1.4.4 Resize Text (AA): violado de proposito.
      user-scalable=no e maximum-scale=1 bloqueiam o zoom. -->
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>TRENDIX</title>
+<title>unusable</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div id="toast-layer"></div>
 
-<!-- ============ CASCA: HEADER ============ -->
+<!-- ============ BARRA SUPERIOR ============ -->
 <header id="topo">
-  <span class="logo">TREND<span>IX</span></span>
+  <span class="logo">unusable</span>
 
   <div class="busca-caixa">
-    <input id="busca" type="text" autocomplete="off" placeholder="buscar produto..." tabindex="9">
+    <input id="busca" type="text" autocomplete="off" placeholder="buscar" tabindex="9">
     <span id="busca-status" class="busca-status"></span>
     <ul id="busca-resultados"></ul>
   </div>
 
+  <!-- WCAG 2.2.2 Pause, Stop, Hide (A): pisca e conta sozinho, sem controle de pausa.
+       WCAG 2.3.1 Three Flashes (A): 0.5s de periodo = 2 Hz, abaixo do limiar. -->
+  <span class="oferta" id="oferta">
+    <span class="oferta-ponto">&bull;</span> OFERTA <b id="oferta-tempo">00:00</b>
+  </span>
+  <button class="oferta-opt" id="btn-flash" tabindex="17"
+          title="pisca acima de 3 Hz - risco para epilepsia fotossensivel">intenso</button>
+
+  <span id="cronometro" class="cronometro"></span>
+
   <!-- WCAG 4.1.2 Name, Role, Value (A): div fazendo papel de botao, sem role -->
-  <div class="badge-carrinho" id="badge-carrinho" tabindex="4">🛒 <b>0</b></div>
-  <div class="hamburguer" id="hamburguer" tabindex="14">☰</div>
-  <div id="cronometro" class="cronometro">carrinho estavel</div>
+  <div class="badge-carrinho" id="badge-carrinho" tabindex="4">0</div>
+  <button class="btn-instrucoes" id="btn-instrucoes" tabindex="2">Instruções</button>
 </header>
 
-<!-- ============ CASCA: CORPO ============ -->
-<div id="app">
+<!-- ============ TELA LOJA: mapa em tela cheia ============ -->
+<section id="tela-loja" class="tela ativa">
+  <!-- WCAG 1.1.1 Non-text Content (A): o jogo inteiro e um canvas sem alternativa -->
+  <canvas id="mapa"></canvas>
 
-  <aside id="menu-lateral">
-    <p class="menu-titulo">CATEGORIAS</p>
-    <ul id="menu-categorias"></ul>
-    <button class="btn btn-instrucoes" id="btn-instrucoes" tabindex="2">? Instruções</button>
-  </aside>
-
-  <main id="conteudo">
-
-    <!-- WCAG 2.2.2 Pause, Stop, Hide (A): pisca e conta sozinho, sem controle de pausa.
-         WCAG 2.3.1 Three Flashes (A): frequencia fixada em 2 Hz, abaixo do limiar. -->
-    <div id="banner" class="banner">
-      <span class="banner-texto">MEGA PROMOÇÃO RELÂMPAGO</span>
-      <span class="banner-tempo" id="banner-tempo">00:00</span>
-      <button class="banner-opt" id="btn-flash" tabindex="17">
-        ⚡ modo intenso (pisca rápido — risco para epilepsia fotossensível)
-      </button>
+  <div id="hud">
+    <p class="hud-titulo">LISTA</p>
+    <ul id="lista-compras"></ul>
+    <p class="hud-titulo">SACOLA <span id="contador-carrinho">(0)</span></p>
+    <ul id="lista-carrinho"><li class="vazio">vazia</li></ul>
+    <p class="hud-total">Total <b id="total-carrinho">R$ 0,00</b></p>
+    <div id="botoes-carrinho" class="hud-botoes">
+      <button class="btn btn-mini" data-acao="ir-caixa" tabindex="6">Finalizar</button>
+      <button class="btn btn-mini btn-perigo" data-acao="limpar" tabindex="5">Esvaziar</button>
     </div>
+  </div>
+</section>
 
-    <!-- ============ TELA LOJA ============ -->
-    <section id="tela-loja" class="tela ativa">
-      <div id="palco">
-        <!-- WCAG 1.1.1 Non-text Content (A): o jogo inteiro e um canvas sem alternativa -->
-        <canvas id="mapa" width="820" height="460"></canvas>
-        <div id="minimapa-caixa">
-          <canvas id="minimapa" width="130" height="86"></canvas>
-          <span>mapa</span>
-        </div>
-      </div>
+<!-- ============ TELA FINAL ============ -->
+<section id="tela-final" class="tela">
+  <div class="recibo">
+    <h1>PEDIDO</h1>
+    <pre id="recibo-corpo"></pre>
+    <p id="recibo-piada" class="recibo-piada"></p>
+    <div id="botoes-final" class="linha-botoes-mini"></div>
+  </div>
+</section>
 
-      <aside id="painel-lateral">
-        <div class="bloco">
-          <h2>Sua lista</h2>
-          <ul id="lista-compras"></ul>
-        </div>
-        <div class="bloco">
-          <h2>Sacola <span id="contador-carrinho">(0)</span></h2>
-          <ul id="lista-carrinho"><li class="vazio">vazia</li></ul>
-          <p class="total">Total: <b id="total-carrinho">R$ 0,00</b></p>
-          <div id="botoes-carrinho" class="linha-botoes-mini">
-            <button class="btn btn-mini" data-acao="ir-caixa" tabindex="6">Finalizar pedido</button>
-            <button class="btn btn-mini btn-perigo" data-acao="limpar" tabindex="5">Esvaziar sacola</button>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <!-- ============ TELA FINAL ============ -->
-    <section id="tela-final" class="tela">
-      <div class="recibo">
-        <h1>PEDIDO TRENDIX</h1>
-        <pre id="recibo-corpo"></pre>
-        <p id="recibo-piada" class="recibo-piada"></p>
-        <div id="botoes-final" class="linha-botoes-mini"></div>
-      </div>
-    </section>
-
-  </main>
+<!-- ============ AVISO DE COOKIES ============
+     WCAG 2.4.11 Focus Not Obscured (AA): a barra fica fixa por cima do conteudo.
+     WCAG 2.5.8 Target Size (AA): o "x" de recusar tem area minuscula ao lado
+     de um botao de aceitar enorme. -->
+<div id="cookies" class="cookies">
+  <p>
+    Usamos cookies, cookies de terceiros, cookies de quarta parte e alguns cookies que
+    ainda não sabemos de onde vêm. Ao continuar navegando, ao parar de navegar, ou ao
+    simplesmente existir, você concorda com tudo.
+  </p>
+  <button class="btn-cookie-ok" id="btn-cookie-ok" tabindex="30">ACEITAR TUDO</button>
+  <button class="btn-cookie-nao" id="btn-cookie-nao" tabindex="31" title="recusar">x</button>
 </div>
-
-<!-- ============ CASCA: RODAPE ============ -->
-<!-- WCAG 2.5.8 Target Size (AA): links de 8px de altura, colados -->
-<footer id="rodape">
-  <p class="rodape-titulo">TRENDIX &copy; todos os direitos reservados a ninguém</p>
-  <nav id="rodape-links" aria-hidden="true"></nav>
-</footer>
 
 <!-- ============ OVERLAY INSTRUÇÕES (honesto de propósito) ============ -->
 <div id="overlay-instrucoes" class="overlay">
@@ -112,7 +94,8 @@
     </p>
 
     <h3>Objetivo</h3>
-    <p>Pegar os itens da sua lista e finalizar o pedido no CHECKOUT.</p>
+    <p>Pegar os itens da sua lista e levar o carrinho até o <b>PASSAR COMPRAS</b>,
+    o retângulo largo na parte de baixo do mapa, perto de onde você começou.</p>
 
     <h3>Dirigir o carrinho</h3>
     <ul>
@@ -121,29 +104,27 @@
       <li><b>A</b> ou <b>←</b> — vira para a <b>direita</b> (sim, invertido)</li>
       <li><b>D</b> ou <b>→</b> — vira para a <b>esquerda</b> (também invertido)</li>
     </ul>
-    <p>A rodinha esquerda é empenada e puxa sozinha. A cada 7 a 14 segundos ela trava
-    por cerca de 1 segundo e o carrinho ignora quem está dirigindo.</p>
 
     <h3>Abrir uma seção</h3>
-    <p>Dirija até a vaga tracejada em frente à seção. Para abrir, você precisa das
-    três coisas ao mesmo tempo: estar <b>dentro da vaga</b>, estar <b>parado</b> e
-    estar <b>alinhado com a seta</b> (tolerância de 22 graus). Segure meio segundo.</p>
+    <p>Entre no retângulo tracejado em frente à prateleira e <b>fique parado por
+    3 segundos</b>. Um contador aparece em cima do carrinho. Não importa para que lado
+    o carrinho está apontando.</p>
 
     <h3>Pegar produtos</h3>
-    <p>Arraste o produto da arara até a sacola. <b>Devagar:</b> se o mouse se mover
-    rápido demais, o produto escorrega da mão e cai no chão. O que cai volta sozinho
-    para o lugar.</p>
+    <p>Arraste o produto da prateleira até a sacola. <b>Devagar:</b> se o mouse se mover
+    rápido demais, o produto escorrega e cai no chão. O que cai volta sozinho para o
+    lugar.</p>
     <p>Na tela de quantidade só existe o botão <b>+</b>. Depois de 5 cliques ele começa
     a fugir do cursor.</p>
 
     <h3>Finalizar</h3>
-    <p>Com a lista completa, estacione na vaga do <b>CHECKOUT</b>. Depois vêm a fila,
-    o leitor de código de barras (gire o produto com a <b>roda do mouse</b>), o captcha
-    e o pagamento.</p>
+    <p>Com a lista completa, pare 3 segundos na vaga do <b>PASSAR COMPRAS</b>. Depois
+    vêm a fila, o leitor de código de barras (gire o produto com a <b>roda do
+    mouse</b>), o captcha e o pagamento.</p>
 
     <h3>Cuidado</h3>
     <p>Carrinho parado por 60 segundos é recolhido e a sacola esvazia. O aviso aparece
-    aos 30 segundos, no canto superior direito.</p>
+    aos 30 segundos, na barra de cima.</p>
   </div>
 </div>
 
@@ -179,12 +160,12 @@
   </div>
 </div>
 
-<!-- ============ OVERLAY CHECKOUT ============ -->
+<!-- ============ OVERLAY PASSAR COMPRAS ============ -->
 <div id="overlay-caixa" class="overlay">
   <div class="modal modal-caixa">
 
     <div class="etapa" id="etapa-fila">
-      <h2>Fila do checkout</h2>
+      <h2>Fila</h2>
       <p id="fila-texto">A pessoa na sua frente está discutindo um cupom de 2019.</p>
       <div class="barra"><div id="fila-barra"></div></div>
       <button class="btn btn-mini" id="btn-fila-pular">Pular a fila</button>

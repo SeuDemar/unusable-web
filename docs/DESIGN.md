@@ -40,9 +40,7 @@ Ações que na web real são instantâneas viram tarefas motoras.
 | Anti-padrão | Onde | Como funciona |
 |---|---|---|
 | Dirigir o carrinho | loja | inércia, atrito, esterçamento só em movimento |
-| Rodinha empenada | loja | deriva constante proporcional à velocidade |
-| Roda travada | loja | a cada 7–14 s, o esterçamento é ignorado por 0,7–1,4 s |
-| Estacionar para interagir | loja | posição + parado + ângulo dentro de ±22°, por 450 ms |
+| Estacionar para interagir | loja | entrar na vaga e ficar parado 3 segundos |
 | Arrastar o produto | prateleira | mover rápido demais faz escorregar da mão |
 | Gravidade no produto | prateleira | o que escapa cai no chão e volta para a prateleira |
 | Girar o código de barras | caixa | roda do mouse gira de 7 em 7 graus, tolerância ±12° |
@@ -62,7 +60,6 @@ Ações que na web real são instantâneas viram tarefas motoras.
 | Toast que some em 400 ms | global |
 | Busca aceita uma letra a cada 800 ms | topo da loja |
 | Resultados reordenam sozinhos com o mouse em cima | busca |
-| Minimapa minúsculo, sem zoom | loja |
 | Confirmação com dupla negativa | limpar carrinho, sair |
 | Ordem dos botões da confirmação é aleatória | `util.confirmar` |
 | Cursor de ampulheta permanente | global |
@@ -70,7 +67,7 @@ Ações que na web real são instantâneas viram tarefas motoras.
 ### 3.4 Alvos móveis
 | Anti-padrão | Onde |
 |---|---|
-| Botões do painel trocam de lugar a cada 4 s | painel da sacola |
+| Botões do HUD trocam de lugar a cada 4 s | HUD sobre o mapa |
 | "Ir pro caixa" e "Limpar tudo" trocam a cada 4 s | painel lateral |
 | Botão que executa o oposto do esperado ("Pular a fila" volta 15%) | caixa |
 | Botão que não faz nada ("Ir pro caixa" só manda você dirigir) | painel lateral |
@@ -90,13 +87,20 @@ Ações que na web real são instantâneas viram tarefas motoras.
 | "Sua compra foi cancelada com sucesso 😊" | tela final |
 | Botão "Não desfazer o cancelamento" para confirmar | tela final |
 | Preço "de" riscado que nunca foi cobrado | prateleira |
-| Contagem regressiva de promoção que reinicia sozinha | banner |
-| Badge do header contando linhas e painel contando unidades | header |
-| Rodapé com 40 links que não levam a lugar nenhum | rodapé |
+| Contagem regressiva de oferta que reinicia sozinha | barra superior |
+| Badge contando linhas e HUD contando unidades | barra superior |
+| Barra de cookies que volta 7 s depois de ser recusada | rodapé |
+| "ACEITAR TUDO" gigante ao lado de um "x" de 12 px | rodapé |
 
-### 3.7 Estética deliberadamente ruim
-Comic Sans, gradiente rosa choque sobre violeta, `border: ridge` em tudo, sombras duras
-deslocadas, banner piscante, caixa alta gritada. A regra aqui é: **feio, mas legível**.
+### 3.7 Estética deliberadamente fria
+A partir desta versão a estética é **minimalista monocromática**: preto, cinza e branco,
+fonte de sistema, bordas de 1px, nenhum arredondamento, nenhuma cor de destaque. A única
+cor da tela vem dos emoji dos produtos.
+
+Isso não é "menos hostil" — é hostil de outro jeito. Minimalismo mal aplicado é uma das
+maiores fontes reais de problema de acessibilidade: cinza-claro sobre branco, foco
+invisível, alvos pequenos, rótulos ausentes porque "poluem". O projeto usa exatamente
+esses vícios. A regra aqui é: **frio, mas legível**.
 
 > **Atenção:** "legível" aqui não é mais absoluto. Alguns pares de contraste violam
 > 1.4.3 de propósito (ver `docs/WCAG.md`). O que permanece proibido é o ilegível *para
@@ -117,7 +121,7 @@ Estas ideias são tentadoras e estão **fora**:
 - **Sofrimento sem feedback.** Falhar em silêncio.
 - **Piscar acima de 3 Hz sem consentimento explícito.** Este é o único limite
   intransponível. Violar 2.3.1 pode desencadear convulsão em pessoas com epilepsia
-  fotossensível — é dano físico, não frustração. O banner pisca a 2 Hz por padrão, e a
+  fotossensível — é dano físico, não frustração. O aviso de oferta pisca a 2 Hz por padrão, e a
   versão acima do limiar existe só atrás de um opt-in com aviso nomeado e confirmação.
   Nunca ative isso por padrão, nunca remova o aviso.
 - **Sabotar o painel de instruções.** Ele é a exceção honesta deliberada do projeto.
@@ -152,7 +156,7 @@ tédio.
 
 ## 7. A exceção honesta: o painel de instruções
 
-O `#overlay-instrucoes` é o único componente do TRENDIX projetado corretamente, e isso é
+O `#overlay-instrucoes` é o único componente do unusable projetado corretamente, e isso é
 uma decisão de projeto, não um esquecimento.
 
 - rótulo textual no botão de abertura, não só ícone;

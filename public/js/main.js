@@ -1,19 +1,18 @@
-/* main.js - amarra tudo: boot direto no jogo, casca de e-commerce,
-   busca com cooldown e botoes que fogem */
+/* main.js - amarra tudo: boot direto no jogo, barra superior, cookies,
+   busca com cooldown e botoes que trocam de lugar */
 
 var Jogo = (function () {
 
   var cooldownBusca = 0;
   var timerReordena = null;
-  var restaPromo = 0;
+  var restaOferta = 0;
 
   function iniciar() {
     Prateleira.iniciar();
     Caixa.iniciar();
-    montarMenu();
-    montarRodape();
     ligarInstrucoes();
-    ligarBanner();
+    ligarOferta();
+    ligarCookies();
     ligarBusca();
     ligarPainel();
     comecar();
@@ -25,61 +24,6 @@ var Jogo = (function () {
     iniciarEstado();
     Estado.jogoAtivo = true;
     Loja.iniciar();
-    toast('bem vindo a TRENDIX');
-  }
-
-  /* ---------- menu de categorias ---------- */
-
-  function montarMenu() {
-    var ul = $('#menu-categorias');
-    ul.innerHTML = '';
-    PRATELEIRAS.forEach(function (p, i) {
-      // WCAG 4.1.2 Name, Role, Value (A): <li> clicavel, sem role nem aria
-      var li = document.createElement('li');
-      li.textContent = p.nome;
-      li.dataset.id = p.id;
-      li.tabIndex = 20 + i;
-      li.addEventListener('click', function () {
-        Estado.destaque = (Estado.destaque === p.id) ? null : p.id;
-        marcarCategoriaAtiva();
-        toast(Estado.destaque ? p.nome + ' destacada no mapa' : 'destaque removido');
-      });
-      ul.appendChild(li);
-    });
-  }
-
-  function marcarCategoriaAtiva() {
-    $$('#menu-categorias li').forEach(function (li) {
-      li.classList.toggle('ativa', li.dataset.id === Estado.destaque);
-    });
-  }
-
-  /* ---------- rodape inutil ---------- */
-
-  function montarRodape() {
-    var nav = $('#rodape-links');
-    var termos = [
-      'Sobre', 'Trabalhe conosco', 'Imprensa', 'Blog', 'Afiliados', 'Investidores',
-      'Termos', 'Privacidade', 'Cookies', 'Acessibilidade', 'Mapa do site',
-      'Central de ajuda', 'Trocas', 'Devolucoes', 'Frete', 'Rastreio', 'Cupons',
-      'Cartao TRENDIX', 'Vale presente', 'Lista de desejos', 'Programa de pontos',
-      'Indique um amigo', 'App para Android', 'App para iOS', 'Newsletter',
-      'Fale conosco', 'Ouvidoria', 'Fornecedores', 'Franquias', 'Lojas fisicas',
-      'Sustentabilidade', 'Diversidade', 'Relatorio anual', 'Codigo de conduta',
-      'Seguranca', 'Compliance', 'Nota fiscal', 'Segunda via', 'Status do pedido',
-      'Perguntas frequentes'
-    ];
-    nav.innerHTML = '';
-    termos.forEach(function (t) {
-      var a = document.createElement('a');
-      a.href = '#';
-      a.textContent = t;
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        toast('pagina em construcao desde 2011');
-      });
-      nav.appendChild(a);
-    });
   }
 
   /* ---------- instrucoes: o unico componente honesto ---------- */
@@ -104,38 +48,58 @@ var Jogo = (function () {
     Loja.zerarOcio();
   }
 
-  /* ---------- banner de promocao ---------- */
+  /* ---------- oferta que nunca acaba ---------- */
 
-  function ligarBanner() {
-    reiniciarPromo();
+  function ligarOferta() {
+    reiniciarOferta();
     setInterval(function () {
-      restaPromo--;
-      if (restaPromo <= 0) reiniciarPromo();   // a promocao nunca acaba de verdade
-      var m = Math.floor(restaPromo / 60), s = restaPromo % 60;
-      $('#banner-tempo').textContent =
+      restaOferta--;
+      if (restaOferta <= 0) reiniciarOferta();   // a oferta nunca termina de verdade
+      var m = Math.floor(restaOferta / 60), s = restaOferta % 60;
+      $('#oferta-tempo').textContent =
         (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
     }, 1000);
 
     // Opt-in explicito para a violacao real de 2.3.1 (acima de 3 Hz).
     // Desligado por padrao e nunca ativado sozinho.
     $('#btn-flash').addEventListener('click', function () {
-      var banner = $('#banner');
-      var ligando = !banner.classList.contains('intenso');
+      var oferta = $('#oferta');
+      var ligando = !oferta.classList.contains('intenso');
       if (ligando) {
         var ok = window.confirm(
           'AVISO DE SAUDE\n\n' +
-          'O modo intenso faz o banner piscar acima de 3 vezes por segundo.\n' +
+          'O modo intenso faz o aviso de oferta piscar acima de 3 vezes por segundo.\n' +
           'Isso pode desencadear convulsoes em pessoas com epilepsia fotossensivel.\n\n' +
           'Ativar mesmo assim?');
         if (!ok) return;
       }
-      banner.classList.toggle('intenso');
+      oferta.classList.toggle('intenso');
       toast(ligando ? 'modo intenso ligado' : 'modo intenso desligado');
     });
   }
 
-  function reiniciarPromo() {
-    restaPromo = inteiro(180, 900);
+  function reiniciarOferta() {
+    restaOferta = inteiro(180, 900);
+  }
+
+  /* ---------- aviso de cookies que nao aceita nao ---------- */
+
+  function ligarCookies() {
+    var barra = $('#cookies');
+
+    setTimeout(function () { barra.classList.add('ativa'); }, 1500);
+
+    $('#btn-cookie-ok').addEventListener('click', function () {
+      barra.classList.remove('ativa');
+      toast('preferencias salvas (todas)');
+    });
+
+    // Recusar so adia. A barra volta sozinha alguns segundos depois.
+    $('#btn-cookie-nao').addEventListener('click', function () {
+      barra.classList.remove('ativa');
+      toast('vamos perguntar de novo');
+      setTimeout(function () { barra.classList.add('ativa'); }, 7000);
+    });
   }
 
   /* ---------- busca com cooldown ---------- */
@@ -181,7 +145,6 @@ var Jogo = (function () {
         li.textContent = par.produto.emoji + ' ' + par.produto.nome + ' - ' + par.prateleira.nome;
         li.addEventListener('click', function () {
           Estado.destaque = par.prateleira.id;
-          marcarCategoriaAtiva();
           lista.innerHTML = '';
           $('#busca').value = '';
           toast('secao destacada no mapa');
@@ -190,18 +153,17 @@ var Jogo = (function () {
       });
   }
 
-  /* ---------- painel ---------- */
+  /* ---------- HUD ---------- */
 
   function ligarPainel() {
     $('[data-acao="ir-caixa"]').addEventListener('click', function () {
       Estado.destaque = null;
-      marcarCategoriaAtiva();
       if (!listaCompleta()) {
         toast('faltam itens da lista');
         return;
       }
       // WCAG 3.2.4 Consistent Identification (AA): o botao nao faz o que diz
-      toast('esse botao nao finaliza nada. dirija ate o CHECKOUT.');
+      toast('esse botao nao finaliza nada. dirija ate PASSAR COMPRAS.');
     });
 
     $('[data-acao="limpar"]').addEventListener('click', function () {
@@ -217,10 +179,6 @@ var Jogo = (function () {
       toast('a sacola ja esta na sua frente');
     });
 
-    $('#hamburguer').addEventListener('click', function () {
-      toast('menu indisponivel nesta versao');
-    });
-
     // WCAG 2.2.2 Pause, Stop, Hide (A): os botoes trocam de lugar sozinhos
     setInterval(function () {
       if ($('#tela-loja').classList.contains('ativa') && !overlayAberto()) {
@@ -234,10 +192,11 @@ var Jogo = (function () {
   function finalizar() {
     Estado.jogoAtivo = false;
     Loja.parar();
+    $('#cookies').classList.remove('ativa');
 
     var linhas = Estado.carrinho.map(function (l) {
       var nome = (l.nome + ' x' + l.qtd);
-      while (nome.length < 26) nome += ' ';
+      while (nome.length < 24) nome += ' ';
       return nome + moeda(l.preco * l.qtd);
     });
 
@@ -248,15 +207,15 @@ var Jogo = (function () {
 
     $('#recibo-corpo').textContent =
       linhas.join('\n') +
-      '\n--------------------------------\n' +
-      'Subtotal                  ' + moeda(sub) + '\n' +
-      'Taxa de conveniencia 37%  ' + moeda(conveniencia) + '\n' +
-      'Frete "gratis"            ' + moeda(frete) + '\n' +
-      '--------------------------------\n' +
-      'TOTAL                     ' + moeda(total);
+      '\n------------------------------\n' +
+      'Subtotal                ' + moeda(sub) + '\n' +
+      'Taxa de conveniencia    ' + moeda(conveniencia) + '\n' +
+      'Frete "gratis"          ' + moeda(frete) + '\n' +
+      '------------------------------\n' +
+      'TOTAL                   ' + moeda(total);
 
     $('#recibo-piada').textContent =
-      'Obrigado! Seu pedido foi cancelado com sucesso. 😊';
+      'Obrigado! Seu pedido foi cancelado com sucesso.';
 
     var caixa = $('#botoes-final');
     caixa.innerHTML = '';

@@ -7,14 +7,14 @@ leia também `.claude/docs/CONTEXTO.md` e `.claude/docs/ARQUITETURA.md`.
 
 ## 1. O que é este projeto
 
-`unusable-web` (marca fictícia **TRENDIX**) é um **jogo de navegador que simula o
+`unusable-web` é um **jogo de navegador que simula o
 carrinho de compras de uma loja de moda online com a pior UI e UX possíveis**, de
 propósito. É um exercício de design deliberadamente hostil: cada ação que num e-commerce
 real levaria um clique aqui vira um minigame frustrante.
 
 O produto final é uma piada jogável, não um e-commerce. A funcionalidade escolhida
 para ser destruída é **o carrinho de compras**, do início ao fim: dirigir o carrinho,
-localizar produtos, colocar itens dentro, escolher quantidade, ir ao checkout, passar os
+localizar produtos, colocar itens dentro, escolher quantidade, ir ao PASSAR COMPRAS, passar os
 itens no leitor, pagar e receber o cupom.
 
 O projeto tem **dois objetivos**, e os dois valem igual:
@@ -37,8 +37,8 @@ deliberados e estão documentados.
 Toda fricção adicionada precisa passar nas três:
 
 1. **Engraçada.** A frustração tem que arrancar um sorriso, não raiva pura. O tom é
-   humor seco brasileiro, com sotaque de fast fashion online: promoção que nunca acaba,
-   desconto fabricado, frete "grátis" de R$ 18,50.
+   humor seco brasileiro, com sotaque de e-commerce genérico: oferta que nunca acaba,
+   desconto fabricado, frete "grátis" de R$ 18,50, cookies que voltam sozinhos.
 2. **Superável.** Sempre existe um caminho para terminar a compra. Nada de becos sem
    saída, travamentos, estados irrecuperáveis ou exigências de precisão impossível.
 3. **Legível.** O jogador precisa entender *por que* falhou. "Torto. O ângulo está 41
@@ -48,7 +48,7 @@ Se uma ideia é cruel mas não é engraçada, ou é engraçada mas trava o jogo,
 
 **Um único limite é intransponível:** piscar acima de 3 Hz sem consentimento explícito.
 Isso viola WCAG 2.3.1 e pode causar convulsão em pessoas com epilepsia fotossensível —
-é dano físico, não frustração. O banner pisca a 2 Hz por padrão; a versão acima do
+é dano físico, não frustração. O aviso de oferta pisca a 2 Hz por padrão; a versão acima do
 limiar existe apenas atrás de um opt-in que nomeia o risco e exige confirmação. Nunca
 ative por padrão, nunca remova o aviso, nunca acelere outra animação além de 3 Hz.
 
@@ -67,8 +67,13 @@ sabote. Justificativa em `docs/DESIGN.md`, seção 7.
   **não** ES modules — `type="module"` quebra em `file://` por CORS. Não converta para
   `import`/`export`.
 - **A ordem das tags `<script>` importa.** Ver seção 5.
-- **Sem assets binários.** Ícones e produtos são emoji; texturas são gradientes CSS;
-  o mapa é desenhado no canvas. Nada de `.png`, `.mp3`, fontes baixadas.
+- **Sem assets binários.** Ícones e produtos são emoji; o mapa é desenhado no canvas.
+  Nada de `.png`, `.mp3`, fontes baixadas.
+- **Paleta preto, cinza e branco.** Decisão do autor. Nenhuma cor de destaque no CSS —
+  a única cor da tela vem dos emoji dos produtos. Se precisar diferenciar algo, use
+  tom de cinza, peso ou borda, nunca matiz.
+- **O mapa ocupa a tela toda.** Sem menu lateral, sem rodapé, sem banner grande. O que
+  o jogador precisa saber fica num HUD compacto sobre o mapa.
 - **Sem persistência.** Não há `localStorage`, backend nem estado entre sessões.
   Recarregar a página reinicia o jogo, e isso é intencional.
 - **Só `public/` vai para a web.** É o diretório publicado na Cloudflare. Documentação,
@@ -102,7 +107,7 @@ public/css/style.css         visual inteiro; a feiura é proposital
 public/js/util.js            helpers + anti-padrões reutilizáveis (toast 400ms, embaralhar, confirmar)
 public/js/dados.js           mapa da loja, prateleiras, catálogo, obstáculos, sorteio da lista
 public/js/estado.js          estado do jogo (lista, carrinho) e render do painel lateral
-public/js/loja.js            canvas, física do carrinho, colisão, estacionamento, minimapa
+public/js/loja.js            canvas em tela cheia, física, colisão, estacionamento por tempo
 public/js/prateleira.js      overlay da prateleira: arrastar com gravidade + modal de quantidade
 public/js/caixa.js           overlay do caixa: fila, leitor, captcha, pagamento
 public/js/main.js            telas, busca com cooldown, botões que fogem, tela final
@@ -132,7 +137,8 @@ Referências cruzadas entre módulos (`Loja` chama `Prateleira.abrir`, `Caixa` c
 | mexer no captcha ou no teclado | `public/js/caixa.js`, `montarCaptcha` / `embaralharTeclado` |
 | mexer na busca com cooldown | `public/js/main.js`, `ligarBusca` |
 | mexer no cupom final | `public/js/main.js`, `finalizar` |
-| casca (header, menu, banner, rodapé) | `public/index.html` + `ligarBanner`/`montarMenu`/`montarRodape` em `public/js/main.js` |
+| barra superior e cookies | `public/index.html` + `ligarOferta`/`ligarCookies` em `public/js/main.js` |
+| tempo de estacionamento | `TEMPO_PARADO` em `public/js/loja.js` |
 | painel de instruções | `public/index.html` (`#overlay-instrucoes`) + `ligarInstrucoes` |
 | novo anti-padrão global reutilizável | `public/js/util.js` + registrar em `docs/DESIGN.md` |
 | nova violação de WCAG | implementar e registrar as 4 colunas em `docs/WCAG.md` |
@@ -175,8 +181,12 @@ pronta. "Compila" não é o mesmo que "ainda é possível estacionar".
   Ele é removido por `soltarFoco()` quando o pagamento termina. Se você criar outro
   caminho de saída do pagamento, chame `soltarFoco()` nele, senão o trap vaza para o
   resto da página.
-- O badge do header conta linhas e o painel conta unidades. Divergência intencional
-  (WCAG 3.2.4), não bug de contagem.
+- O badge da barra superior conta linhas e o HUD conta unidades. Divergência
+  intencional (WCAG 3.2.4), não bug de contagem.
+- O canvas é redimensionado no `resize` por `ajustarTamanho()`, que lê a altura de
+  `#topo`. Se a barra superior mudar de altura, o cálculo acompanha sozinho.
+- A barra de cookies **não** usa a classe `.overlay`, então não congela a física — é de
+  propósito: ela atrapalha sem pausar.
 
 ---
 

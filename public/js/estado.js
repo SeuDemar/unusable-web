@@ -84,5 +84,5 @@ function renderPainel() {
   // WCAG 3.2.4 Consistent Identification (AA): o badge do header conta linhas,
   // nao unidades, entao mostra um numero diferente do painel para o mesmo carrinho.
   var badge = $('#badge-carrinho');
-  if (badge) badge.innerHTML = '🛒 <b>' + Estado.carrinho.length + '</b>';
+  if (badge) badge.textContent = Estado.carrinho.length;
 }

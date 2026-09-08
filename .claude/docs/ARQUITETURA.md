@@ -11,30 +11,31 @@ Uma única página, sete arquivos JavaScript carregados como scripts clássicos.
 roteador, framework, estado reativo nem build. O jogo alterna entre **telas**
 (`<section class="tela">`) e sobrepõe **overlays** (`<div class="overlay">`).
 
-A casca de e-commerce (header, menu lateral, banner, rodapé) é permanente e fica fora
-das telas. Só o miolo troca.
+A barra superior é permanente e fica fora das telas. O mapa ocupa todo o resto da
+janela, e o HUD flutua sobre ele. Só o miolo troca.
 
 ```
- header  · logo · busca · badge · hambúrguer · cronômetro
-┌────────┬────────────────────────────────────────────────┐
-│ menu   │ banner de promoção (piscante, 2 Hz)            │
-│ lateral│                                                │
-│        │  ┌──────────────┐  Caixa.abrir()  ┌──────────┐ │
-│ cate-  │  │  tela-loja   │ ──────────────▶ │ overlay- │ │
-│ gorias │  │  (canvas +   │ ◀─ fechar ───── │  caixa   │ │
-│        │  │   painel)    │                 │ 4 etapas │ │
-│ [?]    │  └──────┬───────┘                 └────┬─────┘ │
-│ instru-│  Prateleira.abrir()          Jogo.finalizar()  │
-│ ções   │         │                              ▼       │
-│        │ ┌───────▼──────────┐            ┌───────────┐  │
-│        │ │ overlay-         │            │ tela-final│  │
-│        │ │  prateleira      │            │  (cupom)  │  │
-│        │ │  └▶ overlay-qtd  │            └───────────┘  │
-│        │ └──────────────────┘                           │
-└────────┴────────────────────────────────────────────────┘
- rodapé  · 40 links de 8px
+ barra superior · logo · busca · oferta piscante · cronômetro · badge · instruções
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│  ┌────────┐        mapa em tela cheia (canvas)              │
+│  │  HUD   │                                                 │
+│  │ lista  │   ┌──────────────┐  Caixa.abrir()  ┌──────────┐ │
+│  │ sacola │   │  tela-loja   │ ──────────────▶ │ overlay- │ │
+│  │ botões │   │              │ ◀─ fechar ───── │  caixa   │ │
+│  └────────┘   └──────┬───────┘                 │ 4 etapas │ │
+│                      │                         └────┬─────┘ │
+│             Prateleira.abrir()           Jogo.finalizar()   │
+│                      │                              ▼       │
+│            ┌─────────▼────────┐              ┌───────────┐  │
+│            │ overlay-         │              │ tela-final│  │
+│            │  prateleira      │              │  (cupom)  │  │
+│            │  └▶ overlay-qtd  │              └───────────┘  │
+│            └──────────────────┘                             │
+└─────────────────────────────────────────────────────────────┘
+ barra de cookies · fixa no rodapé · volta 7 s depois de recusada
 
- overlay-instrucoes  — sobrepõe tudo, pausa o jogo, é o único componente acessível
+ overlay-instrucoes — sobrepõe tudo, pausa o jogo, é o único componente acessível
 ```
 
 **Não há tela de título.** `Jogo.iniciar()` roda no `DOMContentLoaded` e chama
@@ -67,16 +68,17 @@ Helpers puros e os anti-padrões reutilizáveis.
 overlay novo precisa usar a classe `.overlay`/`.ativa` para herdar esse comportamento.
 
 ### `public/js/dados.js` — sem estado
-Conteúdo estático do mundo: `MUNDO` (1800×1100), `PRATELEIRAS` (4, cada uma com seus
-produtos e sua vaga), `CAIXA`, `OBSTACULOS`. Mais `todosProdutos()`, `acharProduto(id)`
-e `sortearLista()` (3 itens de prateleiras diferentes, quantidade 1–3).
+Conteúdo estático do mundo: `MUNDO` (1600×1100), `PRATELEIRAS` (**6**, em 3 colunas de
+2, cada uma com seus produtos e sua vaga), `CAIXA` (o PASSAR COMPRAS, embaixo e perto do
+início), `INICIO_CARRINHO` e `OBSTACULOS`. Mais `todosProdutos()`, `acharProduto(id)` e
+`sortearLista()` (3 itens de seções diferentes, quantidade 1–3).
 
 Cada prateleira tem a forma:
 
 ```js
 { id, nome, cor, x, y, w, h,
-  vaga: { x, y, w, h, ang },   // ang em graus: direção que o carrinho deve apontar
-  produtos: [ { id, nome, emoji, preco } ] }
+  vaga: { x, y, w, h },        // sem ângulo: estacionar é só posição + tempo
+  produtos: [ { id, nome, emoji, preco, precoDe } ] }
 ```
 
 ### `public/js/estado.js` — estado do jogo
@@ -90,31 +92,35 @@ Funções: `iniciarEstado`, `adicionarAoCarrinho`, `limparCarrinho`, `totalCarri
 carrinho deve chamá-lo (as funções acima já fazem isso).
 
 ### `public/js/loja.js` — o motor
-Único módulo com laço de animação. Responsabilidades: entrada de teclado, física do
-carrinho, colisão, câmera, desenho do mapa e do minimapa, detecção de estacionamento e
-o cronômetro de abandono.
+Único módulo com laço de animação. Responsabilidades: dimensionar o canvas para a
+janela, entrada de teclado, física do carrinho, colisão, câmera, desenho do mapa,
+detecção de estacionamento e o cronômetro de abandono.
 
 Estado interno relevante:
 
 - `carrinho` — `{x, y, ang, vel, velAng, largura, altura}`
-- `rodinha` — `{travadaAte, proximaTrava}`, controla o travamento aleatório da roda
-- `paradoDesde` — tempo em que o carrinho ficou parado e alinhado na vaga; `-1` é
-  sentinela de "já avisei que está torto"
+- `paradoDesde` — milissegundos acumulados parado dentro da vaga; zera ao sair ou ao se
+  mover. Chega em `TEMPO_PARADO` (3000) e abre a seção
+- `vagaEmFoco` — a vaga sendo contada, usada para desenhar o anel de contagem
 - `ocioso` — milissegundos sem input, alimenta o recolhimento por abandono
 
 Laço por frame: `laco → atualizar(dt, agora) → desenhar(agora)`.
 
 `atualizar` faz, nesta ordem: lê teclas (se não houver overlay aberto), aplica
-aceleração, aplica esterçamento **invertido**, aplica a deriva da rodinha, sorteia
-travamento, aplica atrito, integra posição eixo a eixo (`livre(nx, y)` e depois
-`livre(x, ny)`, o que permite deslizar ao longo das paredes), limita ao mundo, e por
-fim chama `verificarEstacionamento` e `verificarOcio`.
+aceleração, aplica esterçamento **invertido**, aplica atrito, integra posição eixo a eixo
+(`livre(nx, y)` e depois `livre(x, ny)`, o que permite deslizar ao longo das paredes),
+limita ao mundo, e por fim chama `verificarEstacionamento` e `verificarOcio`.
 
-Colisão é círculo de raio 20 contra retângulos AABB (prateleiras + caixa + obstáculos).
+Colisão é círculo de raio 19 contra retângulos AABB (prateleiras + caixa + obstáculos).
 
-`verificarEstacionamento` só dispara com as **quatro** condições simultâneas: dentro da
-vaga, `|vel| < 0.12`, erro angular `< 22°`, sustentado por `450 ms`. Aí chama
-`Prateleira.abrir(prateleira)` ou `Caixa.abrir()` (esta só se `listaCompleta()`).
+`verificarEstacionamento` exige **duas** condições simultâneas: estar dentro da vaga e
+`|vel| < 0.12`. Enquanto valerem, `paradoDesde` acumula `dt`; ao chegar em
+`TEMPO_PARADO` (3000 ms) chama `Prateleira.abrir(prateleira)` ou `Caixa.abrir()` (esta
+só se `listaCompleta()`). `desenharContagem` desenha o anel de progresso e o número de
+segundos restantes acima do carrinho.
+
+`camera()` centraliza o mundo quando ele é menor que a janela, em vez de deixar o mapa
+grudado num canto.
 
 Público: `iniciar`, `parar`, `carrinho`, `zerarOcio`.
 
@@ -136,7 +142,7 @@ posição aleatória dentro da área. Confirmar com 0 é recusado.
 
 Público: `iniciar`, `abrir`.
 
-### `public/js/caixa.js` — checkout em 4 etapas
+### `public/js/caixa.js` — passar compras em 4 etapas
 Um overlay, quatro `<div class="etapa">` alternadas por `etapa(id)`.
 
 1. **Fila** — barra que avança `0,55%` a cada `100 ms` (~18 s). O botão "Pular a fila"
@@ -155,21 +161,20 @@ Ao completar os 16 dígitos, chama `Jogo.finalizar()`.
 
 Público: `iniciar`, `abrir`.
 
-### `public/js/main.js` — cola, casca e telas
-`Jogo.iniciar()` (no `DOMContentLoaded`) inicializa `Prateleira` e `Caixa`, monta a
-casca e **começa o jogo imediatamente** — não há tela de título.
+### `public/js/main.js` — cola, barra superior e telas
+`Jogo.iniciar()` (no `DOMContentLoaded`) inicializa `Prateleira` e `Caixa`, liga a barra
+superior e **começa o jogo imediatamente** — não há tela de título.
 
-- **`montarMenu()`**: categorias como `<li>` clicáveis que escrevem em `Estado.destaque`,
-  o mesmo estado que a busca usa. Mapa e minimapa já sabem pintar o destaque.
-- **`montarRodape()`**: 40 links gerados em JS, todos inertes.
 - **`ligarInstrucoes()`**: abre o `#overlay-instrucoes`, move o foco para o botão de
   fechar e fecha com `Esc`. Único componente acessível do app.
-- **`ligarBanner()`**: contagem regressiva que se reinicia sozinha, e o opt-in de
+- **`ligarOferta()`**: contagem regressiva que se reinicia sozinha, e o opt-in de
   piscada acima de 3 Hz — com `window.confirm` nomeando o risco de epilepsia.
+- **`ligarCookies()`**: barra que aparece 1,5 s após carregar; "ACEITAR TUDO" encerra,
+  o `x` de 12px só adia por 7 segundos. Não usa `.overlay`, então **não** pausa o jogo.
 - **Busca**: `keydown` bloqueia teclas dentro de um cooldown de 800 ms; a lista de
   resultados se reordena a cada 1100 ms enquanto o mouse estiver sobre ela.
-- **Painel**: "Finalizar pedido" não finaliza nada (troll); "Esvaziar sacola" passa por
-  `confirmar()` com dupla negativa; os dois trocam de lugar a cada 4 s.
+- **HUD**: "Finalizar" não finaliza nada (troll); "Esvaziar" passa por `confirmar()` com
+  dupla negativa; os dois trocam de lugar a cada 4 s.
 - **`finalizar()`**: monta o cupom com subtotal, taxa de conveniência de 37% e frete
   "grátis" de R$ 18,50, exibe a piada do cancelamento e troca para `tela-final`.
 
@@ -208,16 +213,18 @@ Loja.atualizar → verificarEstacionamento
   entrada correspondente em `docs/WCAG.md`.
 - Telas: `.tela` + `.ativa`. Overlays: `.overlay` + `.ativa`. Etapas do caixa:
   `.etapa` + `.ativa`.
-- Cores vivem em variáveis CSS no `:root` (`--amarelo`, `--rosa`, `--ciano`, `--roxo`,
-  `--verde`, `--vermelho`, `--papel`).
-- O `z-index` dos overlays é 60; elementos arrastados usam 999; o toast usa 99.
+- Cores vivem em variáveis CSS no `:root`, todas monocromáticas (`--preto`,
+  `--grafite`, `--cinza`, `--cinza-claro`, `--cinza-fundo`, `--branco`, mais os tokens
+  de contraste insuficiente `--texto-fraco` e `--texto-fraco2`). Nenhuma matiz.
+- `z-index`: HUD 20, barra de cookies 50, overlays 60, toast 99, elemento arrastado 999.
 
 ---
 
 ## 5. Limites conhecidos da implementação
 
-- **Sem responsividade.** O canvas é fixo em 820×460 e o layout assume desktop. Isso
-  é também a violação de WCAG 1.4.10 Reflow.
+- **Responsividade parcial.** O canvas acompanha a janela, mas barra superior, HUD e
+  modais têm medidas fixas, e o `body` tem `overflow: hidden`. Isso é a violação de
+  WCAG 1.4.10 Reflow.
 - **Sem suporte a toque.** Usa eventos `pointer`, então funciona parcialmente, mas o
   giro do leitor depende da roda do mouse — inacessível em touch.
 - **Reiniciar é recarregar.** `Loja.iniciar()` registra listeners de teclado toda vez
@@ -225,3 +232,5 @@ Loja.atualizar → verificarEstacionamento
 - **O leitor escaneia uma carta por linha do carrinho**, não por unidade. Comprar 3
   bananas é uma carta só.
 - **Sem áudio.** O "bip" do leitor é um toast de texto.
+- **Sem minimapa.** Foi removido junto com o menu lateral; o mapa em tela cheia mostra
+  quase tudo de uma vez.

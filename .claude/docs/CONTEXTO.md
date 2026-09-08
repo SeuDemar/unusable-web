@@ -21,7 +21,7 @@ Duas coisas importantes saem daí:
 
 1. **A metáfora física é o coração da ideia.** O carrinho de compras da web vira um
    carrinho de compras literal, que você dirige, estaciona e enche à mão. Todo o resto
-   (busca, quantidade, checkout) foi construído em cima dessa premissa.
+   (busca, quantidade, passar compras) foi construído em cima dessa premissa.
 2. **O autor aceitou não ser 100% jogável**, mas a implementação foi além: o fluxo é
    completo e terminável de ponta a ponta. Mantenha assim — é o que torna a piada
    satisfatória em vez de só irritante.
@@ -36,10 +36,14 @@ Duas coisas importantes saem daí:
 | Código em português | O jogo é em português; manter identificadores no mesmo idioma dos textos evita tradução mental constante. |
 | ES5 (`var`, IIFE) | Consistência interna. Não há transpilação nem lint; o estilo antigo é uniforme e roda em tudo. |
 | Emoji como arte | Zero assets binários, zero licenciamento, funciona offline. |
-| Tema de moda online (TRENDIX), não supermercado | Pedido do autor. Referência declarada: Shein. Dá mais superfície para padrões obscuros de e-commerce. |
-| Sem tela de título | Pedido do autor. A página carrega já jogável; as instruções foram para um botão no menu lateral. |
-| Casca de e-commerce em volta do mapa | Header, categorias, banner, badge e rodapé existem para dar alvos concretos às violações de WCAG. Sem eles, metade dos critérios não teria onde acontecer. |
-| Violar WCAG 2.2 e documentar | Segundo objetivo do projeto, com peso igual ao humor. Mínimo pedido: 13 critérios. Entregue: 27 catalogados, 18 implementados. |
+| Tema de e-commerce genérico, não supermercado | Pedido do autor. Dá mais superfície para padrões obscuros de loja online. |
+| Paleta preto, cinza e branco | Pedido do autor. Minimalismo frio, que por acaso é onde moram as falhas reais de acessibilidade: cinza sobre branco, foco invisível, alvos pequenos. |
+| Mapa em tela cheia, sem menu lateral nem rodapé | Pedido do autor: "basta apenas o mapa em tela cheia". O que o jogador precisa saber ficou num HUD compacto sobre o mapa. |
+| Estacionar por tempo, não por ângulo | Pedido do autor. Três segundos parado na vaga, com contagem em cima do carrinho. |
+| Sem rodinha empenada e sem trava de roda | Pedido do autor. O foco é a má experiência de uso, não a dificuldade motora de pilotar. |
+| Sem tela de título | Pedido do autor. A página carrega já jogável; as instruções foram para um botão na barra superior. |
+| Barra superior enxuta + barra de cookies | Restaram como superfície mínima para as violações de WCAG que precisam de cromo de site: busca, oferta piscante, badge e o par aceitar/recusar. |
+| Violar WCAG 2.2 e documentar | Segundo objetivo do projeto, com peso igual ao humor. Mínimo pedido: 13 critérios. Entregue: 27 catalogados, 19 implementados. |
 | Instruções honestas | Único componente acessível. Serve de régua para as violações e mantém o jogo compreensível. |
 
 ## 3. Princípio de design que guia tudo
@@ -52,32 +56,38 @@ ele gera outro. Se o produto cair no chão, o repositor devolve. Se o carrinho f
 recolhido por abandono, dá para reencher. Nada é permanente exceto terminar a compra.
 
 **O limite que não se cruza:** piscar acima de 3 Hz sem consentimento explícito. Todas
-as outras violações causam frustração; essa causa convulsão. O banner pisca a 2 Hz por
+as outras violações causam frustração; essa causa convulsão. O aviso de oferta pisca a 2 Hz por
 padrão e a versão acima do limiar só existe atrás de um opt-in com aviso e confirmação.
 
-## 4. Estado atual (última sessão: 2026-09-07)
+## 4. Estado atual (última sessão: 2026-09-08)
 
 **Completo e jogável do início ao fim.** Implementado:
 
 1. **Sem tela de título.** `Jogo.iniciar()` chama `comecar()` no `DOMContentLoaded`.
-2. **Casca de e-commerce:** header com logo, busca, badge da sacola e hambúrguer; menu
-   lateral de categorias; banner de promoção piscante com contagem que reinicia; rodapé
-   com 40 links inúteis de 8px.
-3. Loja em canvas 820×460 com câmera que segue o carrinho, 4 seções, obstáculos e
-   minimapa.
-4. Física do carrinho: direção invertida, rodinha empenada, travamento aleatório da
-   roda, colisão com empurrão.
-5. Estacionamento exigindo posição + velocidade zero + ângulo dentro de ±22°.
-6. Overlay de seção: arrastar produto com "gravidade", preço riscado fabricado.
-7. Modal de quantidade com botão `+` que foge depois de 5 cliques.
-8. Checkout: fila cronometrada, leitor com rotação por roda do mouse, captcha de
-   carrinhos, teclado que reembaralha a cada tecla, **keyboard trap intencional**.
-9. Cupom final com taxa de conveniência de 37% e frete "grátis" de R$ 18,50.
-10. **Painel de instruções honesto** no menu lateral, que pausa o jogo ao abrir.
-11. Anti-padrões ambientes: toast de 400ms, busca com cooldown de 800ms, resultados que
-    reordenam sozinhos, confirmação com dupla negativa, sacola recolhida após 60s
-    parado, cursor de ampulheta.
-12. **27 critérios da WCAG 2.2 catalogados em `docs/WCAG.md`**, 18 implementados.
+2. **Mapa em tela cheia.** Canvas dimensionado pela janela, recalculado no `resize`.
+   Sem menu lateral, sem banner grande, sem rodapé, sem minimapa.
+3. **Seis prateleiras em 3 colunas de 2** — Roupas, Calçados, Bolsas, Acessórios,
+   Beleza, Casa — com o **PASSAR COMPRAS** embaixo, perto de onde o carrinho nasce.
+4. **Paleta preto, cinza e branco.** Fonte de sistema, bordas de 1px, nenhuma matiz. A
+   única cor da tela vem dos emoji dos produtos.
+5. **Barra superior enxuta:** logo, busca com cooldown, aviso de oferta piscante com
+   contagem que reinicia, cronômetro de abandono, badge da sacola e botão de instruções.
+6. **HUD compacto sobre o mapa** com lista, sacola, total e dois botões que trocam de
+   lugar a cada 4 segundos.
+7. **Barra de cookies** que aparece 1,5 s após carregar e **volta 7 segundos depois de
+   ser recusada**. O `x` de recusar tem 12×12 px contra um `ACEITAR TUDO` enorme.
+8. Física do carrinho: direção invertida e inércia. **Sem rodinha empenada e sem trava
+   de roda** — removidas a pedido do autor.
+9. **Estacionar é ficar 3 segundos parado na vaga**, com anel de contagem desenhado em
+   cima do carrinho. Sem exigência de ângulo.
+10. Overlay de seção: arrastar produto com "gravidade", preço riscado fabricado.
+11. Modal de quantidade com botão `+` que foge depois de 5 cliques.
+12. Passar compras: fila cronometrada, leitor com rotação por roda do mouse, captcha,
+    teclado que reembaralha a cada tecla, **keyboard trap intencional**.
+13. Cupom final com taxa de conveniência de 37% e frete "grátis" de R$ 18,50.
+14. **Painel de instruções honesto**, que pausa o jogo ao abrir.
+15. **27 critérios da WCAG 2.2 catalogados em `docs/WCAG.md`**, 19 implementados, com
+    tabela ligando cada critério à funcionalidade que o fere.
 
 **Publicado na Cloudflare** a partir do repositório `SeuDemar/unusable-web`, branch
 `main`, com deploy automático a cada push. Só `public/` vai ao ar.
@@ -90,11 +100,11 @@ mobile, persistência, testes automatizados.
 - **Os controles A/D estão invertidos de propósito.** Em `public/js/loja.js`, a variável se
   chama `viraDireita` e é alimentada pela tecla `a`. Isso é a intenção, não um bug de
   nomenclatura. Está comentado no arquivo — não "corrija".
-- **A deriva da rodinha depende do sinal da velocidade** (`velAng -= 0.0016 * vel`), ou
-  seja, o carrinho puxa para um lado indo para frente e para o outro dando ré. Isso é
-  fisicamente plausível e foi mantido.
-- **`paradoDesde = -1` é um sentinela**, não um tempo. Serve para não repetir o toast de
-  "torto" a cada frame enquanto o jogador estiver parado e desalinhado dentro da vaga.
+- **`paradoDesde` acumula milissegundos**, não é um instante. Zera ao sair da vaga ou ao
+  voltar a se mover, e dispara a abertura ao chegar em `TEMPO_PARADO` (3000).
+- **A paleta monocromática não é só estética.** Cinza-claro sobre branco é a falha de
+  contraste mais comum do minimalismo real, e é a violação de WCAG 1.4.3 do projeto. Se
+  alguém "melhorar" o contraste, quebra a documentação.
 - **O botão "Ir pro caixa" não leva ao caixa.** É um troll deliberado: ele só avisa que
   você precisa dirigir até lá. Manter.
 - **A tolerância do leitor (±12°) parece apertada, mas a roda gira de 7 em 7 graus**, o
@@ -119,9 +129,10 @@ mobile, persistência, testes automatizados.
   contra unidades. É a violação de 3.2.4, não um bug de contagem.
 - **`precoDe` nunca foi cobrado de ninguém.** O desconto é fabricado, na linha do que
   fast fashion faz de verdade. É piada e anti-padrão ao mesmo tempo.
-- **O menu de categorias e a busca fazem a mesma coisa** — ambos escrevem em
-  `Estado.destaque`. Não é duplicação acidental: são dois caminhos para o mesmo estado,
-  e o menu existe principalmente para dar superfície às violações da casca.
+- **A barra de cookies não usa a classe `.overlay`** de propósito: ela atrapalha a tela
+  sem congelar a física. Todos os outros overlays pausam o jogo.
+- **`Estado.destaque` sobrou da busca** e continua sendo o único caminho para realçar uma
+  seção no mapa, agora que o menu de categorias foi removido.
 
 ## 6. Onde o projeto pode ir (não decidido, apenas levantado)
 

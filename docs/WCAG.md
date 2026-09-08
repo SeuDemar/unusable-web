@@ -1,13 +1,13 @@
 # Violações deliberadas da WCAG 2.2
 
-Este documento cataloga os critérios de sucesso da **WCAG 2.2** que o TRENDIX viola de
+Este documento cataloga os critérios de sucesso da **WCAG 2.2** que o unusable viola de
 propósito, como parte do exercício de projetar a pior experiência possível.
 
 **Norma de referência:** Web Content Accessibility Guidelines (WCAG) 2.2, W3C
 Recommendation de 5 de outubro de 2023 — <https://www.w3.org/TR/WCAG22/>
 
-**Meta:** no mínimo 13 critérios. **Entregue:** 27 catalogados, sendo **18
-implementados e verificáveis** e 9 documentados.
+**Meta:** no mínimo 13 critérios. **Entregue:** 27 catalogados, sendo **19
+implementados e verificáveis** e 8 documentados.
 
 > **Nada aqui é acidental.** Cada linha registra o que a norma exige, como o app a
 > descumpre, e como seria a versão conforme. A quarta coluna existe porque violar uma
@@ -18,8 +18,65 @@ implementados e verificáveis** e 9 documentados.
 | Nível | Implementados | Documentados |
 |---|---|---|
 | A | 10 | 6 |
-| AA | 8 | 3 |
-| **Total** | **18** | **9** |
+| AA | 9 | 2 |
+| **Total** | **19** | **8** |
+
+
+## Resumo: o que foi quebrado e em qual funcionalidade
+
+Tabela mestre. Cada linha liga um critério da WCAG 2.2 à funcionalidade do site onde a
+violação acontece. O detalhamento de cada uma está nas seções seguintes.
+
+| # | Critério | Nível | Funcionalidade que fere | Status |
+|---|---|---|---|---|
+| 1 | 1.1.1 Non-text Content | A | **Mapa da loja** (canvas sem alternativa) e **cards de produto** (só emoji) | ✅ |
+| 2 | 1.3.1 Info and Relationships | A | **Cards de produto**, **grade do captcha** e **par de preços** riscado/atual | 📄 |
+| 3 | 1.4.3 Contrast (Minimum) | AA | **Preço riscado**, **status da busca**, **texto e botão de recusa dos cookies** | ✅ |
+| 4 | 1.4.4 Resize Text | AA | **Página inteira** — meta viewport bloqueia o zoom | ✅ |
+| 5 | 1.4.10 Reflow | AA | **Barra superior**, **HUD** e **modais**, todos de largura fixa | 📄 |
+| 6 | 1.4.13 Content on Hover or Focus | AA | **Busca do topo** — a lista de resultados se reordena sob o ponteiro | ✅ |
+| 7 | 2.1.1 Keyboard | A | **Arrastar produto**, **leitor de código de barras**, **captcha** | ✅ |
+| 8 | 2.1.2 No Keyboard Trap | A | **Etapa de pagamento** — o Tab não sai de lá | ✅ |
+| 9 | 2.2.1 Timing Adjustable | A | **Recolhimento da sacola por abandono** (60 s) e **mensagens de 400 ms** | ✅ |
+| 10 | 2.2.2 Pause, Stop, Hide | A | **Aviso de oferta**, **botões do HUD** que trocam de lugar, **barra de cookies** | ✅ |
+| 11 | 2.3.1 Three Flashes | A | **Aviso de oferta** — 2 Hz por padrão; acima de 3 Hz só via opt-in | 📄 |
+| 12 | 2.4.1 Bypass Blocks | A | **Barra superior** — sem skip link, sem landmarks | 📄 |
+| 13 | 2.4.2 Page Titled | A | **Título da página** — genérico e nunca atualizado | 📄 |
+| 14 | 2.4.3 Focus Order | A | **Ordem de tabulação global** — tabindex positivos arbitrários | ✅ |
+| 15 | 2.4.7 Focus Visible | AA | **Todos os controles** — outline zerado globalmente | ✅ |
+| 16 | 2.4.11 Focus Not Obscured | AA | **Barra de cookies** — fixa por cima, e volta sozinha | ✅ |
+| 17 | 2.5.7 Dragging Movements | AA | **Colocar produto na sacola** — a mecânica central, só por arrasto | ✅ |
+| 18 | 2.5.8 Target Size (Minimum) | AA | **Recusar cookies** (12×12), **fechar modal** (26×26), **botão + que foge** | ✅ |
+| 19 | 3.1.1 Language of Page | A | **Página inteira** — `lang="en"` em site português | ✅ |
+| 20 | 3.2.2 On Input | A | **Teclado do pagamento** — reembaralha a cada tecla | ✅ |
+| 21 | 3.2.3 Consistent Navigation | AA | **Botões do HUD** — trocam de ordem a cada 4 s | 📄 |
+| 22 | 3.2.4 Consistent Identification | AA | **Botão "Finalizar"** que não finaliza, **badge x HUD** com números diferentes, **cookies** | ✅ |
+| 23 | 3.3.1 Error Identification | A | **Todas as mensagens de erro** — toast de 400 ms, longe do campo | ✅ |
+| 24 | 3.3.2 Labels or Instructions | A | **Teclado do pagamento** e **tela de quantidade**, ambos sem rótulo | 📄 |
+| 25 | 3.3.7 Redundant Entry | A | **Pagamento** — "Limpar tudo" apaga os 16 dígitos, sem backspace | 📄 |
+| 26 | 3.3.8 Accessible Authentication | AA | **Pagamento** e **captcha** — teste de função cognitiva, sem colar | ✅ |
+| 27 | 4.1.2 Name, Role, Value | A | **Badge da sacola**, **captcha**, **cards de produto**, **recusar cookies** | ✅ |
+
+✅ implementado e verificável · 📄 analisado, não reforçado nesta rodada
+
+### Agrupado por funcionalidade
+
+| Funcionalidade do site | Critérios que ela fere |
+|---|---|
+| Mapa da loja (canvas) | 1.1.1 |
+| Barra superior e navegação | 1.4.10, 2.4.1, 2.4.3, 2.4.7 |
+| Busca do topo | 1.4.13, 1.4.3 |
+| Aviso de oferta | 2.2.2, 2.3.1 |
+| Barra de cookies | 2.2.2, 2.4.11, 2.5.8, 3.2.4, 4.1.2, 1.4.3 |
+| HUD da sacola | 2.2.2, 3.2.3, 3.2.4, 2.4.3 |
+| Prateleira e arrastar produto | 2.5.7, 2.1.1, 1.1.1, 1.3.1, 4.1.2, 1.4.3 |
+| Tela de quantidade | 2.5.8, 3.3.2 |
+| Leitor de código de barras | 2.1.1 |
+| Captcha | 2.1.1, 1.3.1, 3.3.8, 4.1.2 |
+| Pagamento | 2.1.2, 3.2.2, 3.3.2, 3.3.7, 3.3.8 |
+| Mensagens do sistema (toast) | 3.3.1, 2.2.1 |
+| Recolhimento da sacola por abandono | 2.2.1 |
+| Documento e metadados da página | 1.4.4, 2.4.2, 3.1.1 |
 
 ---
 
@@ -30,7 +87,7 @@ implementados e verificáveis** e 9 documentados.
 **A norma exige:** todo conteúdo não textual precisa de uma alternativa textual
 equivalente.
 
-**Como o TRENDIX viola:** o jogo inteiro acontece em `<canvas id="mapa">`, sem
+**Como o unusable viola:** o jogo inteiro acontece em `<canvas id="mapa">`, sem
 `aria-label`, sem descrição adjacente, sem versão textual do estado. Os produtos são
 identificados apenas por emoji dentro de um `<span class="emoji">`
 (`public/js/prateleira.js`, `montarProdutos`). Um leitor de tela não percebe que existe
@@ -45,7 +102,7 @@ cada produto com nome textual associado programaticamente ao seu ícone.
 **A norma exige:** estrutura e relações transmitidas visualmente precisam existir também
 em código.
 
-**Como o TRENDIX viola:** cards de produto, células do captcha e itens do menu de
+**Como o unusable viola:** cards de produto, células do captcha e itens do menu de
 categorias são `<div>` e `<li>` sem papel semântico. Preço antigo e preço promocional
 são dois `<span>` irmãos, sem relação declarada — nada indica que um é o outro riscado.
 
@@ -56,15 +113,21 @@ a relação entre preços, cabeçalhos e listas refletindo a hierarquia visual.
 
 **A norma exige:** contraste mínimo de 4.5:1 para texto normal, 3:1 para texto grande.
 
-**Como o TRENDIX viola:** `public/css/style.css` define pares abaixo do mínimo de
+**Como o unusable viola:** `public/css/style.css` define pares abaixo do mínimo de
 propósito:
 
 | Token | Cor | Sobre | Razão aproximada |
 |---|---|---|---|
-| `--texto-fraco` | `#b9a8c4` | `--papel` `#fff5fb` | ~1.9:1 |
-| `--rodape-texto` | `#c2b6cc` | `--rodape-fundo` `#cfc6d6` | ~1.3:1 |
-| `.produto .preco-de` | `#d8d8d8` | `#fff` | ~1.4:1 |
-| `.busca-status` | `--rosa-claro` `#ff8ac2` | gradiente rosa do header | ~1.6:1 |
+| `--texto-fraco` | `#c9c9c9` | branco `#ffffff` | ~1.6:1 |
+| `--texto-fraco2` | `#bdbdbd` | `#f4f4f4` | ~1.9:1 |
+| `.produto .preco-de` | `#c9c9c9` | branco | ~1.6:1 |
+| `.busca-status` | `#5a5a5a` | preto `#111111` | ~2.7:1 |
+| `.cookies p` | `#9a9a9a` | preto `#111111` | ~3.6:1 |
+| `.btn-cookie-nao` | `#4a4a4a` | preto `#111111` | ~1.9:1 |
+
+Cinza-claro sobre branco e a falha de contraste mais comum do design minimalista real.
+Aqui ela e intencional, e e justamente o que torna a paleta preto/cinza/branco tao
+adequada ao exercicio.
 
 **A versão conforme seria:** escurecer os textos até atingir 4.5:1 contra o fundo real
 de cada um, verificando com uma ferramenta de contraste em vez de no olho.
@@ -74,10 +137,11 @@ de cada um, verificando com uma ferramenta de contraste em vez de no olho.
 **A norma exige:** o texto precisa poder ser ampliado até 200% sem perda de conteúdo ou
 funcionalidade.
 
-**Como o TRENDIX viola:** `public/index.html` traz
+**Como o unusable viola:** `public/index.html` traz
 `<meta name="viewport" content="...maximum-scale=1,user-scalable=no">`, que bloqueia o
-gesto de zoom. Todos os tamanhos do CSS estão em `px` absoluto, e o canvas tem largura
-fixa de 820px, então mesmo o zoom do navegador quebra o layout em vez de refluir.
+gesto de zoom. Todos os tamanhos do CSS estão em `px` absoluto — nenhum `rem` — e o
+`body` tem `overflow: hidden`, então o zoom do navegador corta a barra superior e o HUD
+em vez de refluir o conteúdo.
 
 **A versão conforme seria:** remover `user-scalable=no` e `maximum-scale`, usar `rem`
 para tipografia e dimensionar o canvas de forma responsiva.
@@ -86,19 +150,21 @@ para tipografia e dimensionar o canvas de forma responsiva.
 
 **A norma exige:** conteúdo utilizável a 320 CSS px de largura sem rolagem em dois eixos.
 
-**Como o TRENDIX viola:** header, menu lateral de 168px e canvas de 820px somam bem
-mais que 320px, sem nenhuma media query. Abaixo de ~1050px a página exige rolagem
-horizontal e vertical ao mesmo tempo.
+**Como o unusable viola:** o canvas se ajusta a janela, mas nada mais se ajusta. O HUD
+tem 210px fixos e fica sobre o mapa; a barra superior e uma linha rigida de flex com
+logo, busca, oferta, cronometro, badge e botao; os modais tem larguras fixas de 420 a
+780px. Com `overflow: hidden` no `body`, o que nao couber simplesmente some, sem rolagem
+para alcancar. A 320px a barra superior e cortada e o HUD cobre o mapa inteiro.
 
-**A versão conforme seria:** media queries empilhando header, menu e painel; canvas
-redimensionado por script conforme a largura disponível.
+**A versão conforme seria:** media queries empilhando a barra superior, HUD relativo em
+vez de fixo, modais com `max-width: 100%` e rolagem quando necessario.
 
 ## 1.4.13 Content on Hover or Focus · Nível AA · ✅ implementado
 
 **A norma exige:** conteúdo que aparece no hover ou foco precisa ser dispensável,
 apontável (hoverable) e persistente até o usuário sair dele.
 
-**Como o TRENDIX viola:** em `public/js/main.js`, `ligarBusca` inicia um
+**Como o unusable viola:** em `public/js/main.js`, `ligarBusca` inicia um
 `setInterval` de 1100 ms no `mouseenter` da lista de resultados que embaralha a ordem
 dos itens enquanto o ponteiro estiver sobre ela. O conteúdo não é persistente: o alvo
 que você ia clicar muda de lugar sozinho.
@@ -114,7 +180,7 @@ estiver sobre ela, e é dispensável com `Esc`.
 
 **A norma exige:** toda funcionalidade precisa estar disponível pelo teclado.
 
-**Como o TRENDIX viola:** três mecânicas centrais são exclusivas de ponteiro:
+**Como o unusable viola:** três mecânicas centrais são exclusivas de ponteiro:
 
 - pegar produtos — `pointerdown`/`pointermove`/`pointerup` em
   `public/js/prateleira.js`, sem equivalente de teclado;
@@ -132,7 +198,7 @@ girar o código com `[` e `]`; células do captcha como `<button>` alcançáveis
 **A norma exige:** se o foco entra num componente pelo teclado, precisa ser possível sair
 dele pelo teclado, usando apenas `Tab`, setas ou um método documentado na tela.
 
-**Como o TRENDIX viola:** `public/js/caixa.js`, função `prenderFoco`, registrada em
+**Como o unusable viola:** `public/js/caixa.js`, função `prenderFoco`, registrada em
 `montarPagamento` com captura no `document`:
 
 ```js
@@ -156,7 +222,7 @@ enquanto aberto e retorna ao elemento que o abriu — o padrão de modal acessí
 **A norma exige:** limites de tempo precisam poder ser desligados, ajustados ou
 estendidos.
 
-**Como o TRENDIX viola:** dois prazos rígidos, nenhum ajustável:
+**Como o unusable viola:** dois prazos rígidos, nenhum ajustável:
 
 - `public/js/loja.js`, `verificarOcio`: `LIMITE_OCIOSO = 60000`. Sessenta segundos sem
   input e o carrinho é recolhido, esvaziando a sacola. Não há botão de "preciso de mais
@@ -172,12 +238,14 @@ menos 10 vezes, e mensagens que permanecem até serem dispensadas.
 **A norma exige:** conteúdo que se move, pisca ou atualiza automaticamente por mais de
 5 segundos precisa ter mecanismo de pausar, parar ou ocultar.
 
-**Como o TRENDIX viola:** três animações perpétuas sem controle algum:
+**Como o unusable viola:** três animações perpétuas sem controle algum:
 
-- `.banner` pisca continuamente (`animation: piscar .5s infinite`);
-- `#banner-tempo` conta regressivamente e **reinicia sozinho** quando zera
-  (`reiniciarPromo` em `public/js/main.js`) — a promoção nunca termina;
-- `#botoes-carrinho` troca a ordem dos botões a cada 4 segundos via `trocarLugares`.
+- `.oferta` na barra superior pisca continuamente (`animation: piscar .5s infinite`);
+- `#oferta-tempo` conta regressivamente e **reinicia sozinho** quando zera
+  (`reiniciarOferta` em `public/js/main.js`) — a oferta nunca termina;
+- `#botoes-carrinho` troca a ordem dos botões do HUD a cada 4 segundos via
+  `trocarLugares`;
+- a barra de cookies volta sozinha 7 segundos depois de ser recusada.
 
 **A versão conforme seria:** um botão de pausa global para animações, ou respeitar
 `prefers-reduced-motion` e parar tudo que não for essencial.
@@ -191,12 +259,12 @@ limiares de área e de vermelho saturado.
 frustração: piscar acima de 3 Hz pode desencadear crises em pessoas com epilepsia
 fotossensível. Por isso ele recebeu tratamento diferente dos outros 26.
 
-**Como o TRENDIX se comporta por padrão:** `.banner` pisca com período de 0,5 s, ou seja
+**Como o unusable se comporta por padrão:** `.oferta` pisca com período de 0,5 s, ou seja
 **2 Hz** — visualmente agressivo e **abaixo** do limiar de 3 Hz. Por padrão, o app
 **está conforme** neste critério.
 
-**A violação real está atrás de um opt-in.** O botão `#btn-flash` ("modo intenso") aplica
-`.banner.intenso`, com período de 0,14 s (≈7 Hz), acima do limiar. Ele:
+**A violação real está atrás de um opt-in.** O botão `#btn-flash` ("intenso") aplica
+`.oferta.intenso`, com período de 0,14 s (≈7 Hz), acima do limiar. Ele:
 
 - vem desligado e nunca é ativado automaticamente;
 - traz o risco no próprio rótulo do botão;
@@ -211,43 +279,46 @@ fotossensível. Por isso ele recebeu tratamento diferente dos outros 26.
 
 **A norma exige:** um mecanismo para pular blocos repetidos de conteúdo.
 
-**Como o TRENDIX viola:** não existe skip link nem landmarks úteis. O rodapé tem 40
-links de 8px que entram na ordem de tabulação, sem forma de contorná-los.
+**Como o unusable viola:** não existe skip link nem landmarks úteis. A barra superior
+repete os mesmos sete controles em toda tabulacao, incluindo o botao de piscada intensa,
+e nao ha como saltar direto para o HUD ou para o conteudo.
 
 **A versão conforme seria:** um "pular para o conteúdo principal" como primeiro elemento
-focável, e uso correto de `<nav>`, `<main>` e `<footer>` como landmarks.
+focável, e uso correto de `<nav>` e `<main>` como landmarks.
 
 ## 2.4.2 Page Titled · Nível A · 📄 documentado
 
 **A norma exige:** título de página descritivo do tópico ou propósito.
 
-**Como o TRENDIX viola:** o `<title>` é apenas `TRENDIX` — a marca, sem dizer o que a
+**Como o unusable viola:** o `<title>` é apenas `unusable` — a marca, sem dizer o que a
 página é ou faz, e sem mudar quando o app troca da loja para o cupom.
 
-**A versão conforme seria:** `Loja — TRENDIX` e `Pedido finalizado — TRENDIX`,
+**A versão conforme seria:** `Loja — unusable` e `Pedido finalizado — unusable`,
 atualizados na troca de tela.
 
 ## 2.4.3 Focus Order · Nível A · ✅ implementado
 
 **A norma exige:** a ordem de foco precisa preservar significado e operabilidade.
 
-**Como o TRENDIX viola:** `public/index.html` usa `tabindex` positivos arbitrários,
+**Como o unusable viola:** `public/index.html` usa `tabindex` positivos arbitrários,
 sem relação com a ordem visual:
 
 | Elemento | tabindex | Posição visual |
 |---|---|---|
-| botão de instruções | 2 | menu lateral, meio |
-| badge do carrinho | 4 | header, direita |
-| esvaziar sacola | 5 | painel, direita |
-| finalizar pedido | 6 | painel, à esquerda do anterior |
-| campo de busca | 9 | header, esquerda |
-| hambúrguer | 14 | header, direita |
-| modo intenso | 17 | banner |
-| categorias | 20–23 | menu lateral, topo |
+| botão de instruções | 2 | barra superior, ponta direita |
+| badge da sacola | 4 | barra superior, direita |
+| esvaziar sacola | 5 | HUD, sobre o mapa |
+| finalizar | 6 | HUD, à esquerda do anterior |
+| campo de busca | 9 | barra superior, esquerda |
+| modo intenso | 17 | barra superior, meio |
+| fechar prateleira | 21 | modal |
+| aceitar cookies | 30 | barra inferior |
+| recusar cookies | 31 | barra inferior |
 
-Tabular começa no meio do menu, salta para o header, volta para o painel e só então
-chega à busca. Pior: os botões do painel trocam de posição visual a cada 4 segundos sem
-mudar de posição no DOM, então a ordem de foco e a ordem visual divergem sozinhas.
+Tabular começa na ponta direita da barra, salta para o HUD no meio da tela, volta para a
+esquerda da barra e só então desce. Pior: os botões do HUD trocam de posição visual a
+cada 4 segundos sem mudar de posição no DOM, então a ordem de foco e a ordem visual
+divergem sozinhas.
 
 **A versão conforme seria:** nenhum `tabindex` positivo — apenas `0` e `-1` — deixando a
 ordem do DOM refletir a ordem visual.
@@ -256,7 +327,7 @@ ordem do DOM refletir a ordem visual.
 
 **A norma exige:** indicador de foco visível para qualquer interface operável por teclado.
 
-**Como o TRENDIX viola:** `public/css/style.css` zera o indicador globalmente:
+**Como o unusable viola:** `public/css/style.css` zera o indicador globalmente:
 
 ```css
 *:focus{outline:none}
@@ -271,24 +342,26 @@ indicador próprio com contraste suficiente.
 **Exceção deliberada:** `.fechar-grande:focus-visible` — o botão de fechar as instruções
 — **mantém** o anel de foco. Ver a seção "O componente honesto" no fim deste documento.
 
-## 2.4.11 Focus Not Obscured (Minimum) · Nível AA · 📄 documentado
+## 2.4.11 Focus Not Obscured (Minimum) · Nível AA · ✅ implementado
 
 **A norma exige:** o elemento em foco não pode ficar totalmente escondido por conteúdo
 criado pelo autor.
 
-**Como o TRENDIX viola:** o banner e o header ficam no topo do fluxo, e ao tabular por
-elementos abaixo da dobra o alvo focado pode sair da área visível sem rolagem
-automática, já que nada garante `scroll-margin`.
+**Como o unusable viola:** a barra de cookies (`.cookies`) é `position: fixed` no rodapé,
+com `z-index: 50`, e cobre o que estiver embaixo dela. Ela aparece 1,5 s após o
+carregamento e **volta sozinha 7 segundos depois de ser recusada**, reaparecendo por cima
+de qualquer elemento que tenha recebido foco naquela faixa da tela. Como não há indicador
+de foco visível (2.4.7), a pessoa nem descobre que o alvo focado está atrás da barra.
 
-**A versão conforme seria:** garantir que o elemento focado seja rolado para a área
-visível, com `scroll-margin-top` compensando cabeçalhos.
+**A versão conforme seria:** reservar espaço no layout para a barra, ou garantir que o
+elemento focado seja rolado para fora da área coberta.
 
 ## 2.5.7 Dragging Movements · Nível AA · ✅ implementado
 
 **A norma exige:** toda funcionalidade que usa arrastar precisa ter alternativa por
 ponteiro único (um clique ou toque), salvo quando arrastar é essencial.
 
-**Como o TRENDIX viola:** **esta é a mecânica central do jogo.** Colocar um produto na
+**Como o unusable viola:** **esta é a mecânica central do jogo.** Colocar um produto na
 sacola só é possível arrastando, e ainda com uma restrição de velocidade: em
 `public/js/prateleira.js`, `moverArraste` mede a distância percorrida a cada evento e,
 acima de `VELOCIDADE_MAX = 26` px, derruba o produto:
@@ -312,13 +385,13 @@ nada.
 **A norma exige:** alvos de ponteiro de pelo menos 24×24 CSS px, ou espaçamento
 equivalente.
 
-**Como o TRENDIX viola:**
+**Como o unusable viola:**
 
-- links do rodapé: `height: 8px; font-size: 7px`, colados lado a lado sem espaçamento
-  (`#rodape-links a`);
-- botão de fechar dos modais: 30×30 px com borda de 3px, área útil de 24px, no limite —
-  e posicionado longe do conteúdo;
-- botão `+` da quantidade: tem 74px, mas **foge do cursor** depois de 5 cliques
+- **recusar cookies**: `.btn-cookie-nao` tem **12×12 px**, metade do mínimo, e fica
+  colado num `ACEITAR TUDO` de aproximadamente 46 px de altura. A desproporção é o
+  próprio padrão obscuro: aceitar é fácil, recusar é uma miniatura;
+- botão de fechar dos modais: 26×26 px, abaixo dos 24 px úteis depois da borda;
+- botão `+` da quantidade: tem 70 px, mas **foge do cursor** depois de 5 cliques
   (`clicarMais` em `public/js/prateleira.js`), o que anula o tamanho na prática.
 
 **A versão conforme seria:** mínimo de 24×24 px com espaçamento entre alvos, e nenhum
@@ -332,7 +405,7 @@ elemento que se desloca em resposta à tentativa de acioná-lo.
 
 **A norma exige:** o idioma padrão da página precisa ser identificável por software.
 
-**Como o TRENDIX viola:** `public/index.html` declara `<html lang="en">` enquanto todo o
+**Como o unusable viola:** `public/index.html` declara `<html lang="en">` enquanto todo o
 conteúdo está em português. Um leitor de tela lê o português com fonemas do inglês,
 tornando o texto incompreensível.
 
@@ -343,7 +416,7 @@ tornando o texto incompreensível.
 **A norma exige:** mudar a configuração de um componente não pode causar mudança de
 contexto sem aviso prévio.
 
-**Como o TRENDIX viola:** `public/js/caixa.js`, `digitar` chama `embaralharTeclado()`
+**Como o unusable viola:** `public/js/caixa.js`, `digitar` chama `embaralharTeclado()`
 após **cada** tecla pressionada. O teclado numérico inteiro se reorganiza a cada dígito,
 de modo que a mesma posição da tela nunca corresponde ao mesmo valor duas vezes
 seguidas. Nada avisa que isso vai acontecer.
@@ -356,9 +429,9 @@ qualquer reorganização.
 **A norma exige:** mecanismos de navegação repetidos precisam aparecer na mesma ordem
 relativa.
 
-**Como o TRENDIX viola:** o par de botões do painel (`Finalizar pedido` e
-`Esvaziar sacola`) troca de ordem a cada 4 segundos, então a "navegação" muda de posição
-dentro da mesma tela, quanto mais entre telas.
+**Como o unusable viola:** o par de botões do HUD (`Finalizar` e `Esvaziar`) troca de
+ordem a cada 4 segundos, então a "navegação" muda de posição dentro da mesma tela,
+quanto mais entre telas.
 
 **A versão conforme seria:** ordem fixa dos controles em todas as telas.
 
@@ -367,16 +440,16 @@ dentro da mesma tela, quanto mais entre telas.
 **A norma exige:** componentes com a mesma função precisam ser identificados de forma
 consistente.
 
-**Como o TRENDIX viola:** dois casos:
+**Como o unusable viola:** dois casos:
 
-- **O ícone 🛒 significa três coisas diferentes:** o badge da sacola no header, um
-  obstáculo no mapa (`OBSTACULOS` em `public/js/dados.js`) e o alvo a marcar no captcha.
-- **O botão mente sobre a própria função:** `Finalizar pedido` não finaliza nada; em
-  `public/js/main.js` ele apenas emite `esse botao nao finaliza nada. dirija ate o
-  CHECKOUT.`
-- **O mesmo carrinho mostra dois números:** o badge do header conta *linhas* de produto
-  e o painel conta *unidades* (`renderPainel` em `public/js/estado.js`), então o header
-  diz `🛒 2` enquanto o painel diz `(5)`.
+- **O botão mente sobre a própria função:** `Finalizar` não finaliza nada; em
+  `public/js/main.js` ele apenas emite `esse botao nao finaliza nada. dirija ate PASSAR
+  COMPRAS.`
+- **O mesmo carrinho mostra dois números:** o badge da barra superior conta *linhas* de
+  produto e o HUD conta *unidades* (`renderPainel` em `public/js/estado.js`), então a
+  barra diz `2` enquanto o HUD diz `(5)`.
+- **"ACEITAR TUDO" e o `x` têm peso visual invertido em relação ao efeito:** um encerra
+  o assunto, o outro só adia por 7 segundos.
 
 **A versão conforme seria:** um ícone por significado, rótulos que descrevem a ação real
 e uma única definição de "quantidade no carrinho".
@@ -386,7 +459,7 @@ e uma única definição de "quantidade no carrinho".
 **A norma exige:** erros de entrada precisam ser identificados e descritos em texto,
 associados ao campo que falhou.
 
-**Como o TRENDIX viola:** todo erro do app — dígito recusado, quantidade inválida,
+**Como o unusable viola:** todo erro do app — dígito recusado, quantidade inválida,
 ângulo torto, leitura falha — vira um `toast` que aparece no topo da tela, longe do
 campo, sem qualquer associação programática, e **desaparece em 400 ms**
 (`public/js/util.js`). Não há `aria-live`, então leitores de tela não anunciam nada.
@@ -398,7 +471,7 @@ campo, sem qualquer associação programática, e **desaparece em 400 ms**
 
 **A norma exige:** rótulos ou instruções quando o conteúdo exige entrada do usuário.
 
-**Como o TRENDIX viola:** o teclado do pagamento é um `<div id="teclado">` com dez
+**Como o unusable viola:** o teclado do pagamento é um `<div id="teclado">` com dez
 `<button>` numéricos e nenhum `<label>` ou `aria-label` que diga o que está sendo
 digitado. O modal de quantidade não tem campo de formulário nem instrução sobre o limite
 mínimo — a regra "zero é recusado" só se descobre errando.
@@ -411,7 +484,7 @@ tecla e instrução visível sobre a quantidade mínima.
 **A norma exige:** informação já fornecida na mesma sessão não deve ser exigida de novo,
 salvo quando essencial.
 
-**Como o TRENDIX viola:** o botão `Limpar tudo` do pagamento
+**Como o unusable viola:** o botão `Limpar tudo` do pagamento
 (`#btn-limpar-cartao`, `public/js/caixa.js`) apaga os 16 dígitos de uma vez. Como não
 existe backspace, corrigir um único dígito exige redigitar o número inteiro — num
 teclado que reembaralha a cada tecla.
@@ -425,7 +498,7 @@ automático permitido.
 quebra-cabeça) pode ser exigido em etapa de autenticação, a menos que haja alternativa
 ou mecanismo de auxílio. Colar e preenchimento automático precisam funcionar.
 
-**Como o TRENDIX viola:** a etapa de pagamento é exatamente um teste de função cognitiva:
+**Como o unusable viola:** a etapa de pagamento é exatamente um teste de função cognitiva:
 
 - o teclado reembaralha após cada tecla (`embaralharTeclado`), exigindo nova busca
   visual a cada dígito;
@@ -446,14 +519,13 @@ reorganização do teclado, e captcha com alternativa acessível — ou nenhum c
 **A norma exige:** todo componente de interface precisa ter nome e papel determináveis
 por software.
 
-**Como o TRENDIX viola:** vários controles são `<div>` ou `<li>` com `click`, sem `role`,
+**Como o unusable viola:** vários controles são `<div>` ou `<li>` com `click`, sem `role`,
 sem `aria-*` e sem serem focáveis por padrão:
 
 | Componente | Marcação real | Onde |
 |---|---|---|
 | badge da sacola | `<div class="badge-carrinho">` | `public/index.html` |
-| menu hambúrguer | `<div class="hamburguer">` | `public/index.html` |
-| categorias | `<li>` com listener de clique | `public/js/main.js`, `montarMenu` |
+| recusar cookies | `<button>` de 12px sem nome acessível | `public/index.html` |
 | células do captcha | `<div class="captcha-cel">` | `public/js/caixa.js`, `montarCaptcha` |
 | cards de produto | `<div class="produto">` | `public/js/prateleira.js` |
 
@@ -467,7 +539,7 @@ alternância e nome acessível descrevendo a ação.
 
 # O componente honesto
 
-Um único componente do TRENDIX é deliberadamente acessível: o **painel de instruções**
+Um único componente do unusable é deliberadamente acessível: o **painel de instruções**
 (`#overlay-instrucoes`).
 
 - botão de abertura com rótulo textual, não só ícone;
@@ -480,7 +552,7 @@ Um único componente do TRENDIX é deliberadamente acessível: o **painel de ins
 - abrir o painel **pausa o jogo**, porque a física congela enquanto há overlay aberto.
 
 Ele existe por dois motivos. O primeiro é de projeto: o contraste entre um componente
-correto e 26 violações torna as violações mais evidentes. O segundo é prático: sem um
+correto e as outras 26 violações torna cada uma delas mais evidente. O segundo é prático: sem um
 lugar honesto para explicar as regras, o jogo deixaria de ser uma piada compreensível e
 viraria apenas ruído.
 
@@ -498,12 +570,13 @@ viraria apenas ruído.
 | Ligar um leitor de tela (NVDA, Narrador) | 1.1.1, 3.1.1, 4.1.2, 1.3.1 |
 | Rodar Lighthouse ou axe DevTools e guardar o relatório | 1.4.3, 3.1.1, 4.1.2, 3.3.2 |
 | Medir contraste dos pares da tabela de 1.4.3 | 1.4.3 |
-| Cronometrar o banner e o carrinho ocioso | 2.2.1, 2.2.2, 2.3.1 |
+| Cronometrar o aviso de oferta e o carrinho ocioso | 2.2.1, 2.2.2, 2.3.1 |
 | Tentar comprar sem usar arrasto | 2.5.7 |
+| Recusar os cookies e cronometrar a volta da barra | 2.4.11, 2.5.8, 3.2.4 |
 | Tentar colar o número do cartão | 3.3.8, 3.3.7 |
 
 ## Escopo desta rodada
 
-Os 18 marcados ✅ estão implementados e são demonstráveis. Os 9 marcados 📄 estão
+Os 19 marcados ✅ estão implementados e são demonstráveis. Os 8 marcados 📄 estão
 analisados aqui mas não foram reforçados no código — vários já falham naturalmente,
 apenas não foram verificados nem aprofundados.
