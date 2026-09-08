@@ -22,35 +22,38 @@ A cada 7–14 segundos a roda trava por cerca de 1 segundo e o esterçamento é 
 
 ### Fluxo completo
 
-1. **Título** → "COMEÇAR A COMPRAR". Os botões trocam de lugar sozinhos; mire rápido.
-2. **Loja** — o carrinho começa embaixo, no centro do mapa. O painel da direita mostra
-   a lista de compras sorteada (3 itens de prateleiras diferentes).
-3. **Estacionar** — dirija até a vaga amarela tracejada de uma prateleira. Pare dentro
-   dela, alinhado com a seta. Ficando parado e alinhado por meio segundo, a prateleira
-   abre.
-4. **Pegar produtos** — arraste o produto da prateleira para a cesta cinza. Devagar: se
-   o mouse se mover rápido demais, o produto escorrega e cai. O que cai volta para a
-   prateleira sozinho.
-5. **Quantidade** — só existe o botão `+`. Depois de 5 cliques ele começa a fugir.
+1. **Abertura** — não há tela de início. A página carrega já jogável, com o carrinho
+   embaixo, no centro do mapa. O painel da direita mostra a lista sorteada (3 itens de
+   seções diferentes). O botão **? Instruções**, no menu lateral, explica tudo e pausa
+   o jogo enquanto estiver aberto.
+2. **Estacionar** — dirija até a vaga tracejada de uma seção. Pare dentro dela, alinhado
+   com a seta. Ficando parado e alinhado por meio segundo, a seção abre.
+3. **Pegar produtos** — arraste o produto da arara para a sacola. Devagar: se o mouse se
+   mover rápido demais, o produto escorrega e cai. O que cai volta sozinho.
+4. **Quantidade** — só existe o botão `+`. Depois de 5 cliques ele começa a fugir.
    Confirmar com 0 é recusado.
-6. **Caixa** — com a lista completa, dirija até a vaga verde na frente do CAIXA 3 e
+5. **Checkout** — com a lista completa, dirija até a vaga verde na frente do CHECKOUT e
    estacione do mesmo jeito.
-7. **Fila** — cerca de 18 segundos. O botão "Pular a fila" piora sua situação.
-8. **Leitor** — arraste cada produto até o leitor preto com o código de barras reto.
+6. **Fila** — cerca de 18 segundos. O botão "Pular a fila" piora sua situação.
+7. **Leitor** — arraste cada produto até o leitor preto com o código de barras reto.
    Use a roda do mouse para girar. Torto demais, erro de leitura.
-9. **Captcha** — marque todos os carrinhos 🛒 e nada além disso.
-10. **Pagamento** — digite `4242 4242 4242 4242` num teclado que reembaralha a cada
-    tecla. Dígito errado é recusado na hora.
-11. **Cupom** — apareceram taxas. Sua compra foi cancelada com sucesso.
+8. **Captcha** — marque todos os carrinhos 🛒 e nada além disso.
+9. **Pagamento** — digite `4242 4242 4242 4242` num teclado que reembaralha a cada
+   tecla. Dígito errado é recusado na hora.
+10. **Cupom** — apareceram taxas. Seu pedido foi cancelado com sucesso.
 
 ### Coisas que valem saber
 
 - O carrinho parado por 60 segundos é **recolhido por abandono** e esvazia. A contagem
-  regressiva aparece no canto direito a partir dos 30 segundos.
-- A busca no topo localiza um produto e **destaca a prateleira em laranja** no mapa e no
-  minimapa. Ela aceita uma letra a cada 800 ms.
-- O botão "Ir pro caixa" não leva ao caixa. Ele só te lembra de dirigir.
-- Bater nas prateleiras e obstáculos empurra o carrinho de volta e sacode o ângulo.
+  regressiva aparece no canto superior direito a partir dos 30 segundos.
+- A busca do header e o **menu de categorias** fazem a mesma coisa: destacam a seção em
+  laranja no mapa e no minimapa. A busca aceita uma letra a cada 800 ms; o menu é
+  instantâneo.
+- O botão "Finalizar pedido" não finaliza nada. Ele só te lembra de dirigir até o
+  CHECKOUT.
+- O badge 🛒 do header conta **linhas** de produto; o painel conta **unidades**. Os dois
+  números discordam de propósito.
+- Bater nas araras e obstáculos empurra o carrinho de volta e sacode o ângulo.
 
 ---
 
@@ -125,6 +128,10 @@ a direita, `-90` para cima, `90` para baixo.
 | Parâmetro | Valor | Arquivo |
 |---|---|---|
 | duração do toast | `400 ms` | `public/js/util.js` |
+| piscada do banner (padrão) | `0,5 s` de período = **2 Hz** | `public/css/style.css` |
+| piscada do banner (modo intenso, opt-in) | `0,14 s` = ≈7 Hz | `public/css/style.css` |
+| contagem da promoção | reinicia sozinha entre `180` e `900 s` | `public/js/main.js` |
+| links inúteis no rodapé | `40`, com `8 px` de altura | `public/js/main.js` |
 | cooldown da busca | `800 ms` por letra | `public/js/main.js` |
 | reordenação dos resultados | a cada `1100 ms` com o mouse em cima | `public/js/main.js` |
 | troca dos botões do título | a cada `3200 ms` | `public/js/main.js` |
@@ -136,7 +143,7 @@ a direita, `-90` para cima, `90` para baixo.
 | Item | Valor |
 |---|---|
 | taxa de conveniência | `37%` do subtotal |
-| estacionamento do carrinho | `R$ 18,50` |
+| frete "grátis" | `R$ 18,50` |
 
 ## 9. Mapa e conteúdo
 `public/js/dados.js`
@@ -144,11 +151,11 @@ a direita, `-90` para cima, `90` para baixo.
 | Elemento | Valor |
 |---|---|
 | tamanho do mundo | `1800 × 1100` |
-| viewport do canvas | `900 × 560` |
-| minimapa | `150 × 100` |
+| viewport do canvas | `820 × 460` |
+| minimapa | `130 × 86` |
 | posição inicial do carrinho | `x 900, y 980`, apontando para cima |
-| prateleiras | Hortifruti, Padaria, Bebidas, Limpeza (4 produtos cada) |
-| itens na lista de compras | 3, de prateleiras diferentes, quantidade 1–3 |
+| seções | Roupas, Bolsas e Acessórios, Beleza, Casa e Decor (4 produtos cada) |
+| itens na lista de compras | 3, de seções diferentes, quantidade 1–3 |
 | obstáculos decorativos | 5 |
 
 ---

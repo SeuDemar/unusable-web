@@ -1,86 +1,163 @@
 <!doctype html>
-<html lang="pt-BR">
+<!-- WCAG 3.1.1 Language of Page (A): violado de proposito.
+     A pagina inteira esta em portugues e declara ingles. -->
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SuperMercado Kaos 3000</title>
+<!-- WCAG 1.4.4 Resize Text (AA): violado de proposito.
+     user-scalable=no e maximum-scale=1 bloqueiam o zoom. -->
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>TRENDIX</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div id="toast-layer"></div>
 
-<!-- ============ TELA TITULO ============ -->
-<section id="tela-titulo" class="tela ativa">
-  <div class="titulo-caixa">
-    <h1 class="logo">Super<span>Mercado</span> Kaos 3000</h1>
-    <p class="slogan">a experiencia de compra mais premiada* do brasil</p>
-    <p class="letrinha">*nenhum premio foi recebido ate o momento</p>
-    <div id="botoes-titulo" class="linha-botoes">
-      <button class="btn btn-gigante" data-acao="comecar">COMEÇAR A COMPRAR</button>
-      <button class="btn btn-fantasma" data-acao="sair">Sair sem comprar</button>
-    </div>
-    <details class="ajuda">
-      <summary>Como jogar (leia, por favor)</summary>
-      <ul>
-        <li><b>W</b> anda pra frente, <b>S</b> da re.</li>
-        <li><b>A</b> e <b>D</b> viram o carrinho. A rodinha esquerda esta empenada.</li>
-        <li>Pra abrir uma prateleira: <b>estacione</b> o carrinho na vaga amarela e <b>pare completamente</b>.</li>
-        <li>Arraste os produtos pra dentro da cesta. Devagar. Eles caem.</li>
-        <li>Com tudo na lista, estacione no <b>CAIXA</b> (retangulo verde).</li>
-      </ul>
-    </details>
-  </div>
-</section>
+<!-- ============ CASCA: HEADER ============ -->
+<header id="topo">
+  <span class="logo">TREND<span>IX</span></span>
 
-<!-- ============ TELA LOJA ============ -->
-<section id="tela-loja" class="tela">
-  <div id="topo-loja">
-    <div class="busca-caixa">
-      <label for="busca">Localizar produto</label>
-      <input id="busca" type="text" autocomplete="off" placeholder="digite bem devagar...">
-      <span id="busca-status" class="busca-status"></span>
-      <ul id="busca-resultados"></ul>
-    </div>
-    <div id="cronometro" class="cronometro">carrinho estavel</div>
+  <div class="busca-caixa">
+    <input id="busca" type="text" autocomplete="off" placeholder="buscar produto..." tabindex="9">
+    <span id="busca-status" class="busca-status"></span>
+    <ul id="busca-resultados"></ul>
   </div>
 
-  <div id="palco">
-    <canvas id="mapa" width="900" height="560"></canvas>
-    <div id="minimapa-caixa">
-      <canvas id="minimapa" width="150" height="100"></canvas>
-      <span>mapa (sem zoom)</span>
-    </div>
-  </div>
+  <!-- WCAG 4.1.2 Name, Role, Value (A): div fazendo papel de botao, sem role -->
+  <div class="badge-carrinho" id="badge-carrinho" tabindex="4">🛒 <b>0</b></div>
+  <div class="hamburguer" id="hamburguer" tabindex="14">☰</div>
+  <div id="cronometro" class="cronometro">carrinho estavel</div>
+</header>
 
-  <aside id="painel-lateral">
-    <div class="bloco">
-      <h2>Lista de compras</h2>
-      <ul id="lista-compras"></ul>
-    </div>
-    <div class="bloco">
-      <h2>Carrinho <span id="contador-carrinho">(0)</span></h2>
-      <ul id="lista-carrinho"><li class="vazio">vazio, igual sua geladeira</li></ul>
-      <p class="total">Total: <b id="total-carrinho">R$ 0,00</b></p>
-      <div id="botoes-carrinho" class="linha-botoes-mini">
-        <button class="btn btn-mini" data-acao="ir-caixa">Ir pro caixa</button>
-        <button class="btn btn-mini btn-perigo" data-acao="limpar">Limpar tudo</button>
-      </div>
-    </div>
+<!-- ============ CASCA: CORPO ============ -->
+<div id="app">
+
+  <aside id="menu-lateral">
+    <p class="menu-titulo">CATEGORIAS</p>
+    <ul id="menu-categorias"></ul>
+    <button class="btn btn-instrucoes" id="btn-instrucoes" tabindex="2">? Instruções</button>
   </aside>
-</section>
+
+  <main id="conteudo">
+
+    <!-- WCAG 2.2.2 Pause, Stop, Hide (A): pisca e conta sozinho, sem controle de pausa.
+         WCAG 2.3.1 Three Flashes (A): frequencia fixada em 2 Hz, abaixo do limiar. -->
+    <div id="banner" class="banner">
+      <span class="banner-texto">MEGA PROMOÇÃO RELÂMPAGO</span>
+      <span class="banner-tempo" id="banner-tempo">00:00</span>
+      <button class="banner-opt" id="btn-flash" tabindex="17">
+        ⚡ modo intenso (pisca rápido — risco para epilepsia fotossensível)
+      </button>
+    </div>
+
+    <!-- ============ TELA LOJA ============ -->
+    <section id="tela-loja" class="tela ativa">
+      <div id="palco">
+        <!-- WCAG 1.1.1 Non-text Content (A): o jogo inteiro e um canvas sem alternativa -->
+        <canvas id="mapa" width="820" height="460"></canvas>
+        <div id="minimapa-caixa">
+          <canvas id="minimapa" width="130" height="86"></canvas>
+          <span>mapa</span>
+        </div>
+      </div>
+
+      <aside id="painel-lateral">
+        <div class="bloco">
+          <h2>Sua lista</h2>
+          <ul id="lista-compras"></ul>
+        </div>
+        <div class="bloco">
+          <h2>Sacola <span id="contador-carrinho">(0)</span></h2>
+          <ul id="lista-carrinho"><li class="vazio">vazia</li></ul>
+          <p class="total">Total: <b id="total-carrinho">R$ 0,00</b></p>
+          <div id="botoes-carrinho" class="linha-botoes-mini">
+            <button class="btn btn-mini" data-acao="ir-caixa" tabindex="6">Finalizar pedido</button>
+            <button class="btn btn-mini btn-perigo" data-acao="limpar" tabindex="5">Esvaziar sacola</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ============ TELA FINAL ============ -->
+    <section id="tela-final" class="tela">
+      <div class="recibo">
+        <h1>PEDIDO TRENDIX</h1>
+        <pre id="recibo-corpo"></pre>
+        <p id="recibo-piada" class="recibo-piada"></p>
+        <div id="botoes-final" class="linha-botoes-mini"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ CASCA: RODAPE ============ -->
+<!-- WCAG 2.5.8 Target Size (AA): links de 8px de altura, colados -->
+<footer id="rodape">
+  <p class="rodape-titulo">TRENDIX &copy; todos os direitos reservados a ninguém</p>
+  <nav id="rodape-links" aria-hidden="true"></nav>
+</footer>
+
+<!-- ============ OVERLAY INSTRUÇÕES (honesto de propósito) ============ -->
+<div id="overlay-instrucoes" class="overlay">
+  <div class="modal modal-instrucoes">
+    <header>
+      <h2>Como jogar</h2>
+      <button class="fechar fechar-grande" data-acao="fechar-instrucoes">Fechar</button>
+    </header>
+
+    <p class="instr-intro">
+      O jogo está pausado enquanto este painel estiver aberto. Leia com calma.
+    </p>
+
+    <h3>Objetivo</h3>
+    <p>Pegar os itens da sua lista e finalizar o pedido no CHECKOUT.</p>
+
+    <h3>Dirigir o carrinho</h3>
+    <ul>
+      <li><b>W</b> ou <b>↑</b> — acelera para frente</li>
+      <li><b>S</b> ou <b>↓</b> — dá ré</li>
+      <li><b>A</b> ou <b>←</b> — vira para a <b>direita</b> (sim, invertido)</li>
+      <li><b>D</b> ou <b>→</b> — vira para a <b>esquerda</b> (também invertido)</li>
+    </ul>
+    <p>A rodinha esquerda é empenada e puxa sozinha. A cada 7 a 14 segundos ela trava
+    por cerca de 1 segundo e o carrinho ignora quem está dirigindo.</p>
+
+    <h3>Abrir uma seção</h3>
+    <p>Dirija até a vaga tracejada em frente à seção. Para abrir, você precisa das
+    três coisas ao mesmo tempo: estar <b>dentro da vaga</b>, estar <b>parado</b> e
+    estar <b>alinhado com a seta</b> (tolerância de 22 graus). Segure meio segundo.</p>
+
+    <h3>Pegar produtos</h3>
+    <p>Arraste o produto da arara até a sacola. <b>Devagar:</b> se o mouse se mover
+    rápido demais, o produto escorrega da mão e cai no chão. O que cai volta sozinho
+    para o lugar.</p>
+    <p>Na tela de quantidade só existe o botão <b>+</b>. Depois de 5 cliques ele começa
+    a fugir do cursor.</p>
+
+    <h3>Finalizar</h3>
+    <p>Com a lista completa, estacione na vaga do <b>CHECKOUT</b>. Depois vêm a fila,
+    o leitor de código de barras (gire o produto com a <b>roda do mouse</b>), o captcha
+    e o pagamento.</p>
+
+    <h3>Cuidado</h3>
+    <p>Carrinho parado por 60 segundos é recolhido e a sacola esvazia. O aviso aparece
+    aos 30 segundos, no canto superior direito.</p>
+  </div>
+</div>
 
 <!-- ============ OVERLAY PRATELEIRA ============ -->
 <div id="overlay-prateleira" class="overlay">
   <div class="modal modal-prateleira">
     <header>
-      <h2 id="prateleira-titulo">Prateleira</h2>
-      <button class="fechar" data-acao="fechar-prateleira">x</button>
+      <h2 id="prateleira-titulo">Seção</h2>
+      <button class="fechar" data-acao="fechar-prateleira" tabindex="21">x</button>
     </header>
     <div class="prateleira-corpo">
       <div id="prateleira-itens" class="prateleira-itens"></div>
       <div id="cesta" class="cesta">
-        <span class="cesta-rotulo">cesta do carrinho</span>
+        <span class="cesta-rotulo">sua sacola</span>
       </div>
     </div>
     <p class="dica">arraste devagar. se soltar no ar, cai no chao.</p>
@@ -102,13 +179,13 @@
   </div>
 </div>
 
-<!-- ============ OVERLAY CAIXA ============ -->
+<!-- ============ OVERLAY CHECKOUT ============ -->
 <div id="overlay-caixa" class="overlay">
   <div class="modal modal-caixa">
 
     <div class="etapa" id="etapa-fila">
-      <h2>Fila do caixa 3</h2>
-      <p id="fila-texto">A senhora na sua frente esta discutindo um cupom de 2019.</p>
+      <h2>Fila do checkout</h2>
+      <p id="fila-texto">A pessoa na sua frente está discutindo um cupom de 2019.</p>
       <div class="barra"><div id="fila-barra"></div></div>
       <button class="btn btn-mini" id="btn-fila-pular">Pular a fila</button>
     </div>
@@ -130,6 +207,8 @@
       <button class="btn btn-mini" id="btn-captcha">Verificar</button>
     </div>
 
+    <!-- WCAG 2.1.2 No Keyboard Trap (A): esta etapa prende o Tab ate os 16 digitos.
+         WCAG 3.3.2 Labels or Instructions (A): o teclado nao tem label associado. -->
     <div class="etapa" id="etapa-pagamento">
       <h2>Pagamento</h2>
       <p class="dica">digite o numero do cartao: <b class="cartao-modelo">4242 4242 4242 4242</b></p>
@@ -148,16 +227,6 @@
     <div id="confirma-botoes" class="linha-botoes-mini"></div>
   </div>
 </div>
-
-<!-- ============ TELA FINAL ============ -->
-<section id="tela-final" class="tela">
-  <div class="recibo">
-    <h1>CUPOM NAO FISCAL</h1>
-    <pre id="recibo-corpo"></pre>
-    <p id="recibo-piada" class="recibo-piada"></p>
-    <div id="botoes-final" class="linha-botoes-mini"></div>
-  </div>
-</section>
 
 <script src="js/util.js"></script>
 <script src="js/dados.js"></script>

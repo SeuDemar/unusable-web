@@ -7,18 +7,28 @@ leia também `.claude/docs/CONTEXTO.md` e `.claude/docs/ARQUITETURA.md`.
 
 ## 1. O que é este projeto
 
-`unusable-web` é um **jogo de navegador que simula um carrinho de compras com a pior
-UI e UX possíveis**, de propósito. É um exercício de design deliberadamente hostil:
-cada ação que num e-commerce real levaria um clique aqui vira um minigame frustrante.
+`unusable-web` (marca fictícia **TRENDIX**) é um **jogo de navegador que simula o
+carrinho de compras de uma loja de moda online com a pior UI e UX possíveis**, de
+propósito. É um exercício de design deliberadamente hostil: cada ação que num e-commerce
+real levaria um clique aqui vira um minigame frustrante.
 
 O produto final é uma piada jogável, não um e-commerce. A funcionalidade escolhida
-para ser destruída é **o carrinho de compras**, do início ao fim: pegar o carrinho,
-localizar produtos, colocar itens dentro, escolher quantidade, ir ao caixa, passar os
+para ser destruída é **o carrinho de compras**, do início ao fim: dirigir o carrinho,
+localizar produtos, colocar itens dentro, escolher quantidade, ir ao checkout, passar os
 itens no leitor, pagar e receber o cupom.
 
+O projeto tem **dois objetivos**, e os dois valem igual:
+
+1. **Máxima frustração cômica** — o manifesto está em `docs/DESIGN.md`.
+2. **Violar deliberadamente critérios da WCAG 2.2 e documentar cada um** — o catálogo
+   está em `docs/WCAG.md`, com 27 critérios: o que a norma exige, como o app descumpre e
+   como seria a versão conforme.
+
 **A má UX é o requisito, não o bug.** Nunca "conserte" uma fricção intencional achando
-que é um defeito. Antes de mexer, confirme em `docs/DESIGN.md` se aquilo é um
-anti-padrão catalogado.
+que é um defeito. Antes de mexer, confirme em `docs/DESIGN.md` e em `docs/WCAG.md` se
+aquilo é intencional e catalogado. Isso inclui coisas que parecem descuido: `lang="en"`,
+`outline: none`, `tabindex` positivos, contraste baixo e `user-scalable=no` são todos
+deliberados e estão documentados.
 
 ---
 
@@ -27,13 +37,24 @@ anti-padrão catalogado.
 Toda fricção adicionada precisa passar nas três:
 
 1. **Engraçada.** A frustração tem que arrancar um sorriso, não raiva pura. O tom é
-   humor seco brasileiro de supermercado de bairro.
+   humor seco brasileiro, com sotaque de fast fashion online: promoção que nunca acaba,
+   desconto fabricado, frete "grátis" de R$ 18,50.
 2. **Superável.** Sempre existe um caminho para terminar a compra. Nada de becos sem
    saída, travamentos, estados irrecuperáveis ou exigências de precisão impossível.
 3. **Legível.** O jogador precisa entender *por que* falhou. "Torto. O ângulo está 41
    graus fora" é bom. Falhar em silêncio é ruim.
 
 Se uma ideia é cruel mas não é engraçada, ou é engraçada mas trava o jogo, ela não entra.
+
+**Um único limite é intransponível:** piscar acima de 3 Hz sem consentimento explícito.
+Isso viola WCAG 2.3.1 e pode causar convulsão em pessoas com epilepsia fotossensível —
+é dano físico, não frustração. O banner pisca a 2 Hz por padrão; a versão acima do
+limiar existe apenas atrás de um opt-in que nomeia o risco e exige confirmação. Nunca
+ative por padrão, nunca remova o aviso, nunca acelere outra animação além de 3 Hz.
+
+**Uma única exceção honesta:** o painel de instruções (`#overlay-instrucoes`) é
+acessível de propósito — alvo grande, anel de foco, `Esc`, contraste normal. Não o
+sabote. Justificativa em `docs/DESIGN.md`, seção 7.
 
 ---
 
@@ -76,7 +97,7 @@ Se uma ideia é cruel mas não é engraçada, ou é engraçada mas trava o jogo,
 ## 5. Mapa dos arquivos
 
 ```
-public/index.html            estrutura de todas as telas e overlays (nada é criado só em JS)
+public/index.html            casca de e-commerce, telas e overlays (nada é criado só em JS)
 public/css/style.css         visual inteiro; a feiura é proposital
 public/js/util.js            helpers + anti-padrões reutilizáveis (toast 400ms, embaralhar, confirmar)
 public/js/dados.js           mapa da loja, prateleiras, catálogo, obstáculos, sorteio da lista
@@ -111,7 +132,10 @@ Referências cruzadas entre módulos (`Loja` chama `Prateleira.abrir`, `Caixa` c
 | mexer no captcha ou no teclado | `public/js/caixa.js`, `montarCaptcha` / `embaralharTeclado` |
 | mexer na busca com cooldown | `public/js/main.js`, `ligarBusca` |
 | mexer no cupom final | `public/js/main.js`, `finalizar` |
+| casca (header, menu, banner, rodapé) | `public/index.html` + `ligarBanner`/`montarMenu`/`montarRodape` em `public/js/main.js` |
+| painel de instruções | `public/index.html` (`#overlay-instrucoes`) + `ligarInstrucoes` |
 | novo anti-padrão global reutilizável | `public/js/util.js` + registrar em `docs/DESIGN.md` |
+| nova violação de WCAG | implementar e registrar as 4 colunas em `docs/WCAG.md` |
 
 ---
 
@@ -143,7 +167,16 @@ pronta. "Compila" não é o mesmo que "ainda é possível estacionar".
   `<body>`; `voltarPraPrateleira` desfaz isso. Qualquer caminho novo de saída do
   arraste precisa chamar essa função, senão o produto some do jogo.
 - `Loja.iniciar()` registra listeners de teclado e só é chamado uma vez por
-  carregamento de página. Reiniciar o jogo é `location.reload()`.
+  carregamento de página. Reiniciar o jogo é `location.reload()`. Não existe tela de
+  título: `Jogo.iniciar()` chama `comecar()` direto no `DOMContentLoaded`.
+- O listener global de teclado da loja ignora eventos vindos de `<input>`, o que mantém
+  o campo de busca digitável.
+- `prenderFoco` em `public/js/caixa.js` é um keyboard trap **intencional** (WCAG 2.1.2).
+  Ele é removido por `soltarFoco()` quando o pagamento termina. Se você criar outro
+  caminho de saída do pagamento, chame `soltarFoco()` nele, senão o trap vaza para o
+  resto da página.
+- O badge do header conta linhas e o painel conta unidades. Divergência intencional
+  (WCAG 3.2.4), não bug de contagem.
 
 ---
 

@@ -36,9 +36,12 @@ var Prateleira = (function () {
     prateleiraAtual.produtos.forEach(function (prod, i) {
       var el = document.createElement('div');
       el.className = 'produto';
+      // WCAG 1.1.1 Non-text Content (A): o emoji e a unica identidade visual
+      // do produto e nao tem alternativa textual associada.
       el.innerHTML =
         '<span class="emoji">' + prod.emoji + '</span>' +
         '<span class="nome">' + prod.nome + '</span>' +
+        '<span class="preco-de">' + moeda(prod.precoDe) + '</span>' +
         '<span class="preco">' + moeda(prod.preco) + '</span>';
       var col = i % 2, lin = Math.floor(i / 2);
       var esq = 40 + col * 190 + inteiro(-10, 10);

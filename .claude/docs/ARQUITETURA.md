@@ -11,19 +11,34 @@ Uma única página, sete arquivos JavaScript carregados como scripts clássicos.
 roteador, framework, estado reativo nem build. O jogo alterna entre **telas**
 (`<section class="tela">`) e sobrepõe **overlays** (`<div class="overlay">`).
 
+A casca de e-commerce (header, menu lateral, banner, rodapé) é permanente e fica fora
+das telas. Só o miolo troca.
+
 ```
-┌──────────────┐   comecar()    ┌──────────────┐  Caixa.abrir()   ┌──────────────┐
-│ tela-titulo  │ ─────────────▶ │  tela-loja   │ ───────────────▶ │ overlay-caixa│
-└──────────────┘                │  (canvas +   │                  │  4 etapas    │
-                                │   painel)    │ ◀─ fechar ────   └──────┬───────┘
-                                └──────┬───────┘                         │
-                            Prateleira.abrir()                  Jogo.finalizar()
-                                       │                                 ▼
-                          ┌────────────▼────────────┐            ┌──────────────┐
-                          │ overlay-prateleira      │            │ tela-final   │
-                          │  └▶ overlay-qtd         │            │  (cupom)     │
-                          └─────────────────────────┘            └──────────────┘
+ header  · logo · busca · badge · hambúrguer · cronômetro
+┌────────┬────────────────────────────────────────────────┐
+│ menu   │ banner de promoção (piscante, 2 Hz)            │
+│ lateral│                                                │
+│        │  ┌──────────────┐  Caixa.abrir()  ┌──────────┐ │
+│ cate-  │  │  tela-loja   │ ──────────────▶ │ overlay- │ │
+│ gorias │  │  (canvas +   │ ◀─ fechar ───── │  caixa   │ │
+│        │  │   painel)    │                 │ 4 etapas │ │
+│ [?]    │  └──────┬───────┘                 └────┬─────┘ │
+│ instru-│  Prateleira.abrir()          Jogo.finalizar()  │
+│ ções   │         │                              ▼       │
+│        │ ┌───────▼──────────┐            ┌───────────┐  │
+│        │ │ overlay-         │            │ tela-final│  │
+│        │ │  prateleira      │            │  (cupom)  │  │
+│        │ │  └▶ overlay-qtd  │            └───────────┘  │
+│        │ └──────────────────┘                           │
+└────────┴────────────────────────────────────────────────┘
+ rodapé  · 40 links de 8px
+
+ overlay-instrucoes  — sobrepõe tudo, pausa o jogo, é o único componente acessível
 ```
+
+**Não há tela de título.** `Jogo.iniciar()` roda no `DOMContentLoaded` e chama
+`comecar()` direto, que sorteia a lista e liga `Loja.iniciar()`.
 
 Todo HTML existe estaticamente no `public/index.html`. O JavaScript só preenche conteúdo e
 alterna as classes `.ativa`. Nenhuma tela é construída do zero em runtime.
@@ -132,22 +147,31 @@ Um overlay, quatro `<div class="etapa">` alternadas por `etapa(id)`.
 3. **Captcha** — grade 3×3 com 2 a 4 carrinhos entre distratores; a verificação exige o
    conjunto exato, e errar regenera a grade.
 4. **Pagamento** — teclado de 10 teclas que **reembaralha após cada tecla**; valida
-   dígito a dígito contra `4242 4242 4242 4242`; dígito errado é recusado.
+   dígito a dígito contra `4242 4242 4242 4242`; dígito errado é recusado. Registra
+   `prenderFoco` (keyboard trap intencional, WCAG 2.1.2), removido por `soltarFoco()`
+   ao completar os 16 dígitos.
 
 Ao completar os 16 dígitos, chama `Jogo.finalizar()`.
 
 Público: `iniciar`, `abrir`.
 
-### `public/js/main.js` — cola e telas
-`Jogo.iniciar()` (no `DOMContentLoaded`) inicializa `Prateleira` e `Caixa` e liga os
-três grupos de eventos: título, busca e painel.
+### `public/js/main.js` — cola, casca e telas
+`Jogo.iniciar()` (no `DOMContentLoaded`) inicializa `Prateleira` e `Caixa`, monta a
+casca e **começa o jogo imediatamente** — não há tela de título.
 
+- **`montarMenu()`**: categorias como `<li>` clicáveis que escrevem em `Estado.destaque`,
+  o mesmo estado que a busca usa. Mapa e minimapa já sabem pintar o destaque.
+- **`montarRodape()`**: 40 links gerados em JS, todos inertes.
+- **`ligarInstrucoes()`**: abre o `#overlay-instrucoes`, move o foco para o botão de
+  fechar e fecha com `Esc`. Único componente acessível do app.
+- **`ligarBanner()`**: contagem regressiva que se reinicia sozinha, e o opt-in de
+  piscada acima de 3 Hz — com `window.confirm` nomeando o risco de epilepsia.
 - **Busca**: `keydown` bloqueia teclas dentro de um cooldown de 800 ms; a lista de
   resultados se reordena a cada 1100 ms enquanto o mouse estiver sobre ela.
-- **Painel**: "Ir pro caixa" não leva ao caixa (troll); "Limpar tudo" passa por
+- **Painel**: "Finalizar pedido" não finaliza nada (troll); "Esvaziar sacola" passa por
   `confirmar()` com dupla negativa; os dois trocam de lugar a cada 4 s.
-- **`finalizar()`**: monta o cupom com subtotal, taxa de conveniência de 37% e
-  estacionamento de R$ 18,50, exibe a piada do cancelamento e troca para `tela-final`.
+- **`finalizar()`**: monta o cupom com subtotal, taxa de conveniência de 37% e frete
+  "grátis" de R$ 18,50, exibe a piada do cancelamento e troca para `tela-final`.
 
 Público: `iniciar`, `finalizar`.
 
@@ -179,6 +203,9 @@ Loja.atualizar → verificarEstacionamento
 
 - Ações declarativas usam `data-acao="..."` e são ligadas por
   `$('[data-acao="x"]').addEventListener`. Prefira esse padrão a criar ids novos.
+- Violações de WCAG têm comentário no código apontando o critério, no formato
+  `WCAG 2.4.7 Focus Visible (AA): violado de proposito`. Mantenha o padrão e registre a
+  entrada correspondente em `docs/WCAG.md`.
 - Telas: `.tela` + `.ativa`. Overlays: `.overlay` + `.ativa`. Etapas do caixa:
   `.etapa` + `.ativa`.
 - Cores vivem em variáveis CSS no `:root` (`--amarelo`, `--rosa`, `--ciano`, `--roxo`,
@@ -189,7 +216,8 @@ Loja.atualizar → verificarEstacionamento
 
 ## 5. Limites conhecidos da implementação
 
-- **Sem responsividade.** O canvas é fixo em 900×560 e o layout assume desktop.
+- **Sem responsividade.** O canvas é fixo em 820×460 e o layout assume desktop. Isso
+  é também a violação de WCAG 1.4.10 Reflow.
 - **Sem suporte a toque.** Usa eventos `pointer`, então funciona parcialmente, mas o
   giro do leitor depende da roda do mouse — inacessível em touch.
 - **Reiniciar é recarregar.** `Loja.iniciar()` registra listeners de teclado toda vez

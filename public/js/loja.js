@@ -226,7 +226,7 @@ var Loja = (function () {
   function desenhar(agora) {
     var cam = camera();
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = '#d9d2c5';
+    ctx.fillStyle = '#ddd6e4';
     ctx.fillRect(0, 0, cv.width, cv.height);
 
     ctx.save();
@@ -246,8 +246,8 @@ var Loja = (function () {
       ctx.fillText(o.rotulo, o.x + o.w / 2, o.y + o.h / 2 + 10);
     });
 
-    desenharVaga(CAIXA.vaga, listaCompleta() ? '#00e676' : '#b0bec5');
-    caixaSolida(CAIXA, '#37474f', 'CAIXA 3');
+    desenharVaga(CAIXA.vaga, listaCompleta() ? '#00e676' : '#bcaec9');
+    caixaSolida(CAIXA, '#37065c', 'CHECKOUT');
 
     desenharCarrinho();
     ctx.restore();
@@ -337,7 +337,7 @@ var Loja = (function () {
 
   function desenharMini(cam) {
     var ex = mini.width / MUNDO.w, ey = mini.height / MUNDO.h;
-    mctx.fillStyle = '#222';
+    mctx.fillStyle = '#37065c';
     mctx.fillRect(0, 0, mini.width, mini.height);
     PRATELEIRAS.forEach(function (p) {
       mctx.fillStyle = Estado.destaque === p.id ? '#ff8f00' : p.cor;

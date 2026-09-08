@@ -1,58 +1,60 @@
-/* dados.js - mapa da loja, prateleiras e catalogo */
+/* dados.js - mapa do armazem, secoes e catalogo */
 
 var MUNDO = { w: 1800, h: 1100 };
 
+/* precoDe = preco "original" riscado, preco = preco "promocional".
+   O desconto e fabricado: precoDe nunca foi cobrado de ninguem. */
 var PRATELEIRAS = [
   {
-    id: 'hortifruti',
-    nome: 'Hortifruti (meio murcho)',
-    cor: '#7cb342',
+    id: 'roupas',
+    nome: 'Roupas',
+    cor: '#e91e63',
     x: 140, y: 130, w: 430, h: 70,
     vaga: { x: 250, y: 225, w: 130, h: 84, ang: -90 },
     produtos: [
-      { id: 'banana', nome: 'Banana', emoji: '🍌', preco: 6.49 },
-      { id: 'tomate', nome: 'Tomate', emoji: '🍅', preco: 9.9 },
-      { id: 'brocolis', nome: 'Brocolis', emoji: '🥦', preco: 7.35 },
-      { id: 'abacate', nome: 'Abacate', emoji: '🥑', preco: 12.0 }
+      { id: 'vestido', nome: 'Vestido midi', emoji: '👗', preco: 79.9, precoDe: 249.9 },
+      { id: 'cropped', nome: 'Cropped', emoji: '👕', preco: 29.9, precoDe: 119.9 },
+      { id: 'calca', nome: 'Calca wide', emoji: '👖', preco: 89.9, precoDe: 279.9 },
+      { id: 'jaqueta', nome: 'Jaqueta', emoji: '🧥', preco: 149.9, precoDe: 599.9 }
     ]
   },
   {
-    id: 'padaria',
-    nome: 'Padaria & Cia',
-    cor: '#c68642',
+    id: 'acessorios',
+    nome: 'Bolsas e Acessorios',
+    cor: '#8e24aa',
     x: 1180, y: 150, w: 70, h: 400,
     vaga: { x: 1060, y: 300, w: 84, h: 130, ang: 0 },
     produtos: [
-      { id: 'pao', nome: 'Pao frances', emoji: '🥖', preco: 14.9 },
-      { id: 'bolo', nome: 'Bolo de fuba', emoji: '🍰', preco: 24.5 },
-      { id: 'croissant', nome: 'Croissant', emoji: '🥐', preco: 11.2 },
-      { id: 'queijo', nome: 'Queijo', emoji: '🧀', preco: 38.9 }
+      { id: 'bolsa', nome: 'Bolsa tote', emoji: '👜', preco: 119.9, precoDe: 449.9 },
+      { id: 'mochila', nome: 'Mochila', emoji: '🎒', preco: 99.9, precoDe: 319.9 },
+      { id: 'oculos', nome: 'Oculos de sol', emoji: '🕶️', preco: 39.9, precoDe: 189.9 },
+      { id: 'anel', nome: 'Anel banhado', emoji: '💍', preco: 19.9, precoDe: 149.9 }
     ]
   },
   {
-    id: 'bebidas',
-    nome: 'Bebidas geladas (quentes)',
-    cor: '#0288d1',
+    id: 'beleza',
+    nome: 'Beleza',
+    cor: '#ff4081',
     x: 300, y: 720, w: 500, h: 70,
     vaga: { x: 480, y: 620, w: 130, h: 84, ang: 90 },
     produtos: [
-      { id: 'refri', nome: 'Refrigerante', emoji: '🥤', preco: 8.99 },
-      { id: 'cafe', nome: 'Cafe', emoji: '☕', preco: 19.9 },
-      { id: 'suco', nome: 'Suco de uva', emoji: '🧃', preco: 13.4 },
-      { id: 'cerveja', nome: 'Cerveja', emoji: '🍺', preco: 5.75 }
+      { id: 'batom', nome: 'Batom matte', emoji: '💄', preco: 24.9, precoDe: 99.9 },
+      { id: 'esmalte', nome: 'Esmalte', emoji: '💅', preco: 12.9, precoDe: 59.9 },
+      { id: 'serum', nome: 'Serum facial', emoji: '🧴', preco: 59.9, precoDe: 229.9 },
+      { id: 'espelho', nome: 'Espelho de bolsa', emoji: '🪞', preco: 17.9, precoDe: 79.9 }
     ]
   },
   {
-    id: 'limpeza',
-    nome: 'Limpeza e afins',
-    cor: '#8e24aa',
+    id: 'casa',
+    nome: 'Casa e Decor',
+    cor: '#5e35b1',
     x: 1250, y: 780, w: 400, h: 70,
     vaga: { x: 1400, y: 680, w: 130, h: 84, ang: 90 },
     produtos: [
-      { id: 'sabao', nome: 'Sabao em po', emoji: '🧼', preco: 27.9 },
-      { id: 'papel', nome: 'Papel higienico', emoji: '🧻', preco: 32.4 },
-      { id: 'esponja', nome: 'Esponja', emoji: '🧽', preco: 4.2 },
-      { id: 'vassoura', nome: 'Vassoura', emoji: '🧹', preco: 21.0 }
+      { id: 'vela', nome: 'Vela aromatica', emoji: '🕯️', preco: 34.9, precoDe: 139.9 },
+      { id: 'almofada', nome: 'Almofada', emoji: '🛋️', preco: 49.9, precoDe: 199.9 },
+      { id: 'quadro', nome: 'Quadro decorativo', emoji: '🖼️', preco: 69.9, precoDe: 259.9 },
+      { id: 'planta', nome: 'Planta falsa', emoji: '🪴', preco: 44.9, precoDe: 179.9 }
     ]
   }
 ];
@@ -64,10 +66,10 @@ var CAIXA = {
 
 /* obstaculos decorativos que existem so pra voce bater neles */
 var OBSTACULOS = [
-  { x: 700, y: 210, w: 70, h: 70, rotulo: '🥫' },
-  { x: 1010, y: 880, w: 90, h: 60, rotulo: '📦' },
-  { x: 380, y: 460, w: 70, h: 70, rotulo: '🧺' },
-  { x: 1480, y: 380, w: 60, h: 90, rotulo: '🪣' },
+  { x: 700, y: 210, w: 70, h: 70, rotulo: '📦' },
+  { x: 1010, y: 880, w: 90, h: 60, rotulo: '🪵' },
+  { x: 380, y: 460, w: 70, h: 70, rotulo: '🧍' },
+  { x: 1480, y: 380, w: 60, h: 90, rotulo: '📦' },
   { x: 180, y: 900, w: 110, h: 60, rotulo: '🛒' }
 ];
 
@@ -89,7 +91,7 @@ function acharProduto(id) {
   return achado;
 }
 
-/* Sorteia 3 itens de prateleiras diferentes. */
+/* Sorteia 3 itens de secoes diferentes. */
 function sortearLista() {
   var prats = embaralhar(PRATELEIRAS).slice(0, 3);
   return prats.map(function (p) {

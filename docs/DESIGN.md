@@ -70,7 +70,7 @@ Ações que na web real são instantâneas viram tarefas motoras.
 ### 3.4 Alvos móveis
 | Anti-padrão | Onde |
 |---|---|
-| Botões do título trocam de lugar a cada 3,2 s | tela de título |
+| Botões do painel trocam de lugar a cada 4 s | painel da sacola |
 | "Ir pro caixa" e "Limpar tudo" trocam a cada 4 s | painel lateral |
 | Botão que executa o oposto do esperado ("Pular a fila" volta 15%) | caixa |
 | Botão que não faz nada ("Ir pro caixa" só manda você dirigir) | painel lateral |
@@ -89,13 +89,19 @@ Ações que na web real são instantâneas viram tarefas motoras.
 | "Estacionamento do carrinho" de R$ 18,50 surgindo do nada | tela final |
 | "Sua compra foi cancelada com sucesso 😊" | tela final |
 | Botão "Não desfazer o cancelamento" para confirmar | tela final |
-| Asterisco do slogan que se contradiz | tela de título |
+| Preço "de" riscado que nunca foi cobrado | prateleira |
+| Contagem regressiva de promoção que reinicia sozinha | banner |
+| Badge do header contando linhas e painel contando unidades | header |
+| Rodapé com 40 links que não levam a lugar nenhum | rodapé |
 
 ### 3.7 Estética deliberadamente ruim
-Comic Sans, fundo listrado amarelo, `border: ridge` em tudo, sombras duras deslocadas,
-texto com três camadas de `text-shadow` em cores complementares, título que treme
-sozinho a cada 3,5 s. A regra aqui é: **feio, mas legível**. Contraste tem que existir;
-a piada é o mau gosto, não a ilegibilidade.
+Comic Sans, gradiente rosa choque sobre violeta, `border: ridge` em tudo, sombras duras
+deslocadas, banner piscante, caixa alta gritada. A regra aqui é: **feio, mas legível**.
+
+> **Atenção:** "legível" aqui não é mais absoluto. Alguns pares de contraste violam
+> 1.4.3 de propósito (ver `docs/WCAG.md`). O que permanece proibido é o ilegível *para
+> quem está jogando* — o texto que carrega regra de jogo continua com contraste
+> suficiente. Decoração pode falhar; instrução, não.
 
 ---
 
@@ -109,9 +115,13 @@ Estas ideias são tentadoras e estão **fora**:
 - **Aleatoriedade que pode não convergir.** Tolerâncias sempre alcançáveis; o passo de
   rotação do leitor (7°) é menor que a janela de aceite (±12°) por isso.
 - **Sofrimento sem feedback.** Falhar em silêncio.
-- **Anti-padrões que atacam acessibilidade de verdade** — piscar em frequência
-  epileptogênica, contraste ilegível, texto de 6 px. A piada é sobre design ruim, não
-  sobre excluir gente.
+- **Piscar acima de 3 Hz sem consentimento explícito.** Este é o único limite
+  intransponível. Violar 2.3.1 pode desencadear convulsão em pessoas com epilepsia
+  fotossensível — é dano físico, não frustração. O banner pisca a 2 Hz por padrão, e a
+  versão acima do limiar existe só atrás de um opt-in com aviso nomeado e confirmação.
+  Nunca ative isso por padrão, nunca remova o aviso.
+- **Sabotar o painel de instruções.** Ele é a exceção honesta deliberada do projeto.
+  Ver seção 7.
 - **Enganar sobre dinheiro real.** É um jogo; nenhum campo coleta dado real. O número
   do cartão é o `4242...` de teste, exibido na tela.
 
@@ -139,3 +149,46 @@ Exemplo do que já está calibrado: o caixa tem quatro etapas, mas só o leitor 
 precisão motora. A fila exige paciência, o captcha exige atenção, o pagamento exige
 persistência. Se o leitor virasse duas etapas motoras seguidas, a comédia viraria
 tédio.
+
+## 7. A exceção honesta: o painel de instruções
+
+O `#overlay-instrucoes` é o único componente do TRENDIX projetado corretamente, e isso é
+uma decisão de projeto, não um esquecimento.
+
+- rótulo textual no botão de abertura, não só ícone;
+- alvo de fechar com no mínimo 96×44 px e a palavra "Fechar" escrita;
+- mantém o anel de foco, única exceção ao `outline: none` global;
+- fecha com `Esc`, recebe foco ao abrir;
+- tipografia de sistema, corpo 14px, entrelinha 1.6, contraste normal;
+- abrir o painel pausa o jogo, porque a física congela com overlay aberto.
+
+Dois motivos. **De projeto:** o contraste entre um componente correto e todas as
+violações ao redor torna as violações mais evidentes — sem régua, ninguém percebe o
+torto. **Prático:** sem um lugar honesto explicando as regras, o jogo deixa de ser piada
+compreensível e vira ruído, quebrando a condição "legível" da seção 1.
+
+**Não adicione sabotagem aqui.** Se uma sessão futura achar que este painel "escapou"
+do tema, este parágrafo é a resposta.
+
+## 8. Ligação com a WCAG 2.2
+
+A partir desta versão, o projeto tem um segundo objetivo além do humor: **violar
+deliberadamente critérios da WCAG 2.2 e documentar cada violação**. São 27 catalogados,
+18 implementados e verificáveis.
+
+O catálogo completo — o que a norma exige, como o app descumpre e como seria a versão
+conforme — está em **`docs/WCAG.md`**. Mapa rápido da taxonomia deste documento para lá:
+
+| Seção deste documento | Critérios correspondentes |
+|---|---|
+| 3.1 Física onde não deveria haver física | 2.5.7 Dragging Movements, 2.1.1 Keyboard |
+| 3.2 Controles hostis | 3.2.2 On Input, 3.3.8 Accessible Authentication, 2.5.8 Target Size |
+| 3.3 Informação sonegada ou hostil | 3.3.1 Error Identification, 2.2.1 Timing Adjustable, 1.4.13 Content on Hover |
+| 3.4 Alvos móveis | 2.2.2 Pause Stop Hide, 3.2.4 Consistent Identification, 2.4.3 Focus Order |
+| 3.5 Pressão temporal e perda | 2.2.1 Timing Adjustable |
+| 3.6 Padrões obscuros de e-commerce | 3.2.4 Consistent Identification |
+| 3.7 Estética deliberadamente ruim | 1.4.3 Contrast, 1.4.4 Resize Text, 2.4.7 Focus Visible |
+
+Ao criar um anti-padrão novo, verifique se ele corresponde a algum critério ainda não
+catalogado — se corresponder, acrescente a entrada em `docs/WCAG.md` com as quatro
+colunas. Um anti-padrão sem análise de norma vale menos que um com.

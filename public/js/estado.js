@@ -67,7 +67,7 @@ function renderPainel() {
   if (!Estado.carrinho.length) {
     var vazio = document.createElement('li');
     vazio.className = 'vazio';
-    vazio.textContent = 'vazio, igual sua geladeira';
+    vazio.textContent = 'vazia';
     ulCar.appendChild(vazio);
   } else {
     Estado.carrinho.forEach(function (l) {
@@ -77,6 +77,12 @@ function renderPainel() {
     });
   }
 
-  $('#contador-carrinho').textContent = '(' + Estado.carrinho.reduce(function (s, l) { return s + l.qtd; }, 0) + ')';
+  var unidades = Estado.carrinho.reduce(function (s, l) { return s + l.qtd; }, 0);
+  $('#contador-carrinho').textContent = '(' + unidades + ')';
   $('#total-carrinho').textContent = moeda(totalCarrinho());
+
+  // WCAG 3.2.4 Consistent Identification (AA): o badge do header conta linhas,
+  // nao unidades, entao mostra um numero diferente do painel para o mesmo carrinho.
+  var badge = $('#badge-carrinho');
+  if (badge) badge.innerHTML = '🛒 <b>' + Estado.carrinho.length + '</b>';
 }

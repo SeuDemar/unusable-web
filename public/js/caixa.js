@@ -7,10 +7,10 @@ var Caixa = (function () {
   var timerFila = null;
   var progresso = 0;
   var falasFila = [
-    'A senhora na sua frente esta discutindo um cupom de 2019.',
+    'A pessoa na sua frente esta discutindo um cupom de 2019.',
     'Chamaram o gerente. O gerente foi almocar.',
     'O leitor precisou reiniciar. Windows.',
-    'Alguem esqueceu de pesar as bananas. Alguem e voce.',
+    'Alguem quer trocar o tamanho. Alguem e voce.',
     'Trocando a bobina de papel.',
     'Quase la. Provavelmente.'
   ];
@@ -218,10 +218,26 @@ var Caixa = (function () {
 
   /* ---------- 4. pagamento ---------- */
 
+  /* WCAG 2.1.2 No Keyboard Trap (A): violado de proposito.
+     Enquanto o pagamento nao terminar, Tab e Shift+Tab nao levam a lugar
+     nenhum: o foco volta para uma tecla sorteada do proprio teclado. Nao ha
+     atalho documentado para escapar. Sair exige completar os 16 digitos. */
+  function prenderFoco(ev) {
+    if (ev.key !== 'Tab') return;
+    ev.preventDefault();
+    var teclas = $$('.tecla');
+    if (teclas.length) escolha(teclas).focus();
+  }
+
   function montarPagamento() {
     digitados = '';
     atualizarVisor();
     embaralharTeclado();
+    document.addEventListener('keydown', prenderFoco, true);
+  }
+
+  function soltarFoco() {
+    document.removeEventListener('keydown', prenderFoco, true);
   }
 
   function embaralharTeclado() {
@@ -246,6 +262,7 @@ var Caixa = (function () {
     atualizarVisor();
     embaralharTeclado();
     if (digitados.length >= CARTAO.length) {
+      soltarFoco();
       setTimeout(function () {
         fecharOverlay('#overlay-caixa');
         Jogo.finalizar();

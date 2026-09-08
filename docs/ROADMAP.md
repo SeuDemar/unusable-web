@@ -41,9 +41,11 @@ confira as três condições em `docs/DESIGN.md` e pergunte ao autor.
 - **Tela de resultado com "nota de UX"** irônica.
 - **Suporte a toque.** Hoje o giro do leitor depende da roda do mouse. Precisaria de um
   gesto alternativo antes de qualquer promessa de mobile.
-- **Responsividade.** O canvas é fixo em 900×560.
-- **Repositório git.** O diretório ainda não é um repo. Se for versionar, o primeiro
-  commit deve incluir `AGENTS.md` e `docs/`.
+- **Responsividade.** O canvas é fixo em 820×460. Note que corrigir isso desfaz a
+  violação de WCAG 1.4.10, hoje documentada em `docs/WCAG.md`.
+- **Relatório de acessibilidade versionado.** Guardar a saída do Lighthouse ou do axe
+  DevTools em `docs/` como evidência das violações, junto de um print da pontuação.
+- **Os 9 critérios WCAG ainda não implementados**, listados em `docs/WCAG.md`.
 
 ## Explicitamente descartado
 
