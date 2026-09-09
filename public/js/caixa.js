@@ -2,7 +2,7 @@
 
 var Caixa = (function () {
 
-  var CARTAO = '4242424242424242';
+  var CARTAO = '4242';
 
   var restamScan = 0;
   var arrasteScan = null;
@@ -149,7 +149,8 @@ var Caixa = (function () {
   /* WCAG 2.1.2 No Keyboard Trap (A): violado de proposito.
      Enquanto o pagamento nao terminar, Tab e Shift+Tab nao levam a lugar
      nenhum: o foco volta para uma tecla sorteada do proprio teclado. Nao ha
-     atalho documentado para escapar. Sair exige completar os 16 digitos. */
+     atalho documentado para escapar. Sair exige completar os digitos de
+     CARTAO (hoje 4). */
   function prenderFoco(ev) {
     if (ev.key !== 'Tab') return;
     ev.preventDefault();

@@ -230,11 +230,11 @@ Um overlay, três `<div class="etapa">` alternadas por `etapa(id)`.
 2. **Captcha** — grade 3×3 com 2 a 4 carrinhos entre distratores; a verificação exige o
    conjunto exato, e errar regenera a grade.
 3. **Pagamento** — teclado de 10 teclas que **reembaralha após cada tecla**; valida
-   dígito a dígito contra `4242 4242 4242 4242`; dígito errado é recusado. Registra
+   dígito a dígito contra `CARTAO` (`4242`); dígito errado é recusado. Registra
    `prenderFoco` (keyboard trap intencional, WCAG 2.1.2), removido por `soltarFoco()`
-   ao completar os 16 dígitos.
+   ao completar os dígitos do cartão.
 
-Ao completar os 16 dígitos, chama `Jogo.finalizar()`.
+Ao completar os dígitos do cartão, chama `Jogo.finalizar()`.
 
 Público: `iniciar`, `abrir`.
 
@@ -272,9 +272,14 @@ liga a barra superior e chama `comecar()`, que abre o catálogo como tela inicia
 - **`finalizar()`**: monta o cupom com subtotal, taxa de conveniência de 37% e frete
   "grátis" de R$ 18,50, exibe a piada do cancelamento e troca para `tela-final`.
 - **`comecar()`**: `iniciarEstado()` → `Loja.iniciar()` (só registra listeners) →
-  `Catalogo.abrir()` (tela inicial) → `abrirInstrucoes()`. Manter as instruções no boot
-  não é só design: o `AudioContext` de `musica.js` conta com o clique de fechar o painel
-  como primeiro gesto do usuário para liberar o áudio.
+  `Catalogo.abrir()` (tela inicial). As instruções **não** abrem mais aqui — o
+  `AudioContext` de `musica.js` libera no primeiro gesto dentro do catálogo, seja ele
+  qual for.
+- **`aoEntrarNoMapa()`**: chamada por `Catalogo.escolherProduto` logo após
+  `Loja.retomar(true)`. Abre `#overlay-instrucoes` só na primeira vez que o jogador
+  entra no mapa, guardado pela flag `instrucoesMostradas`; nas vezes seguintes só volta
+  pelo botão "Instruções" da barra superior. Exposta em `Jogo` para `catalogo.js`
+  poder chamá-la.
 
 Público: `iniciar`, `finalizar`.
 
@@ -302,7 +307,7 @@ Loja.atualizar → verificarEstacionamento
   ├ Catalogo.abrir()                  vaga CATALOGO — Loja.parar(), sacola preservada
   └ Caixa.abrir()                     vaga CAIXA, só com sacolaTemItem()
       └ montarScanner → montarCaptcha → montarPagamento
-          └ Jogo.finalizar()          16º dígito correto
+          └ Jogo.finalizar()          ultimo digito de CARTAO correto
               ├ Loja.parar()
               └ mostrarTela('#tela-final')
 

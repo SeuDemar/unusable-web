@@ -56,7 +56,7 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 | 24 | 3.2.5 Change on Request | AAA | **Botão do catálogo** — troca a tela inteira em vez de adicionar o item | ✅ |
 | 25 | 3.3.1 Error Identification | A | **Todas as mensagens de erro** — toast de 400 ms, longe do campo | ✅ |
 | 26 | 3.3.2 Labels or Instructions | A | **Teclado do pagamento** e **tela de quantidade**, ambos sem rótulo | 📄 |
-| 27 | 3.3.7 Redundant Entry | A | **Pagamento** — "Limpar tudo" apaga os 16 dígitos, sem backspace | 📄 |
+| 27 | 3.3.7 Redundant Entry | A | **Pagamento** — "Limpar tudo" apaga os dígitos digitados, sem backspace | 📄 |
 | 28 | 3.3.8 Accessible Authentication | AA | **Pagamento** e **captcha** — teste de função cognitiva, sem colar | ✅ |
 | 29 | 4.1.2 Name, Role, Value | A | **Badge da sacola**, **captcha**, **cards de produto**, **recusar cookies** | ✅ |
 
@@ -140,10 +140,10 @@ pausa, de mudo nem de volume em lugar nenhum da interface.
 
 O navegador só libera áudio depois de um gesto do usuário, então o `AudioContext` nasce
 suspenso e é retomado no primeiro `pointerdown`, `keydown` ou `touchstart`. Como o jogo
-abre com o painel de instruções na frente, esse primeiro gesto é sempre o clique que
-fecha o painel: a pessoa nunca pediu música e mesmo assim ela começa. Um vigia de 2 em 2
-segundos retoma o contexto caso o sistema o suspenda, o que remove também a última brecha
-de "parar sem querer".
+abre direto no catálogo, esse primeiro gesto é qualquer clique dentro dele — navegar uma
+seção, por exemplo: a pessoa nunca pediu música e mesmo assim ela começa. Um vigia de 2
+em 2 segundos retoma o contexto caso o sistema o suspenda, o que remove também a última
+brecha de "parar sem querer".
 
 Detalhes que importam para o critério:
 
@@ -271,7 +271,8 @@ function prenderFoco(ev) {
 ```
 
 `Tab` e `Shift+Tab` são anulados e o foco volta para uma tecla **sorteada** do teclado
-numérico. Não há atalho de escape documentado. A única saída é completar os 16 dígitos,
+numérico. Não há atalho de escape documentado. A única saída é completar os dígitos
+do cartão (hoje 4),
 o que devolve o foco em `soltarFoco()`.
 
 **A versão conforme seria:** `Esc` fecha o diálogo, o foco circula dentro dele
@@ -602,7 +603,7 @@ tecla e instrução visível sobre a quantidade mínima.
 salvo quando essencial.
 
 **Como o unusable viola:** o botão `Limpar tudo` do pagamento
-(`#btn-limpar-cartao`, `public/js/caixa.js`) apaga os 16 dígitos de uma vez. Como não
+(`#btn-limpar-cartao`, `public/js/caixa.js`) apaga os dígitos digitados de uma vez. Como não
 existe backspace, corrigir um único dígito exige redigitar o número inteiro — num
 teclado que reembaralha a cada tecla.
 

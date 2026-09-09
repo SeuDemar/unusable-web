@@ -67,7 +67,9 @@ padrão e a versão acima do limiar só existe atrás de um opt-in com aviso e c
 
 1. **Catálogo é a tela inicial**, não o mapa. `Jogo.iniciar()` chama `comecar()` no
    `DOMContentLoaded`, que liga `Loja.iniciar()` (só listeners) e chama
-   `Catalogo.abrir()`; o painel de instruções continua abrindo por cima, pausado.
+   `Catalogo.abrir()`. O painel de instruções **não** abre no boot: ele só aparece
+   uma vez, na primeira entrada no mapa (`Jogo.aoEntrarNoMapa()`, chamado por
+   `Catalogo.escolherProduto`).
 2. **Mapa em tela cheia.** Canvas dimensionado pela janela, recalculado no `resize`.
    Sem menu lateral, sem banner grande, sem rodapé, sem minimapa.
 3. **Seis prateleiras em 3 colunas de 2** — Roupas, Calçados, Bolsas, Acessórios,
@@ -97,7 +99,8 @@ padrão e a versão acima do limiar só existe atrás de um opt-in com aviso e c
 15. Passar compras: leitor por arrasto do próprio produto, captcha,
     teclado que reembaralha a cada tecla, **keyboard trap intencional**.
 16. Cupom final com taxa de conveniência de 37% e frete "grátis" de R$ 18,50.
-17. **Painel de instruções honesto**, que pausa o jogo ao abrir.
+17. **Painel de instruções honesto**, que pausa o jogo ao abrir — aparece sozinho só na
+    primeira entrada no mapa, não mais no boot.
 18. **Música de elevador sintetizada** (`public/js/musica.js`), sem controle de pausa,
     volume ou mudo em lugar nenhum — WCAG 1.4.2.
 19. **29 critérios da WCAG 2.2 catalogados em `docs/WCAG.md`**, 22 implementados, com
@@ -140,7 +143,7 @@ responsividade mobile, persistência, testes automatizados.
   `<button>`. Todos têm comentário no código apontando o critério WCAG e entrada em
   `docs/WCAG.md`. Um linter vai reclamar de todos eles; ignore.
 - **O keyboard trap do pagamento tem contrapartida.** `prenderFoco` é registrado em
-  `montarPagamento` e removido por `soltarFoco()` ao completar os 16 dígitos. Qualquer
+  `montarPagamento` e removido por `soltarFoco()` ao completar os dígitos do cartão. Qualquer
   caminho novo de saída do pagamento precisa chamar `soltarFoco()`, senão o trap escapa
   para a página inteira.
 - **O badge do header e o painel mostram números diferentes de propósito** — linhas

@@ -111,6 +111,10 @@ var Catalogo = (function () {
     mostrarTela('#tela-loja');
     Loja.retomar(true);
     toast('um manobrista levou seu carrinho pra entrada');
+
+    // As instrucoes nao abrem mais no boot: elas so aparecem na primeira vez que
+    // o jogador pisa no mapa, e so essa vez.
+    Jogo.aoEntrarNoMapa();
   }
 
   return { iniciar: iniciar, abrir: abrir };

@@ -21,9 +21,9 @@ a dificuldade de dirigir vem só da inércia e dos controles invertidos.
 
 ### Fluxo completo
 
-1. **Abertura** — a página carrega no **catálogo**, com o painel de instruções já
-   aberto e o jogo pausado atrás dele. Fechar o painel libera o áudio da música de
-   fundo (é o primeiro gesto do usuário) e mostra a grade de 6 seções.
+1. **Abertura** — a página carrega direto no **catálogo**, com a grade de 6 seções já
+   visível. Qualquer clique ali libera o áudio da música de fundo (é o primeiro gesto
+   do usuário). O painel de instruções não aparece nesta etapa.
 2. **Catálogo** — clicar numa seção mostra os 4 produtos dela. O botão **"Adicionar ao
    carrinho"** de cada produto é a única forma de escolher um item: ele **não adiciona
    nada** à sacola, só marca o produto escolhido e leva o jogador ao mapa. "Voltar"
@@ -44,8 +44,8 @@ a dificuldade de dirigir vem só da inércia e dos controles invertidos.
 7. **Leitor** — arraste cada produto da pilha até o leitor preto. Soltar em cima dele
    passa o item; soltar fora não faz nada.
 8. **Captcha** — marque todos os carrinhos 🛒 e nada além disso.
-9. **Pagamento** — digite `4242 4242 4242 4242` num teclado que reembaralha a cada
-   tecla. Dígito errado é recusado na hora.
+9. **Pagamento** — digite `4242` num teclado que reembaralha a cada tecla. Dígito
+   errado é recusado na hora.
 10. **Cupom** — apareceram taxas. Seu pedido foi cancelado com sucesso.
 
 ### Coisas que valem saber
@@ -136,7 +136,7 @@ um beco sem saída).
 |---|---|
 | posição inicial do produto na pilha | aleatória em `440 × 262 px` |
 | carrinhos no captcha | `2` a `4` de 9 células |
-| número do cartão | `4242424242424242` (16 dígitos) |
+| número do cartão | `4242` (4 dígitos, `CARTAO` em `public/js/caixa.js`) |
 | reembaralhamento do teclado | a cada tecla pressionada |
 | itens mínimos na sacola para abrir | `1` — sacola vazia recusa com toast |
 

@@ -175,8 +175,12 @@ pronta. "Compila" não é o mesmo que "ainda é possível estacionar".
   é a violação de WCAG 1.4.2. Não adicione botão de mudo achando que é esquecimento.
   O que continua proibido é volume alto ou pico súbito: ver `docs/DESIGN.md`, seção 4.
 - O `AudioContext` nasce suspenso por política de autoplay do navegador e só toca no
-  primeiro gesto. Se um dia o painel de instruções deixar de abrir no boot, a música
-  passa a começar no primeiro clique dentro do jogo, e não no fechamento do painel.
+  primeiro gesto — hoje é qualquer clique dentro do catálogo, já que o painel de
+  instruções não abre mais no boot.
+- **O painel de instruções não abre mais no boot.** Ele aparece sozinho uma única vez,
+  na primeira entrada no mapa, via `Jogo.aoEntrarNoMapa()` (chamado por
+  `Catalogo.escolherProduto` logo após `Loja.retomar(true)`), guardado pela flag
+  `instrucoesMostradas`. Depois disso só volta pelo botão "Instruções" da barra.
 - `overlayAberto()` congela a física. Se você abrir um overlay novo, use a mesma
   classe `.overlay` / `.ativa`, senão o carrinho continua andando por baixo do modal.
 - O listener global de teclado ignora eventos vindos de `<input>`. Se adicionar outro

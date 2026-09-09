@@ -46,9 +46,10 @@ mapa há duas vagas lado a lado: a da esquerda volta ao **catálogo** (sacola in
 da direita é o **PASSAR COMPRAS** e só abre com a sacola não vazia. Você tem **3 minutos
 de mapa** para chegar lá — o relógio pausa fora dele.
 
-A página abre com o painel de instruções na frente e o jogo pausado atrás; fechar o
-painel começa a partida. O botão **Instruções**, na barra de cima, traz o painel de
-volta a qualquer momento. É o único componente honesto do app.
+O painel de instruções não abre no boot — ele aparece sozinho, uma única vez, quando
+você entra no mapa pela primeira vez (o jogo pausa atrás dele até fechar). O botão
+**Instruções**, na barra de cima, traz o painel de volta a qualquer momento depois
+disso. É o único componente honesto do app.
 
 ## O mapa
 
@@ -97,7 +98,7 @@ ficam de fora de propósito.
 ## Avisos
 
 Nenhum dado real é coletado. O campo de pagamento aceita apenas o número de teste
-`4242 4242 4242 4242`, que está impresso na própria tela. Isto é uma piada jogável, não
+`4242`, que está impresso na própria tela. Isto é uma piada jogável, não
 uma loja.
 
 O aviso de oferta pisca a 2 Hz, abaixo do limiar da WCAG. Existe um botão **intenso** que

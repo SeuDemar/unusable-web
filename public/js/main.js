@@ -6,6 +6,7 @@ var Jogo = (function () {
   var cooldownBusca = 0;
   var timerReordena = null;
   var restaOferta = 0;
+  var instrucoesMostradas = false;
 
   function iniciar() {
     Prateleira.iniciar();
@@ -27,9 +28,10 @@ var Jogo = (function () {
     Estado.jogoAtivo = true;
     Loja.iniciar();     // so registra os listeners; o laco comeca no primeiro retomar()
     Catalogo.abrir();   // a tela inicial e o catalogo, nao o mapa
-    // O jogo abre com as instrucoes na frente. Fechar o painel e tambem o primeiro
-    // gesto do usuario, que e o que libera o audio da musica de fundo.
-    abrirInstrucoes();
+    // As instrucoes NAO abrem mais aqui: o catalogo fica livre para ser explorado
+    // sozinho. Elas so aparecem na primeira vez que o jogador entra no mapa, via
+    // aoEntrarNoMapa(). O primeiro gesto que libera o audio da musica de fundo
+    // passa a ser o primeiro clique dentro do catalogo.
   }
 
   /* ---------- instrucoes: o unico componente honesto ---------- */
@@ -47,6 +49,15 @@ var Jogo = (function () {
   function abrirInstrucoes() {
     abrirOverlay('#overlay-instrucoes');
     $('[data-acao="fechar-instrucoes"]').focus();
+  }
+
+  // Chamada pelo catalogo logo apos Loja.retomar(true). So abre na primeira vez
+  // que o jogador pisa no mapa; dai em diante o painel so volta pelo botao
+  // "Instrucoes" da barra superior.
+  function aoEntrarNoMapa() {
+    if (instrucoesMostradas) return;
+    instrucoesMostradas = true;
+    abrirInstrucoes();
   }
 
   function fecharInstrucoes() {
@@ -245,7 +256,7 @@ var Jogo = (function () {
     mostrarTela('#tela-final');
   }
 
-  return { iniciar: iniciar, finalizar: finalizar };
+  return { iniciar: iniciar, finalizar: finalizar, aoEntrarNoMapa: aoEntrarNoMapa };
 })();
 
 window.addEventListener('DOMContentLoaded', function () { Jogo.iniciar(); });
