@@ -77,6 +77,15 @@ var PRATELEIRAS = [
 ];
 
 /* O CHECKOUT fica logo no comeco, perto de onde o carrinho nasce. */
+/* As duas saidas do mapa ficam lado a lado, na mesma faixa de y, e os corpos se
+   encostam em x=620. Nao deixe vao entre eles: o raio de colisao do carrinho e 19,
+   entao qualquer folga menor que ~38px parece corredor e nao e - o jogador acha
+   que o jogo bugou, e isso nao e friccao engracada. */
+var CATALOGO = {
+  x: 300, y: 850, w: 320, h: 100,
+  vaga: { x: 380, y: 735, w: 160, h: 100 }
+};
+
 var CAIXA = {
   x: 620, y: 850, w: 320, h: 100,
   vaga: { x: 700, y: 735, w: 160, h: 100 }
@@ -107,11 +116,9 @@ function acharProduto(id) {
   return achado;
 }
 
-/* Sorteia 3 itens de secoes diferentes. */
-function sortearLista() {
-  var prats = embaralhar(PRATELEIRAS).slice(0, 3);
-  return prats.map(function (p) {
-    var prod = escolha(p.produtos);
-    return { id: prod.id, nome: prod.nome, emoji: prod.emoji, qtd: inteiro(1, 3) };
-  });
+/* Prateleira pelo id. O catalogo guarda so o id no Estado.escolhido. */
+function prateleiraDe(id) {
+  var achada = null;
+  PRATELEIRAS.forEach(function (p) { if (p.id === id) achada = p; });
+  return achada;
 }

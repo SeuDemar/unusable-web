@@ -70,6 +70,11 @@ body{
 .cronometro{margin-left:auto;font-size:11px;font-family:monospace;color:var(--branco)}
 .cronometro.alerta{background:var(--branco);color:var(--preto);padding:3px 7px}
 
+/* Prazo de compra. Elemento separado do #cronometro de proposito: verificarOcio
+   reescreve o textContent do outro todo quadro e os dois relogios se apagariam. */
+.prazo{font-size:11px;font-family:monospace;color:var(--branco)}
+.prazo.urgente{background:var(--branco);color:var(--preto);padding:3px 7px}
+
 .badge-carrinho{
   min-width:26px;height:26px;line-height:22px;text-align:center;
   border:2px solid var(--branco);font-size:12px;cursor:pointer;
@@ -93,8 +98,10 @@ body{
   font-size:12px;
 }
 .hud-titulo{margin:0 0 4px;font-size:10px;letter-spacing:2px;color:var(--cinza)}
-#lista-compras,#lista-carrinho{margin:0 0 10px;padding-left:16px;line-height:1.6;max-height:110px;overflow:auto}
-#lista-compras li.ok{color:var(--cinza-claro);text-decoration:line-through}
+#lista-carrinho{margin:0 0 10px;padding-left:16px;line-height:1.6;max-height:110px;overflow:auto}
+.hud-alvo{margin:0 0 10px;line-height:1.4}
+.hud-alvo.vazio{color:var(--texto-fraco);font-style:italic}
+.hud-alvo.ok{color:var(--cinza-claro);text-decoration:line-through}
 #lista-carrinho .vazio{list-style:none;margin-left:-16px;color:var(--texto-fraco);font-style:italic}
 .hud-total{margin:0;font-size:12px;border-top:1px solid var(--cinza-claro);padding-top:6px}
 .hud-botoes{display:flex;gap:6px;margin-top:8px}
@@ -216,6 +223,41 @@ body{
 }
 .emoji-scan{font-size:30px;line-height:1}
 .scanner-status{margin-top:10px;font-size:12px}
+
+/* ============ CATALOGO ============ */
+#tela-catalogo.ativa{
+  display:block;height:calc(100vh - 46px);overflow:auto;
+  padding:24px 32px;background:var(--cinza-fundo);
+}
+.catalogo-topo{margin-bottom:18px}
+.catalogo-titulo{margin:0;font-size:22px;font-weight:300;letter-spacing:6px}
+.catalogo-nota{margin:4px 0 0;font-size:11px;color:var(--cinza)}
+.passo{display:none}
+.passo.ativa{display:block}
+#catalogo-secao-nome{margin:0 0 12px;font-size:15px;font-weight:500;letter-spacing:2px}
+
+/* Colunas fixas em px de proposito: um grid fluido consertaria parte da violacao
+   de WCAG 1.4.10 Reflow, que e intencional e esta catalogada. */
+.catalogo-grade{display:grid;grid-template-columns:repeat(3,220px);gap:14px;margin-bottom:14px}
+
+.secao-card{
+  background:var(--branco);border:1px solid var(--preto);padding:14px 12px;
+  display:flex;flex-direction:column;gap:6px;cursor:pointer;
+}
+.secao-card:hover{background:var(--preto);color:var(--branco)}
+.secao-emoji{font-size:22px;letter-spacing:2px}
+.secao-nome{font-size:13px;letter-spacing:2px}
+.secao-conta{font-size:10px;color:var(--cinza)}
+
+.item-catalogo{
+  background:var(--branco);border:1px solid var(--preto);padding:12px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.item-topo{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;font-size:11px}
+.item-topo .emoji{font-size:30px;line-height:1}
+.item-topo .nome{font-size:12px}
+.item-topo .preco-de{color:var(--texto-fraco);text-decoration:line-through;font-size:10px}
+.item-topo .preco{font-weight:600;font-size:13px}
 
 .captcha-grade{display:grid;grid-template-columns:repeat(3,86px);gap:6px;margin:14px 0}
 .captcha-cel{

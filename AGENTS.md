@@ -86,7 +86,7 @@ sabote. Justificativa em `docs/DESIGN.md`, seção 7.
 
 - **Idioma do código é português.** Variáveis, funções, ids de DOM, classes CSS e
   comentários em pt-BR sem acento nos identificadores (`prateleira`, `carrinho`,
-  `vagaAtual`, `#lista-compras`). Mantenha o padrão; não misture inglês.
+  `vagaAtual`, `#lista-carrinho`). Mantenha o padrão; não misture inglês.
 - **Estilo ES5 conservador**: `var`, `function`, IIFE que devolve um objeto público.
   Cada arquivo JS grande é um módulo nesse formato (`var Loja = (function(){ ... })()`).
   Não introduza `class`, `let`/`const`, arrow function ou `async` — o código é
@@ -105,10 +105,11 @@ sabote. Justificativa em `docs/DESIGN.md`, seção 7.
 public/index.html            casca de e-commerce, telas e overlays (nada é criado só em JS)
 public/css/style.css         visual inteiro; a feiura é proposital
 public/js/util.js            helpers + anti-padrões reutilizáveis (toast 400ms, embaralhar, confirmar)
-public/js/dados.js           mapa da loja, prateleiras, catálogo, obstáculos, sorteio da lista
-public/js/estado.js          estado do jogo (lista, carrinho) e render do painel lateral
-public/js/loja.js            canvas em tela cheia, física, colisão, estacionamento por tempo
+public/js/dados.js           mapa da loja, prateleiras, CATALOGO/CAIXA (vagas de saida), obstaculos
+public/js/estado.js          estado do jogo (carrinho, escolhido, prazo) e render do painel lateral
+public/js/loja.js            canvas em tela cheia, fisica, colisao, estacionamento, setas, prazo
 public/js/prateleira.js      overlay da prateleira: arrastar com gravidade + modal de quantidade
+public/js/catalogo.js        tela do catalogo: secoes, produtos, botao "Adicionar" que nao adiciona
 public/js/caixa.js           overlay do caixa: leitor, captcha, pagamento
 public/js/musica.js          musica de elevador sintetizada, sem controle nenhum (WCAG 1.4.2)
 public/js/main.js            telas, busca com cooldown, botões que fogem, tela final
@@ -117,7 +118,7 @@ public/js/main.js            telas, busca com cooldown, botões que fogem, tela 
 Ordem obrigatória no `public/index.html` (dependência de definição em tempo de carga):
 
 ```
-util.js → dados.js → estado.js → loja.js → prateleira.js → caixa.js → musica.js → main.js
+util.js → dados.js → estado.js → loja.js → prateleira.js → catalogo.js → caixa.js → musica.js → main.js
 ```
 
 Referências cruzadas entre módulos (`Loja` chama `Prateleira.abrir`, `Caixa` chama
@@ -134,6 +135,10 @@ Referências cruzadas entre módulos (`Loja` chama `Prateleira.abrir`, `Caixa` c
 | adicionar prateleira ou produto | `public/js/dados.js`, array `PRATELEIRAS` |
 | mudar o mapa / obstáculos | `public/js/dados.js` (`MUNDO`, `CAIXA`, `OBSTACULOS`) |
 | mexer no arrastar produto | `public/js/prateleira.js`, `moverArraste` / `soltarArraste` |
+| mexer no catálogo de produtos | `public/js/catalogo.js`, `montarSecoes` / `montarItens` |
+| mexer nas setas do mapa | `public/js/loja.js`, `desenharSetas` / `setasAtivas` em `estado.js` |
+| mexer no prazo de 3 minutos | `public/js/loja.js`, `verificarPrazo` / `LIMITE_COMPRA` |
+| mexer na vaga de saída do catálogo | `public/js/dados.js` (`CATALOGO`), `public/js/loja.js` (`vagaAtual`) |
 | mexer no leitor do caixa | `public/js/caixa.js`, `soltarItemScan` |
 | mexer no captcha ou no teclado | `public/js/caixa.js`, `montarCaptcha` / `embaralharTeclado` |
 | mexer na busca com cooldown | `public/js/main.js`, `ligarBusca` |
@@ -153,8 +158,9 @@ Não há suíte de testes. A validação é manual:
 
 1. `node --check public/js/*.js` para pegar erro de sintaxe.
 2. Abrir `public/index.html` no navegador e **jogar até o cupom final**. O caminho completo é
-   o teste de regressão: dirigir → estacionar → pegar 3 itens → dirigir até o caixa →
-   leitor → captcha → pagamento → cupom.
+   o teste de regressão: catálogo → escolher um produto → dirigir → estacionar na
+   prateleira → pegar 2 itens de seções diferentes → dirigir até o caixa (com sacola
+   não vazia) → leitor → captcha → pagamento → cupom.
 3. Conferir o console: o jogo deve rodar sem nenhum erro. Fricção é intencional;
    exceção no console não é.
 
@@ -180,9 +186,19 @@ pronta. "Compila" não é o mesmo que "ainda é possível estacionar".
 - Durante o arraste na prateleira o elemento vira `position:fixed` e é movido para o
   `<body>`; `voltarPraPrateleira` desfaz isso. Qualquer caminho novo de saída do
   arraste precisa chamar essa função, senão o produto some do jogo.
-- `Loja.iniciar()` registra listeners de teclado e só é chamado uma vez por
-  carregamento de página. Reiniciar o jogo é `location.reload()`. Não existe tela de
-  título: `Jogo.iniciar()` chama `comecar()` direto no `DOMContentLoaded`.
+- `Loja.iniciar()` registra listeners de teclado e é idempotente — chame quantas vezes
+  quiser, ele só liga na primeira. Para reentrar no mapa (vindo do catálogo) use
+  `Loja.retomar(reposicionar)`, que não re-registra nada; `Loja.parar()` só congela o
+  laço. A tela inicial do jogo é o catálogo, não o mapa: `comecar()` chama
+  `Catalogo.abrir()` antes de `abrirInstrucoes()`.
+- `#tela-catalogo` é uma `.tela`, não um `.overlay` — ela **não** congela a física
+  sozinha. Quem abre o catálogo é obrigado a chamar `Loja.parar()` também
+  (`Catalogo.abrir()` já faz isso). Se você criar outro caminho para o catálogo, chame
+  `Loja.parar()` nele.
+- `Caixa.etapa()` faz `$$('.etapa').forEach(remover 'ativa')` **em todo o documento**,
+  não só dentro do `#overlay-caixa`. Por isso o catálogo usa a classe `.passo`, não
+  `.etapa`, para suas duas telas internas — usar `.etapa` faria o caixa apagar o passo
+  ativo do catálogo.
 - O listener global de teclado da loja ignora eventos vindos de `<input>`, o que mantém
   o campo de busca digitável.
 - `prenderFoco` em `public/js/caixa.js` é um keyboard trap **intencional** (WCAG 2.1.2).

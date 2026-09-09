@@ -22,6 +22,9 @@ confira as três condições em `docs/DESIGN.md` e pergunte ao autor.
   leitor arrastando, e o item é o próprio produto.
 - **Slider de quantidade de 0 a 999 com 1 px por unidade.** Foi trocado pelo botão `+`
   que foge, que é mais engraçado e menos tedioso. Fica registrado como alternativa.
+- **Lista de compras sorteada.** Existiu: `sortearLista()` sorteava 3 itens de 3 seções
+  diferentes e o HUD exibia "LISTA" com progresso. Foi descontinuada — o que se compra
+  passou a ser escolha do jogador via catálogo, e o alvo virou `Estado.escolhido`.
 
 ## Fricções novas em consideração
 
@@ -49,7 +52,7 @@ confira as três condições em `docs/DESIGN.md` e pergunte ao autor.
   violação de WCAG 1.4.10, hoje documentada em `docs/WCAG.md`.
 - **Relatório de acessibilidade versionado.** Guardar a saída do Lighthouse ou do axe
   DevTools em `docs/` como evidência das violações, junto de um print da pontuação.
-- **Os 9 critérios WCAG ainda não implementados**, listados em `docs/WCAG.md`.
+- **Os 7 critérios WCAG ainda não implementados**, listados em `docs/WCAG.md`.
 
 ## Explicitamente descartado
 
@@ -58,3 +61,8 @@ confira as três condições em `docs/DESIGN.md` e pergunte ao autor.
   impresso na própria tela.
 - **Anti-padrões que atacam acessibilidade de verdade** (piscar em frequência perigosa,
   contraste ilegível, fonte minúscula). Ver `docs/DESIGN.md`, seção "O que é proibido".
+- **Fazer "Adicionar ao carrinho" adicionar de verdade.** É tentador "consertar" porque
+  parece um bug, mas não é: um botão que adicionasse o item ao carrinho seria a
+  alternativa por ponteiro único que a WCAG 2.5.7 Dragging Movements exige, e derrubaria
+  a violação de nível AA mais demonstrável do projeto. Ver `docs/WCAG.md`, seção 2.5.7,
+  e `docs/DESIGN.md`, seção 3.6.

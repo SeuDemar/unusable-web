@@ -9,6 +9,7 @@ var Jogo = (function () {
 
   function iniciar() {
     Prateleira.iniciar();
+    Catalogo.iniciar();
     Caixa.iniciar();
     Musica.iniciar();
     ligarInstrucoes();
@@ -24,9 +25,10 @@ var Jogo = (function () {
   function comecar() {
     iniciarEstado();
     Estado.jogoAtivo = true;
-    Loja.iniciar();
-    // O jogo abre com as instrucoes na frente. Como qualquer overlay congela a
-    // fisica, o carrinho so comeca a andar depois que a pessoa fecha o painel.
+    Loja.iniciar();     // so registra os listeners; o laco comeca no primeiro retomar()
+    Catalogo.abrir();   // a tela inicial e o catalogo, nao o mapa
+    // O jogo abre com as instrucoes na frente. Fechar o painel e tambem o primeiro
+    // gesto do usuario, que e o que libera o audio da musica de fundo.
     abrirInstrucoes();
   }
 
@@ -162,8 +164,8 @@ var Jogo = (function () {
   function ligarPainel() {
     $('[data-acao="ir-caixa"]').addEventListener('click', function () {
       Estado.destaque = null;
-      if (!listaCompleta()) {
-        toast('faltam itens da lista');
+      if (!sacolaTemItem()) {
+        toast('sua sacola esta vazia. e voce clicando em botao.');
         return;
       }
       // WCAG 3.2.4 Consistent Identification (AA): o botao nao faz o que diz

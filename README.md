@@ -2,15 +2,18 @@
 
 Uma loja online com a pior UI e UX possíveis — de propósito.
 
-É um jogo de navegador onde comprar três itens vira uma provação: você **dirige** um
-carrinho pelo armazém com os controles de direção invertidos, **estaciona** parado
-3 segundos em frente à prateleira, **arrasta** os produtos até a sacola sem deixar cair,
-e depois enfrenta o leitor do caixa, o captcha e um teclado numérico que se
-reembaralha a cada tecla. No fim, uma taxa de conveniência de 37% aparece do nada.
+É um jogo de navegador onde comprar um item vira uma provação. Tudo começa num
+**catálogo** que parece um e-commerce normal — até você clicar em "Adicionar ao
+carrinho" e descobrir que o botão não adiciona nada: ele só marca o produto e te joga
+dentro do minigame. De lá, você **dirige** um carrinho pelo armazém com os controles de
+direção invertidos, **estaciona** parado 3 segundos em frente à prateleira, **arrasta**
+os produtos até a sacola sem deixar cair, e depois enfrenta o leitor do caixa, o captcha
+e um teclado numérico que se reembaralha a cada tecla. Você tem 3 minutos de mapa para
+resolver tudo isso. No fim, uma taxa de conveniência de 37% aparece do nada.
 
 Tudo funciona. Tudo é terminável. Nada é agradável.
 
-O projeto também é um exercício de acessibilidade às avessas: **28 critérios da WCAG 2.2
+O projeto também é um exercício de acessibilidade às avessas: **29 critérios da WCAG 2.2
 são violados deliberadamente**, catalogados em [`docs/WCAG.md`](docs/WCAG.md) com o que a
 norma exige, em qual funcionalidade a violação acontece, e como seria a versão conforme.
 
@@ -19,7 +22,7 @@ norma exige, em qual funcionalidade a violação acontece, e como seria a versã
 Abra `public/index.html` no navegador. É isso.
 
 Sem build, sem `npm install`, sem servidor — HTML, CSS e JavaScript puros, escritos para
-funcionar em `file://`. A página carrega já jogável, sem tela de início.
+funcionar em `file://`. A página carrega já jogável, direto no catálogo.
 
 ## Como jogar
 
@@ -32,10 +35,16 @@ funcionar em `file://`. A página carrega já jogável, sem tela de início.
 
 Sim, `A` e `D` estão invertidos. Não, não é bug.
 
+O jogo abre no **catálogo**: escolha uma seção, depois um produto, e clique em
+**"Adicionar ao carrinho"**. Isso não adiciona nada — só marca o produto escolhido e te
+leva ao mapa, onde uma seta escrachada aponta a prateleira dele (nada impede pegar
+qualquer outro produto pelo caminho).
+
 Para abrir uma prateleira, entre no retângulo tracejado à frente dela e **fique parado
-3 segundos** — um contador aparece em cima do carrinho. O ângulo não importa. Com a lista
-completa, faça o mesmo na vaga do **PASSAR COMPRAS**, embaixo, perto de onde você
-começou.
+3 segundos** — um contador aparece em cima do carrinho. O ângulo não importa. Embaixo do
+mapa há duas vagas lado a lado: a da esquerda volta ao **catálogo** (sacola intacta), a
+da direita é o **PASSAR COMPRAS** e só abre com a sacola não vazia. Você tem **3 minutos
+de mapa** para chegar lá — o relógio pausa fora dele.
 
 A página abre com o painel de instruções na frente e o jogo pausado atrás; fechar o
 painel começa a partida. O botão **Instruções**, na barra de cima, traz o painel de
@@ -43,7 +52,7 @@ volta a qualquer momento. É o único componente honesto do app.
 
 ## O mapa
 
-Seis prateleiras em três colunas de duas, e o PASSAR COMPRAS embaixo:
+Seis prateleiras em três colunas de duas, e as duas vagas de saída lado a lado embaixo:
 
 ```
    ROUPAS        BOLSAS        BELEZA
@@ -52,8 +61,8 @@ Seis prateleiras em três colunas de duas, e o PASSAR COMPRAS embaixo:
   CALCADOS    ACESSORIOS       CASA
   [ vaga ]      [ vaga ]      [ vaga ]
 
-               [ vaga ]
-           PASSAR COMPRAS          ▣ ← você começa aqui
+     [ vaga ]        [ vaga ]
+    CATALOGO      PASSAR COMPRAS      ▣ ← você começa aqui
 ```
 
 ## Estrutura
@@ -62,7 +71,7 @@ Seis prateleiras em três colunas de duas, e o PASSAR COMPRAS embaixo:
 public/              o site publicado — só isto vai pro ar
   index.html         barra superior, mapa, HUD e overlays
   css/style.css      o visual: preto, cinza e branco
-  js/                sete módulos vanilla, carregados em ordem
+  js/                nove módulos vanilla, carregados em ordem
 wrangler.jsonc       config de deploy na Cloudflare
 AGENTS.md            regras para agentes de IA que forem mexer no projeto
 docs/                documentação do projeto
@@ -76,7 +85,7 @@ ficam de fora de propósito.
 
 | Documento | Para quê |
 |---|---|
-| [`docs/WCAG.md`](docs/WCAG.md) | **os 28 critérios violados**, com a funcionalidade que fere cada um |
+| [`docs/WCAG.md`](docs/WCAG.md) | **os 29 critérios violados**, com a funcionalidade que fere cada um |
 | [`AGENTS.md`](AGENTS.md) | regras, restrições e convenções para quem (ou o que) for editar |
 | [`docs/DESIGN.md`](docs/DESIGN.md) | o manifesto da má UX: taxonomia dos anti-padrões e o que é proibido |
 | [`docs/GAMEPLAY.md`](docs/GAMEPLAY.md) | manual do jogador e tabela de todos os parâmetros de balanceamento |

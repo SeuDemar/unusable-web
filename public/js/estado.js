@@ -1,16 +1,18 @@
 /* estado.js - estado do jogo e render do painel lateral */
 
 var Estado = {
-  lista: [],
   carrinho: [],
-  destaque: null,      // id da prateleira destacada pela busca
+  destaque: null,      // id da prateleira destacada pela busca ou pelo catalogo
+  escolhido: null,     // { id, nome, emoji, prateleiraId } marcado no catalogo
+  tempoMapa: 0,        // ms acumulados dentro do mapa (prazo de compra)
   jogoAtivo: false
 };
 
 function iniciarEstado() {
-  Estado.lista = sortearLista();
   Estado.carrinho = [];
   Estado.destaque = null;
+  Estado.escolhido = null;
+  Estado.tempoMapa = 0;
   renderPainel();
 }
 
@@ -43,24 +45,54 @@ function qtdNoCarrinho(id) {
   return q;
 }
 
-function listaCompleta() {
-  return Estado.lista.every(function (item) { return qtdNoCarrinho(item.id) >= item.qtd; });
+function sacolaTemItem() {
+  return Estado.carrinho.length > 0;
 }
 
-function itensFaltando() {
-  return Estado.lista.filter(function (item) { return qtdNoCarrinho(item.id) < item.qtd; });
+/* "O item escolhido no catalogo ja foi pego?" e derivado, nunca guardado num
+   booleano. Assim esvaziar a sacola, o recolhimento por ocio e escolher de novo
+   um produto que ja esta na sacola acertam sozinhos, sem caso especial. */
+function escolhidoNaSacola() {
+  return !!Estado.escolhido && qtdNoCarrinho(Estado.escolhido.id) > 0;
+}
+
+/* Descritores das setas do mapa. O estado decide O QUE apontar; o loja.js decide
+   COMO desenhar. Sem isso o desenho precisaria conhecer a regra do catalogo. */
+function setasAtivas() {
+  var fora = [];
+  if (!Estado.escolhido) return fora;
+
+  if (!escolhidoNaSacola()) {
+    var p = prateleiraDe(Estado.escolhido.prateleiraId);
+    if (p) {
+      fora.push({
+        chave: 'alvo:' + p.id,
+        alvo: p,
+        legenda: 'O ' + Estado.escolhido.nome.toUpperCase() + ' TA AQUI!!!'
+      });
+    }
+    return fora;
+  }
+
+  fora.push({ chave: 'saida:catalogo', alvo: CATALOGO, legenda: 'VOLTAR PRO CATALOGO' });
+  fora.push({ chave: 'saida:caixa', alvo: CAIXA, legenda: 'PAGAR AQUI' });
+  return fora;
 }
 
 function renderPainel() {
-  var ulLista = $('#lista-compras');
-  ulLista.innerHTML = '';
-  Estado.lista.forEach(function (item) {
-    var li = document.createElement('li');
-    var tem = qtdNoCarrinho(item.id);
-    li.textContent = item.emoji + ' ' + item.nome + ' x' + item.qtd + ' (' + tem + '/' + item.qtd + ')';
-    if (tem >= item.qtd) li.className = 'ok';
-    ulLista.appendChild(li);
-  });
+  var alvo = $('#alvo-atual');
+  if (alvo) {
+    if (!Estado.escolhido) {
+      alvo.textContent = 'nenhum';
+      alvo.className = 'hud-alvo vazio';
+    } else if (escolhidoNaSacola()) {
+      alvo.textContent = Estado.escolhido.emoji + ' ' + Estado.escolhido.nome + ' (ja pegou)';
+      alvo.className = 'hud-alvo ok';
+    } else {
+      alvo.textContent = Estado.escolhido.emoji + ' ' + Estado.escolhido.nome;
+      alvo.className = 'hud-alvo';
+    }
+  }
 
   var ulCar = $('#lista-carrinho');
   ulCar.innerHTML = '';

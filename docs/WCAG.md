@@ -6,8 +6,8 @@ propósito, como parte do exercício de projetar a pior experiência possível.
 **Norma de referência:** Web Content Accessibility Guidelines (WCAG) 2.2, W3C
 Recommendation de 5 de outubro de 2023 — <https://www.w3.org/TR/WCAG22/>
 
-**Meta:** no mínimo 13 critérios. **Entregue:** 28 catalogados, sendo **20
-implementados e verificáveis** e 8 documentados.
+**Meta:** no mínimo 13 critérios. **Entregue:** 29 catalogados, sendo **22
+implementados e verificáveis** e 7 documentados.
 
 > **Nada aqui é acidental.** Cada linha registra o que a norma exige, como o app a
 > descumpre, e como seria a versão conforme. A quarta coluna existe porque violar uma
@@ -17,9 +17,10 @@ implementados e verificáveis** e 8 documentados.
 
 | Nível | Implementados | Documentados |
 |---|---|---|
-| A | 11 | 6 |
+| A | 12 | 5 |
 | AA | 9 | 2 |
-| **Total** | **20** | **8** |
+| AAA | 1 | 0 |
+| **Total** | **22** | **7** |
 
 
 ## Resumo: o que foi quebrado e em qual funcionalidade
@@ -29,8 +30,8 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 
 | # | Critério | Nível | Funcionalidade que fere | Status |
 |---|---|---|---|---|
-| 1 | 1.1.1 Non-text Content | A | **Mapa da loja** (canvas sem alternativa) e **cards de produto** (só emoji) | ✅ |
-| 2 | 1.3.1 Info and Relationships | A | **Cards de produto**, **grade do captcha** e **par de preços** riscado/atual | 📄 |
+| 1 | 1.1.1 Non-text Content | A | **Mapa da loja**, **setas e círculo no canvas** e **cards de produto** (só emoji) | ✅ |
+| 2 | 1.3.1 Info and Relationships | A | **Catálogo**, **cards de produto**, **grade do captcha** e **par de preços** | ✅ |
 | 3 | 1.4.2 Audio Control | A | **Música de elevador de fundo** — começa sozinha e não tem pausa | ✅ |
 | 4 | 1.4.3 Contrast (Minimum) | AA | **Preço riscado**, **status da busca**, **texto e botão de recusa dos cookies** | ✅ |
 | 5 | 1.4.4 Resize Text | AA | **Página inteira** — meta viewport bloqueia o zoom | ✅ |
@@ -38,12 +39,12 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 | 7 | 1.4.13 Content on Hover or Focus | AA | **Busca do topo** — a lista de resultados se reordena sob o ponteiro | ✅ |
 | 8 | 2.1.1 Keyboard | A | **Arrastar produto**, **leitor do caixa**, **captcha** | ✅ |
 | 9 | 2.1.2 No Keyboard Trap | A | **Etapa de pagamento** — o Tab não sai de lá | ✅ |
-| 10 | 2.2.1 Timing Adjustable | A | **Recolhimento da sacola por abandono** (60 s) e **mensagens de 400 ms** | ✅ |
-| 11 | 2.2.2 Pause, Stop, Hide | A | **Aviso de oferta**, **botões do HUD** que trocam de lugar, **barra de cookies** | ✅ |
+| 10 | 2.2.1 Timing Adjustable | A | **Prazo de compra** (3 min), **abandono** (60 s) e **mensagens de 400 ms** | ✅ |
+| 11 | 2.2.2 Pause, Stop, Hide | A | **Aviso de oferta**, **setas do mapa**, **botões do HUD**, **barra de cookies** | ✅ |
 | 12 | 2.3.1 Three Flashes | A | **Aviso de oferta** — 2 Hz por padrão; acima de 3 Hz só via opt-in | 📄 |
 | 13 | 2.4.1 Bypass Blocks | A | **Barra superior** — sem skip link, sem landmarks | 📄 |
 | 14 | 2.4.2 Page Titled | A | **Título da página** — genérico e nunca atualizado | 📄 |
-| 15 | 2.4.3 Focus Order | A | **Ordem de tabulação global** — tabindex positivos arbitrários | ✅ |
+| 15 | 2.4.3 Focus Order | A | **Ordem de tabulação global** — tabindex positivos, e a ordem muda com a tela ativa | ✅ |
 | 16 | 2.4.7 Focus Visible | AA | **Todos os controles** — outline zerado globalmente | ✅ |
 | 17 | 2.4.11 Focus Not Obscured | AA | **Barra de cookies** — fixa por cima, e volta sozinha | ✅ |
 | 18 | 2.5.7 Dragging Movements | AA | **Colocar produto na sacola** e **passar item no leitor** — só por arrasto | ✅ |
@@ -51,12 +52,13 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 | 20 | 3.1.1 Language of Page | A | **Página inteira** — `lang="en"` em site português | ✅ |
 | 21 | 3.2.2 On Input | A | **Teclado do pagamento** — reembaralha a cada tecla | ✅ |
 | 22 | 3.2.3 Consistent Navigation | AA | **Botões do HUD** — trocam de ordem a cada 4 s | 📄 |
-| 23 | 3.2.4 Consistent Identification | AA | **Botão "Finalizar"** que não finaliza, **badge x HUD** com números diferentes, **cookies** | ✅ |
-| 24 | 3.3.1 Error Identification | A | **Todas as mensagens de erro** — toast de 400 ms, longe do campo | ✅ |
-| 25 | 3.3.2 Labels or Instructions | A | **Teclado do pagamento** e **tela de quantidade**, ambos sem rótulo | 📄 |
-| 26 | 3.3.7 Redundant Entry | A | **Pagamento** — "Limpar tudo" apaga os 16 dígitos, sem backspace | 📄 |
-| 27 | 3.3.8 Accessible Authentication | AA | **Pagamento** e **captcha** — teste de função cognitiva, sem colar | ✅ |
-| 28 | 4.1.2 Name, Role, Value | A | **Badge da sacola**, **captcha**, **cards de produto**, **recusar cookies** | ✅ |
+| 23 | 3.2.4 Consistent Identification | AA | **"Adicionar ao carrinho" que não adiciona**, **vagas de saída gêmeas**, **badge x HUD**, **cookies** | ✅ |
+| 24 | 3.2.5 Change on Request | AAA | **Botão do catálogo** — troca a tela inteira em vez de adicionar o item | ✅ |
+| 25 | 3.3.1 Error Identification | A | **Todas as mensagens de erro** — toast de 400 ms, longe do campo | ✅ |
+| 26 | 3.3.2 Labels or Instructions | A | **Teclado do pagamento** e **tela de quantidade**, ambos sem rótulo | 📄 |
+| 27 | 3.3.7 Redundant Entry | A | **Pagamento** — "Limpar tudo" apaga os 16 dígitos, sem backspace | 📄 |
+| 28 | 3.3.8 Accessible Authentication | AA | **Pagamento** e **captcha** — teste de função cognitiva, sem colar | ✅ |
+| 29 | 4.1.2 Name, Role, Value | A | **Badge da sacola**, **captcha**, **cards de produto**, **recusar cookies** | ✅ |
 
 ✅ implementado e verificável · 📄 analisado, não reforçado nesta rodada
 
@@ -64,7 +66,9 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 
 | Funcionalidade do site | Critérios que ela fere |
 |---|---|
+| Catálogo de produtos | 3.2.4, 3.2.5, 1.3.1, 2.4.3, 4.1.2, 1.4.10 |
 | Mapa da loja (canvas) | 1.1.1 |
+| Setas e círculo no mapa | 1.1.1, 2.2.2 |
 | Barra superior e navegação | 1.4.10, 2.4.1, 2.4.3, 2.4.7 |
 | Busca do topo | 1.4.13, 1.4.3 |
 | Aviso de oferta | 2.2.2, 2.3.1 |
@@ -77,7 +81,7 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 | Pagamento | 2.1.2, 3.2.2, 3.3.2, 3.3.7, 3.3.8 |
 | Música de fundo | 1.4.2 |
 | Mensagens do sistema (toast) | 3.3.1, 2.2.1 |
-| Recolhimento da sacola por abandono | 2.2.1 |
+| Limites de tempo (prazo de 3 min e abandono de 60 s) | 2.2.1 |
 | Documento e metadados da página | 1.4.4, 2.4.2, 3.1.1 |
 
 ---
@@ -95,21 +99,34 @@ identificados apenas por emoji dentro de um `<span class="emoji">`
 (`public/js/prateleira.js`, `montarProdutos`). Um leitor de tela não percebe que existe
 uma loja, um carrinho, prateleiras ou produtos.
 
+A seta gigante, o círculo torto e a legenda que indicam onde está o produto escolhido
+(`public/js/loja.js`, `desenharSetas`) são desenhados no canvas e comunicam o objetivo
+do jogo **só graficamente** — não existe equivalente textual em lugar nenhum da página,
+nem mesmo no `#alvo-atual` do HUD, que mostra o nome do produto mas não a direção.
+
 **A versão conforme seria:** `<canvas>` com `role="img"` e `aria-label` descrevendo o
 estado atual, ou uma região `aria-live` narrando posição do carrinho e seções próximas;
 cada produto com nome textual associado programaticamente ao seu ícone.
 
-## 1.3.1 Info and Relationships · Nível A · 📄 documentado
+## 1.3.1 Info and Relationships · Nível A · ✅ implementado
 
 **A norma exige:** estrutura e relações transmitidas visualmente precisam existir também
 em código.
 
-**Como o unusable viola:** cards de produto, células do captcha e itens do menu de
-categorias são `<div>` e `<li>` sem papel semântico. Preço antigo e preço promocional
-são dois `<span>` irmãos, sem relação declarada — nada indica que um é o outro riscado.
+**Como o unusable viola:** cards de produto, células do captcha e cards de seção do
+catálogo são `<div>` sem papel semântico. Preço antigo e preço promocional são dois
+`<span>` irmãos, sem relação declarada — nada indica que um é o outro riscado.
+
+O catálogo (`public/js/catalogo.js`) soma um caso novo: a navegação por drill-down —
+lista de seções → produtos de uma seção — é feita trocando a classe `ativa` entre dois
+`<div class="passo">` irmãos, sem `aria-expanded`, sem `aria-live` e sem heading
+hierárquico ligando visualmente a seção escolhida aos produtos mostrados. Uma pessoa
+usando leitor de tela não tem como saber que "Voltar" volta de um estado para o outro,
+nem em qual seção está.
 
 **A versão conforme seria:** `<button>` para elementos acionáveis, `<del>` e `<ins>` para
-a relação entre preços, cabeçalhos e listas refletindo a hierarquia visual.
+a relação entre preços, `aria-expanded` no card de seção e um heading que nomeia a seção
+atual, cabeçalhos e listas refletindo a hierarquia visual.
 
 ## 1.4.2 Audio Control · Nível A · ✅ implementado
 
@@ -265,11 +282,18 @@ enquanto aberto e retorna ao elemento que o abriu — o padrão de modal acessí
 **A norma exige:** limites de tempo precisam poder ser desligados, ajustados ou
 estendidos.
 
-**Como o unusable viola:** dois prazos rígidos, nenhum ajustável:
+**Como o unusable viola:** três prazos rígidos, nenhum ajustável:
 
+- `public/js/loja.js`, `verificarPrazo`: `LIMITE_COMPRA = 180000`. Três minutos de tempo
+  dentro do mapa (pausa no catálogo e com qualquer overlay aberto) e o caixa vem até o
+  jogador com o que estiver na sacola — sem pedir, sem opção de estender. Se a sacola
+  estiver vazia nesse instante, o jogo concede uma prorrogação automática de 30 s
+  (`PRORROGACAO`), mas isso evita um beco sem saída, não é um "preciso de mais tempo"
+  oferecido ao jogador.
 - `public/js/loja.js`, `verificarOcio`: `LIMITE_OCIOSO = 60000`. Sessenta segundos sem
   input e o carrinho é recolhido, esvaziando a sacola. Não há botão de "preciso de mais
-  tempo".
+  tempo". Convive com o prazo de compra — os dois mostradores (`#prazo` e `#cronometro`)
+  ficam lado a lado na barra superior.
 - `public/js/util.js`, `toast`: toda mensagem do sistema desaparece em 400 ms, tempo
   insuficiente para muita gente ler uma frase inteira.
 
@@ -281,14 +305,19 @@ menos 10 vezes, e mensagens que permanecem até serem dispensadas.
 **A norma exige:** conteúdo que se move, pisca ou atualiza automaticamente por mais de
 5 segundos precisa ter mecanismo de pausar, parar ou ocultar.
 
-**Como o unusable viola:** três animações perpétuas sem controle algum:
+**Como o unusable viola:** quatro animações perpétuas sem controle algum:
 
 - `.oferta` na barra superior pisca continuamente (`animation: piscar .5s infinite`);
 - `#oferta-tempo` conta regressivamente e **reinicia sozinho** quando zera
   (`reiniciarOferta` em `public/js/main.js`) — a oferta nunca termina;
 - `#botoes-carrinho` troca a ordem dos botões do HUD a cada 4 segundos via
   `trocarLugares`;
-- a barra de cookies volta sozinha 7 segundos depois de ser recusada.
+- a barra de cookies volta sozinha 7 segundos depois de ser recusada;
+- as setas e o círculo do mapa (`public/js/loja.js`, `desenharSetas`) oscilam sem parar
+  enquanto houver um item escolhido no catálogo ou a sacola tiver algo dentro — não há
+  como pausar, parar ou ocultar. A oscilação é deliberadamente lenta (~0,18 Hz, posição
+  e rotação, nunca opacidade) para não somar com o piscar de `.oferta` e ultrapassar o
+  limite de 3 Hz do WCAG 2.3.1.
 
 **A versão conforme seria:** um botão de pausa global para animações, ou respeitar
 `prefers-reduced-motion` e parar tudo que não for essencial.
@@ -354,6 +383,9 @@ sem relação com a ordem visual:
 | finalizar | 6 | HUD, à esquerda do anterior |
 | campo de busca | 9 | barra superior, esquerda |
 | modo intenso | 17 | barra superior, meio |
+| voltar do catálogo | 25 | tela do catálogo, abaixo da grade de produtos |
+| card de seção (catálogo) | 40–45 | grade de seções, no meio da tela |
+| "Adicionar ao carrinho" (catálogo) | 46–49 | grade de produtos, um por card |
 | fechar prateleira | 21 | modal |
 | aceitar cookies | 30 | barra inferior |
 | recusar cookies | 31 | barra inferior |
@@ -362,6 +394,12 @@ Tabular começa na ponta direita da barra, salta para o HUD no meio da tela, vol
 esquerda da barra e só então desce. Pior: os botões do HUD trocam de posição visual a
 cada 4 segundos sem mudar de posição no DOM, então a ordem de foco e a ordem visual
 divergem sozinhas.
+
+A ordem também **muda conforme a tela ativa**: `#tela-catalogo`, `#tela-loja` e
+`#tela-final` nunca estão visíveis ao mesmo tempo (`.tela{display:none}`), então os
+elementos com `display:none` saem da sequência de tabulação inteiros — tabular pelo
+catálogo pula direto do card 49 para o `tabindex="30"` da barra de cookies, e só ao
+entrar no mapa é que 21 e os do HUD passam a existir na sequência.
 
 **A versão conforme seria:** nenhum `tabindex` positivo — apenas `0` e `-1` — deixando a
 ordem do DOM refletir a ordem visual.
@@ -427,6 +465,14 @@ não consegue comprar nada.
 "adicionar" em cada card, e um clique simples para passar o item no leitor, mantendo o
 arraste apenas como atalho opcional.
 
+> **Isto é a armadilha que sustenta esta violação, e é proposital:** o catálogo
+> (`public/js/catalogo.js`) TEM um botão "Adicionar ao carrinho" em cada card de
+> produto. Se esse botão adicionasse de verdade, ele seria exatamente a alternativa por
+> ponteiro único que a norma pede acima — e derrubaria esta violação de nível AA, a mais
+> demonstrável do projeto. Por isso o botão só marca `Estado.escolhido` e leva ao mapa
+> (`toast('adicionado! (nao foi)')`); ele nunca chama `adicionarAoCarrinho`. **Não
+> "conserte" esse botão.** Ver WCAG 3.2.4 e 3.2.5 para o que ele viola em troca.
+
 ## 2.5.8 Target Size (Minimum) · Nível AA · ✅ implementado
 
 **A norma exige:** alvos de ponteiro de pelo menos 24×24 CSS px, ou espaçamento
@@ -487,8 +533,16 @@ quanto mais entre telas.
 **A norma exige:** componentes com a mesma função precisam ser identificados de forma
 consistente.
 
-**Como o unusable viola:** dois casos:
+**Como o unusable viola:** cinco casos:
 
+- **"Adicionar ao carrinho" não adiciona nada.** É o caso mais forte do projeto: no
+  catálogo (`public/js/catalogo.js`, `escolherProduto`), o botão com o rótulo mais
+  universalmente entendido do e-commerce só marca `Estado.escolhido` e troca de tela.
+  Encher a sacola de verdade continua exigindo o arrasto na prateleira (WCAG 2.5.7).
+- **As duas vagas de saída são retângulos tracejados idênticos com destinos
+  diferentes.** `CATALOGO` e `CAIXA` (`public/js/dados.js`) são desenhados com a mesma
+  forma, mesma borda tracejada, distinguidos só pelo rótulo dentro do bloco — quem não
+  lê o texto não sabe qual vaga leva a qual lugar.
 - **O botão mente sobre a própria função:** `Finalizar` não finaliza nada; em
   `public/js/main.js` ele apenas emite `esse botao nao finaliza nada. dirija ate PASSAR
   COMPRAS.`
@@ -500,6 +554,22 @@ consistente.
 
 **A versão conforme seria:** um ícone por significado, rótulos que descrevem a ação real
 e uma única definição de "quantidade no carrinho".
+
+## 3.2.5 Change on Request · Nível AAA · ✅ implementado
+
+**A norma exige:** mudanças de contexto (trocar de página, mover o foco, abrir uma nova
+janela) só devem acontecer quando o usuário pede, e não como efeito colateral de outra
+ação.
+
+**Como o unusable viola:** clicar em "Adicionar ao carrinho" no catálogo
+(`public/js/catalogo.js`, `escolherProduto`) troca a tela inteira — de `#tela-catalogo`
+para `#tela-loja` — sem que o rótulo do botão sugira nada disso. O usuário pediu para
+adicionar um item a uma lista; o que ele recebeu foi uma mudança de contexto completa,
+incluindo o carrinho sendo reposicionado no mapa. É o critério que nomeia exatamente o
+troll central desta versão do jogo.
+
+**A versão conforme seria:** o botão adiciona o item e permanece na mesma tela, com uma
+confirmação visual (e opcionalmente um link separado, explícito, para "ver no mapa").
 
 ## 3.3.1 Error Identification · Nível A · ✅ implementado
 
@@ -618,12 +688,13 @@ viraria apenas ruído.
 | Rodar Lighthouse ou axe DevTools e guardar o relatório | 1.4.3, 3.1.1, 4.1.2, 3.3.2 |
 | Medir contraste dos pares da tabela de 1.4.3 | 1.4.3 |
 | Cronometrar o aviso de oferta e o carrinho ocioso | 2.2.1, 2.2.2, 2.3.1 |
+| Clicar em "Adicionar ao carrinho" e conferir o contador da sacola | 3.2.4, 3.2.5, 2.5.7 |
 | Tentar comprar sem usar arrasto | 2.5.7 |
 | Recusar os cookies e cronometrar a volta da barra | 2.4.11, 2.5.8, 3.2.4 |
 | Tentar colar o número do cartão | 3.3.8, 3.3.7 |
 
 ## Escopo desta rodada
 
-Os 19 marcados ✅ estão implementados e são demonstráveis. Os 8 marcados 📄 estão
+Os 22 marcados ✅ estão implementados e são demonstráveis. Os 7 marcados 📄 estão
 analisados aqui mas não foram reforçados no código — vários já falham naturalmente,
 apenas não foram verificados nem aprofundados.

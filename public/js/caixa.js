@@ -21,7 +21,10 @@ var Caixa = (function () {
     Loja.zerarOcio();
     abrirOverlay('#overlay-caixa');
     montarScanner();
-    etapa('#etapa-scanner');
+    // Sacola vazia deixaria restamScan em 0 e o leitor nunca avancaria: beco sem
+    // saida. Nao deveria acontecer, mas se acontecer, pula direto pro captcha.
+    if (restamScan <= 0) { montarCaptcha(); etapa('#etapa-captcha'); }
+    else etapa('#etapa-scanner');
   }
 
   function etapa(id) {

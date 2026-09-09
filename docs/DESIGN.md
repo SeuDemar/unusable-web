@@ -70,25 +70,33 @@ Ações que na web real são instantâneas viram tarefas motoras.
 | Botões do HUD trocam de lugar a cada 4 s | HUD sobre o mapa |
 | "Ir pro caixa" e "Limpar tudo" trocam a cada 4 s | painel lateral |
 | Botão que não faz nada ("Ir pro caixa" só manda você dirigir) | painel lateral |
+| Seta e círculo do mapa oscilam sem parar (~0,18 Hz, nunca piscam) | mapa |
 
 ### 3.5 Pressão temporal e perda
 | Anti-padrão | Onde |
 |---|---|
+| Prazo de 3 minutos de mapa; ao zerar, o caixa vem até você | loja |
 | Carrinho recolhido por abandono após 60 s parado | loja |
 | Captcha errado regenera a grade inteira | caixa |
 
 ### 3.6 Padrões obscuros de e-commerce (a sátira)
 | Anti-padrão | Onde |
 |---|---|
+| **"Adicionar ao carrinho" não adiciona nada — só marca o alvo e joga no mapa** | catálogo |
+| Duas vagas de saída idênticas, com destinos diferentes | mapa |
 | Taxa de conveniência de 37% revelada só no cupom | tela final |
 | "Estacionamento do carrinho" de R$ 18,50 surgindo do nada | tela final |
 | "Sua compra foi cancelada com sucesso 😊" | tela final |
 | Botão "Não desfazer o cancelamento" para confirmar | tela final |
-| Preço "de" riscado que nunca foi cobrado | prateleira |
+| Preço "de" riscado que nunca foi cobrado | prateleira, catálogo |
 | Contagem regressiva de oferta que reinicia sozinha | barra superior |
 | Badge contando linhas e HUD contando unidades | barra superior |
 | Barra de cookies que volta 7 s depois de ser recusada | rodapé |
 | "ACEITAR TUDO" gigante ao lado de um "x" de 12 px | rodapé |
+
+A entrada do catálogo é a mais importante da tabela: é o botão com o rótulo mais
+universalmente entendido do e-commerce, fazendo outra coisa. Ele não pode ser
+"consertado" para adicionar de verdade — ver a nota em `docs/WCAG.md`, seção 2.5.7.
 
 ### 3.7 Estética deliberadamente fria
 A partir desta versão a estética é **minimalista monocromática**: preto, cinza e branco,
@@ -174,6 +182,13 @@ tédio.
 A fila cronometrada e o alinhamento do código de barras saíram justamente por aqui: a
 fila cobrava só espera, sem piada nova a cada segundo, e o alinhamento empilhava uma
 segunda exigência motora em cima do arrasto que a prateleira já cobra.
+
+O mapa hoje acumula dirigir, estacionar 3 s, ócio de 60 s, prazo de compra de 3 min e as
+setas oscilando — cinco coisas ao mesmo tempo. O prazo de compra **pausa com qualquer
+overlay aberto** (painel de instruções, prateleira, caixa) justamente para não empilhar
+pressão temporal em cima do arraste, que já é a exigência motora mais lenta do jogo. Sem
+essa pausa, os "3 minutos" viram um relógio contra o arrasto, e aí o jogo fica difícil em
+vez de irritante — o oposto do que a seção 2 pede.
 
 ## 7. A exceção honesta: o painel de instruções
 

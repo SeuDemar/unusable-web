@@ -33,20 +33,40 @@
           title="pisca acima de 3 Hz - risco para epilepsia fotossensivel">intenso</button>
 
   <span id="cronometro" class="cronometro"></span>
+  <span id="prazo" class="prazo">03:00</span>
 
   <!-- WCAG 4.1.2 Name, Role, Value (A): div fazendo papel de botao, sem role -->
   <div class="badge-carrinho" id="badge-carrinho" tabindex="4">0</div>
   <button class="btn-instrucoes" id="btn-instrucoes" tabindex="2">Instruções</button>
 </header>
 
+<!-- ============ TELA CATALOGO: a vitrine que parece normal ============ -->
+<section id="tela-catalogo" class="tela ativa">
+  <div class="catalogo-topo">
+    <h1 class="catalogo-titulo">CATALOGO</h1>
+    <p class="catalogo-nota">o tempo nao corre aqui no catalogo. nao se acostume.</p>
+  </div>
+
+  <!-- Classe .passo, nao .etapa: Caixa.etapa() limpa .etapa em todo o documento -->
+  <div class="passo ativa" id="passo-secoes">
+    <div id="catalogo-secoes" class="catalogo-grade"></div>
+  </div>
+
+  <div class="passo" id="passo-itens">
+    <h2 id="catalogo-secao-nome"></h2>
+    <div id="catalogo-itens" class="catalogo-grade"></div>
+    <button class="btn btn-mini btn-fantasma" data-acao="voltar-secoes" tabindex="25">Voltar</button>
+  </div>
+</section>
+
 <!-- ============ TELA LOJA: mapa em tela cheia ============ -->
-<section id="tela-loja" class="tela ativa">
+<section id="tela-loja" class="tela">
   <!-- WCAG 1.1.1 Non-text Content (A): o jogo inteiro e um canvas sem alternativa -->
   <canvas id="mapa"></canvas>
 
   <div id="hud">
-    <p class="hud-titulo">LISTA</p>
-    <ul id="lista-compras"></ul>
+    <p class="hud-titulo">ALVO</p>
+    <p id="alvo-atual" class="hud-alvo vazio">nenhum</p>
     <p class="hud-titulo">SACOLA <span id="contador-carrinho">(0)</span></p>
     <ul id="lista-carrinho"><li class="vazio">vazia</li></ul>
     <p class="hud-total">Total <b id="total-carrinho">R$ 0,00</b></p>
@@ -96,8 +116,14 @@
     </p>
 
     <h3>Objetivo</h3>
-    <p>Pegar os itens da sua lista e levar o carrinho até o <b>PASSAR COMPRAS</b>,
-    o retângulo largo na parte de baixo do mapa, perto de onde você começou.</p>
+    <p>Escolher um produto no <b>catálogo</b>, ir buscá-lo no mapa e levar o carrinho
+    até o <b>PASSAR COMPRAS</b>, na parte de baixo do mapa.</p>
+
+    <h3>Catálogo</h3>
+    <p>Clique numa seção para ver os produtos dela. O botão <b>Adicionar ao carrinho</b>
+    é a única forma de escolher um item — ele marca o produto e leva você para o mapa.
+    Marcar não é ter: o produto só entra na sacola quando você for buscá-lo na
+    prateleira.</p>
 
     <h3>Dirigir o carrinho</h3>
     <ul>
@@ -119,13 +145,19 @@
     <p>Na tela de quantidade só existe o botão <b>+</b>. Depois de 5 cliques ele começa
     a fugir do cursor.</p>
 
-    <h3>Finalizar</h3>
-    <p>Com a lista completa, pare 3 segundos na vaga do <b>PASSAR COMPRAS</b>. Depois
-    vêm o leitor (arraste cada produto até ele), o captcha e o pagamento.</p>
+    <h3>As duas saídas</h3>
+    <p>Embaixo do mapa há duas vagas lado a lado. A da esquerda volta para o
+    <b>catálogo</b>; a da direita é o <b>PASSAR COMPRAS</b>. As duas exigem os mesmos
+    3 segundos parado. Depois do caixa vêm o leitor, o captcha e o pagamento.</p>
+    <p>Uma seta grande no mapa aponta onde está o produto que você escolheu. Nada
+    impede você de pegar qualquer outra coisa no caminho.</p>
 
     <h3>Cuidado</h3>
-    <p>Carrinho parado por 60 segundos é recolhido e a sacola esvazia. O aviso aparece
-    aos 30 segundos, na barra de cima.</p>
+    <p>Você tem <b>3 minutos</b> de mapa para comprar. O relógio só corre dentro do
+    mapa — no catálogo e com este painel aberto ele fica parado. Quando zerar, o caixa
+    vem até você com o que estiver na sacola.</p>
+    <p>Além disso, carrinho parado por 60 segundos é recolhido e a sacola esvazia. O
+    aviso aparece aos 30 segundos, na barra de cima.</p>
   </div>
 </div>
 
@@ -208,6 +240,7 @@
 <script src="js/estado.js"></script>
 <script src="js/loja.js"></script>
 <script src="js/prateleira.js"></script>
+<script src="js/catalogo.js"></script>
 <script src="js/caixa.js"></script>
 <script src="js/musica.js"></script>
 <script src="js/main.js"></script>

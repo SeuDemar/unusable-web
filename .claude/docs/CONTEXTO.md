@@ -41,9 +41,11 @@ Duas coisas importantes saem daí:
 | Mapa em tela cheia, sem menu lateral nem rodapé | Pedido do autor: "basta apenas o mapa em tela cheia". O que o jogador precisa saber ficou num HUD compacto sobre o mapa. |
 | Estacionar por tempo, não por ângulo | Pedido do autor. Três segundos parado na vaga, com contagem em cima do carrinho. |
 | Sem rodinha empenada e sem trava de roda | Pedido do autor. O foco é a má experiência de uso, não a dificuldade motora de pilotar. |
-| Sem tela de título | Pedido do autor. A página carrega já jogável; as instruções foram para um botão na barra superior. |
+| Catálogo como tela inicial, sem lista sorteada | Pedido do autor. A página carrega num catálogo de produtos comum; "Adicionar ao carrinho" não adiciona nada, só marca o alvo e joga no mapa — troll central desta versão. |
 | Barra superior enxuta + barra de cookies | Restaram como superfície mínima para as violações de WCAG que precisam de cromo de site: busca, oferta piscante, badge e o par aceitar/recusar. |
-| Violar WCAG 2.2 e documentar | Segundo objetivo do projeto, com peso igual ao humor. Mínimo pedido: 13 critérios. Entregue: 28 catalogados, 20 implementados. |
+| Violar WCAG 2.2 e documentar | Segundo objetivo do projeto, com peso igual ao humor. Mínimo pedido: 13 critérios. Entregue: 29 catalogados, 22 implementados. |
+| Duas vagas de saída lado a lado (catálogo e caixa) | Pedido do autor. Mesma mecânica de 3 s parado, mesma aparência — instância nova de WCAG 3.2.4. |
+| Prazo de 3 min de mapa, pausado fora dele | Pedido do autor. Conta só dentro do mapa; ao zerar, empurra ao caixa em vez de esvaziar a sacola. |
 | Instruções honestas | Único componente acessível. Serve de régua para as violações e mantém o jogo compreensível. |
 
 ## 3. Princípio de design que guia tudo
@@ -59,42 +61,53 @@ recolhido por abandono, dá para reencher. Nada é permanente exceto terminar a 
 as outras violações causam frustração; essa causa convulsão. O aviso de oferta pisca a 2 Hz por
 padrão e a versão acima do limiar só existe atrás de um opt-in com aviso e confirmação.
 
-## 4. Estado atual (última sessão: 2026-09-08)
+## 4. Estado atual (última sessão: 2026-09-09)
 
 **Completo e jogável do início ao fim.** Implementado:
 
-1. **Sem tela de título.** `Jogo.iniciar()` chama `comecar()` no `DOMContentLoaded`, e
-   `comecar()` abre o painel de instruções — o jogo nasce pausado atrás dele.
+1. **Catálogo é a tela inicial**, não o mapa. `Jogo.iniciar()` chama `comecar()` no
+   `DOMContentLoaded`, que liga `Loja.iniciar()` (só listeners) e chama
+   `Catalogo.abrir()`; o painel de instruções continua abrindo por cima, pausado.
 2. **Mapa em tela cheia.** Canvas dimensionado pela janela, recalculado no `resize`.
    Sem menu lateral, sem banner grande, sem rodapé, sem minimapa.
 3. **Seis prateleiras em 3 colunas de 2** — Roupas, Calçados, Bolsas, Acessórios,
-   Beleza, Casa — com o **PASSAR COMPRAS** embaixo, perto de onde o carrinho nasce.
+   Beleza, Casa — com **CATALOGO** e **PASSAR COMPRAS** lado a lado embaixo, perto de
+   onde o carrinho nasce.
 4. **Paleta preto, cinza e branco.** Fonte de sistema, bordas de 1px, nenhuma matiz. A
    única cor da tela vem dos emoji dos produtos.
 5. **Barra superior enxuta:** logo, busca com cooldown, aviso de oferta piscante com
-   contagem que reinicia, cronômetro de abandono, badge da sacola e botão de instruções.
-6. **HUD compacto sobre o mapa** com lista, sacola, total e dois botões que trocam de
-   lugar a cada 4 segundos.
+   contagem que reinicia, prazo de compra, cronômetro de abandono, badge da sacola e
+   botão de instruções.
+6. **HUD compacto sobre o mapa** com o alvo escolhido, sacola, total e dois botões que
+   trocam de lugar a cada 4 segundos.
 7. **Barra de cookies** que aparece 1,5 s após carregar e **volta 7 segundos depois de
    ser recusada**. O `x` de recusar tem 12×12 px contra um `ACEITAR TUDO` enorme.
 8. Física do carrinho: direção invertida e inércia. **Sem rodinha empenada e sem trava
    de roda** — removidas a pedido do autor.
 9. **Estacionar é ficar 3 segundos parado na vaga**, com anel de contagem desenhado em
-   cima do carrinho. Sem exigência de ângulo.
+   cima do carrinho. Sem exigência de ângulo — vale para prateleira, catálogo e caixa.
 10. Overlay de seção: arrastar produto com "gravidade", preço riscado fabricado.
 11. Modal de quantidade com botão `+` que foge depois de 5 cliques.
-12. Passar compras: leitor por arrasto do próprio produto, captcha,
+12. **Catálogo em drill-down** (seções → produtos): botão "Adicionar ao carrinho" que
+    não adiciona nada, só marca o alvo (`Estado.escolhido`) e leva ao mapa.
+13. **Seta escrachada no mapa**, apontando a prateleira do item escolhido; some quando
+    ele é pego, e viram duas setas para as vagas de saída.
+14. **Prazo de 3 minutos de mapa** (`LIMITE_COMPRA`), pausado no catálogo e em overlays;
+    ao zerar, empurra para o caixa em vez de esvaziar a sacola.
+15. Passar compras: leitor por arrasto do próprio produto, captcha,
     teclado que reembaralha a cada tecla, **keyboard trap intencional**.
-13. Cupom final com taxa de conveniência de 37% e frete "grátis" de R$ 18,50.
-14. **Painel de instruções honesto**, que pausa o jogo ao abrir.
-15. **28 critérios da WCAG 2.2 catalogados em `docs/WCAG.md`**, 20 implementados, com
+16. Cupom final com taxa de conveniência de 37% e frete "grátis" de R$ 18,50.
+17. **Painel de instruções honesto**, que pausa o jogo ao abrir.
+18. **Música de elevador sintetizada** (`public/js/musica.js`), sem controle de pausa,
+    volume ou mudo em lugar nenhum — WCAG 1.4.2.
+19. **29 critérios da WCAG 2.2 catalogados em `docs/WCAG.md`**, 22 implementados, com
     tabela ligando cada critério à funcionalidade que o fere.
 
 **Publicado na Cloudflare** a partir do repositório `SeuDemar/unusable-web`, branch
 `main`, com deploy automático a cada push. Só `public/` vai ao ar.
 
-**Não existe ainda:** áudio, sistema de pontuação, tempo total da compra, responsividade
-mobile, persistência, testes automatizados.
+**Não existe ainda:** sistema de pontuação, tempo total da compra exibido no cupom,
+responsividade mobile, persistência, testes automatizados.
 
 ## 5. O que não é óbvio olhando o código
 
@@ -136,8 +149,30 @@ mobile, persistência, testes automatizados.
   fast fashion faz de verdade. É piada e anti-padrão ao mesmo tempo.
 - **A barra de cookies não usa a classe `.overlay`** de propósito: ela atrapalha a tela
   sem congelar a física. Todos os outros overlays pausam o jogo.
-- **`Estado.destaque` sobrou da busca** e continua sendo o único caminho para realçar uma
-  seção no mapa, agora que o menu de categorias foi removido.
+- **`Estado.destaque` agora tem dois produtores**: a busca da barra superior e o
+  catálogo (`Catalogo.escolherProduto`). Os dois escrevem o mesmo campo com a mesma
+  semântica — realçar uma prateleira no mapa — então não precisam de coordenação, mas
+  qualquer novo produtor precisa respeitar isso.
+- **O botão "Adicionar ao carrinho" do catálogo é** *load-bearing* **para a violação de
+  WCAG 2.5.7.** Ele existe, parece funcional, tem nome acessível correto — e não faz
+  nada. Se um dia ele adicionar de verdade, vira a alternativa por ponteiro único que a
+  norma exige, e a violação de arrasto (a mais demonstrável do projeto) desaparece.
+  Isso é intencional e está documentado em `docs/WCAG.md`, seção 2.5.7, e
+  `docs/DESIGN.md`, seção 3.6. **Nunca "conserte" esse botão.**
+- **`escolhidoNaSacola()` é derivado, não guardado num booleano.** Ele recalcula
+  `qtdNoCarrinho` toda chamada, de propósito: assim "Esvaziar" e o recolhimento por
+  ócio fazem a seta do alvo voltar sozinha, sem precisar de um caso especial em cada
+  caminho que pode limpar o carrinho.
+- **`Loja.iniciar()` só liga listeners uma vez; `Loja.retomar()` reentra no mapa.**
+  Chamar `retomar(true)` reposiciona o carrinho em `INICIO_CARRINHO` — é obrigatório ao
+  sair do catálogo, senão o carrinho reaparece parado dentro da própria vaga de saída e
+  3 segundos depois ela reabre sozinha, um laço sem fim.
+- **O prazo de compra (`verificarPrazo`) pausa com qualquer overlay aberto**, não só na
+  tela do catálogo. Não é só equilíbrio: garante que o `Caixa.abrir()` forçado nunca
+  dispara por cima de outro overlay, nem no meio de um arraste da prateleira.
+- **`#tela-catalogo` é uma `.tela`, não um `.overlay`.** Ela não congela a física
+  sozinha — quem a abre precisa chamar `Loja.parar()` também (`Catalogo.abrir()` já faz
+  isso). Se você criar outro caminho para o catálogo, não esqueça dessa chamada.
 
 ## 6. Onde o projeto pode ir (não decidido, apenas levantado)
 
