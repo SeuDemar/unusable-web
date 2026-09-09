@@ -5,7 +5,7 @@ Uma loja online com a pior UI e UX possíveis — de propósito.
 É um jogo de navegador onde comprar três itens vira uma provação: você **dirige** um
 carrinho pelo armazém com os controles de direção invertidos, **estaciona** parado
 3 segundos em frente à prateleira, **arrasta** os produtos até a sacola sem deixar cair,
-e depois enfrenta fila, leitor de código de barras, captcha e um teclado numérico que se
+e depois enfrenta o leitor do caixa, o captcha e um teclado numérico que se
 reembaralha a cada tecla. No fim, uma taxa de conveniência de 37% aparece do nada.
 
 Tudo funciona. Tudo é terminável. Nada é agradável.
@@ -29,7 +29,6 @@ funcionar em `file://`. A página carrega já jogável, sem tela de início.
 | `S` / `↓` | ré |
 | `A` / `←` | vira para a **direita** |
 | `D` / `→` | vira para a **esquerda** |
-| roda do mouse | gira o produto no leitor |
 
 Sim, `A` e `D` estão invertidos. Não, não é bug.
 

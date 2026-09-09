@@ -109,7 +109,7 @@ public/js/dados.js           mapa da loja, prateleiras, catálogo, obstáculos, 
 public/js/estado.js          estado do jogo (lista, carrinho) e render do painel lateral
 public/js/loja.js            canvas em tela cheia, física, colisão, estacionamento por tempo
 public/js/prateleira.js      overlay da prateleira: arrastar com gravidade + modal de quantidade
-public/js/caixa.js           overlay do caixa: fila, leitor, captcha, pagamento
+public/js/caixa.js           overlay do caixa: leitor, captcha, pagamento
 public/js/musica.js          musica de elevador sintetizada, sem controle nenhum (WCAG 1.4.2)
 public/js/main.js            telas, busca com cooldown, botões que fogem, tela final
 ```
@@ -134,7 +134,7 @@ Referências cruzadas entre módulos (`Loja` chama `Prateleira.abrir`, `Caixa` c
 | adicionar prateleira ou produto | `public/js/dados.js`, array `PRATELEIRAS` |
 | mudar o mapa / obstáculos | `public/js/dados.js` (`MUNDO`, `CAIXA`, `OBSTACULOS`) |
 | mexer no arrastar produto | `public/js/prateleira.js`, `moverArraste` / `soltarArraste` |
-| mexer no leitor de código de barras | `public/js/caixa.js`, `soltarItemScan` |
+| mexer no leitor do caixa | `public/js/caixa.js`, `soltarItemScan` |
 | mexer no captcha ou no teclado | `public/js/caixa.js`, `montarCaptcha` / `embaralharTeclado` |
 | mexer na busca com cooldown | `public/js/main.js`, `ligarBusca` |
 | mexer no cupom final | `public/js/main.js`, `finalizar` |
@@ -154,7 +154,7 @@ Não há suíte de testes. A validação é manual:
 1. `node --check public/js/*.js` para pegar erro de sintaxe.
 2. Abrir `public/index.html` no navegador e **jogar até o cupom final**. O caminho completo é
    o teste de regressão: dirigir → estacionar → pegar 3 itens → dirigir até o caixa →
-   fila → leitor → captcha → pagamento → cupom.
+   leitor → captcha → pagamento → cupom.
 3. Conferir o console: o jogo deve rodar sem nenhum erro. Fricção é intencional;
    exceção no console não é.
 

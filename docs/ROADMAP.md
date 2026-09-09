@@ -13,8 +13,13 @@ confira as três condições em `docs/DESIGN.md` e pergunte ao autor.
   acompanhamento da câmera em alguns momentos.
 - **Autocomplete que reordena enquanto o mouse se move** — hoje reordena por
   temporizador (1100 ms) com o mouse em cima; a versão original reagia ao movimento.
-- **NPC lento na fila com presença visual** — hoje a fila é uma barra de progresso e um
-  texto. Poderia ser um personagem no canvas.
+- **Fila do caixa** — existiu como barra de progresso de ~18 s com o botão "Pular a
+  fila" que voltava 15%. Saiu por cobrar só espera. Se voltar, precisa ser um personagem
+  no canvas com piada própria, não uma barra.
+- **Alinhar o código de barras no leitor** — existiu: cada item era uma carta com ângulo
+  aleatório, girada de 7 em 7 graus pela roda do mouse e aceita com erro `≤ 12°`. Saiu
+  por empilhar uma segunda exigência motora em cima do arrasto. Hoje o item passa no
+  leitor arrastando, e o item é o próprio produto.
 - **Slider de quantidade de 0 a 999 com 1 px por unidade.** Foi trocado pelo botão `+`
   que foge, que é mais engraçado e menos tedioso. Fica registrado como alternativa.
 
@@ -23,7 +28,6 @@ confira as três condições em `docs/DESIGN.md` e pergunte ao autor.
 - **Itens que caem da cesta quando o carrinho bate.** Casaria a física da loja com o
   conteúdo do carrinho e daria consequência às colisões. Risco: pode ser punitivo
   demais se combinado com a rodinha empenada.
-- **Fila que aumenta se você olhar para o lado** (perda de foco da janela).
 - **Cupom de desconto que exige resolver uma continha.**
 - **Prateleira com produto na altura errada**, exigindo "abaixar" com um clique extra.
 - **Corredor com piso molhado** que multiplica o atrito por uma fração.
@@ -34,13 +38,13 @@ confira as três condições em `docs/DESIGN.md` e pergunte ao autor.
 
 ## Polimento técnico
 
-- **Áudio.** O "bip" do leitor hoje é um toast de texto. Um `AudioContext` gerando um
-  beep sintético manteria a regra de zero assets binários.
+- **Bip do leitor.** Hoje é um toast de texto. `public/js/musica.js` já mantém um
+  `AudioContext` aberto: dá para sintetizar o beep ali, sem asset binário.
 - **Placar final**: tempo total da compra, número de colisões, produtos derrubados,
   tentativas de captcha. Transformaria a piada em algo compartilhável.
 - **Tela de resultado com "nota de UX"** irônica.
-- **Suporte a toque.** Hoje o giro do leitor depende da roda do mouse. Precisaria de um
-  gesto alternativo antes de qualquer promessa de mobile.
+- **Suporte a toque.** O arraste usa eventos de ponteiro e já funciona em touch, mas
+  nada foi testado em tela pequena — ver a responsividade abaixo.
 - **Responsividade.** O canvas é fixo em 820×460. Note que corrigir isso desfaz a
   violação de WCAG 1.4.10, hoje documentada em `docs/WCAG.md`.
 - **Relatório de acessibilidade versionado.** Guardar a saída do Lighthouse ou do axe

@@ -83,7 +83,7 @@ padrão e a versão acima do limiar só existe atrás de um opt-in com aviso e c
    cima do carrinho. Sem exigência de ângulo.
 10. Overlay de seção: arrastar produto com "gravidade", preço riscado fabricado.
 11. Modal de quantidade com botão `+` que foge depois de 5 cliques.
-12. Passar compras: fila cronometrada, leitor com rotação por roda do mouse, captcha,
+12. Passar compras: leitor por arrasto do próprio produto, captcha,
     teclado que reembaralha a cada tecla, **keyboard trap intencional**.
 13. Cupom final com taxa de conveniência de 37% e frete "grátis" de R$ 18,50.
 14. **Painel de instruções honesto**, que pausa o jogo ao abrir.
@@ -108,9 +108,13 @@ mobile, persistência, testes automatizados.
   alguém "melhorar" o contraste, quebra a documentação.
 - **O botão "Ir pro caixa" não leva ao caixa.** É um troll deliberado: ele só avisa que
   você precisa dirigir até lá. Manter.
-- **A tolerância do leitor (±12°) parece apertada, mas a roda gira de 7 em 7 graus**, o
-  que garante que sempre existe um ângulo alcançável dentro da janela. Se alterar o
-  passo de rotação, reavalie a tolerância junto — os dois números são acoplados.
+- **O leitor não tem mais alinhamento.** A versão antiga exigia girar um código de
+  barras com a roda do mouse até ficar reto (±12°). Saiu a pedido do autor: cobrava uma
+  segunda exigência motora em cima do arrasto que a prateleira já cobra. Hoje o card
+  mostra o próprio produto e basta arrastá-lo até o leitor.
+- **A fila do caixa também saiu.** Eram ~18 s de barra de progresso com um botão "Pular
+  a fila" que voltava 15%. A piada não se sustentava por segundo; o overlay do caixa
+  agora abre direto no leitor.
 - **O captcha exige seleção exata**, incluindo não marcar distratores. Errar regenera a
   grade inteira, então nunca fica impossível.
 - **O pagamento valida dígito a dígito.** Um dígito errado é recusado na hora em vez de

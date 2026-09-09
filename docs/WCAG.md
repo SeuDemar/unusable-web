@@ -36,7 +36,7 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 | 5 | 1.4.4 Resize Text | AA | **Página inteira** — meta viewport bloqueia o zoom | ✅ |
 | 6 | 1.4.10 Reflow | AA | **Barra superior**, **HUD** e **modais**, todos de largura fixa | 📄 |
 | 7 | 1.4.13 Content on Hover or Focus | AA | **Busca do topo** — a lista de resultados se reordena sob o ponteiro | ✅ |
-| 8 | 2.1.1 Keyboard | A | **Arrastar produto**, **leitor de código de barras**, **captcha** | ✅ |
+| 8 | 2.1.1 Keyboard | A | **Arrastar produto**, **leitor do caixa**, **captcha** | ✅ |
 | 9 | 2.1.2 No Keyboard Trap | A | **Etapa de pagamento** — o Tab não sai de lá | ✅ |
 | 10 | 2.2.1 Timing Adjustable | A | **Recolhimento da sacola por abandono** (60 s) e **mensagens de 400 ms** | ✅ |
 | 11 | 2.2.2 Pause, Stop, Hide | A | **Aviso de oferta**, **botões do HUD** que trocam de lugar, **barra de cookies** | ✅ |
@@ -46,7 +46,7 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 | 15 | 2.4.3 Focus Order | A | **Ordem de tabulação global** — tabindex positivos arbitrários | ✅ |
 | 16 | 2.4.7 Focus Visible | AA | **Todos os controles** — outline zerado globalmente | ✅ |
 | 17 | 2.4.11 Focus Not Obscured | AA | **Barra de cookies** — fixa por cima, e volta sozinha | ✅ |
-| 18 | 2.5.7 Dragging Movements | AA | **Colocar produto na sacola** — a mecânica central, só por arrasto | ✅ |
+| 18 | 2.5.7 Dragging Movements | AA | **Colocar produto na sacola** e **passar item no leitor** — só por arrasto | ✅ |
 | 19 | 2.5.8 Target Size (Minimum) | AA | **Recusar cookies** (12×12), **fechar modal** (26×26), **botão + que foge** | ✅ |
 | 20 | 3.1.1 Language of Page | A | **Página inteira** — `lang="en"` em site português | ✅ |
 | 21 | 3.2.2 On Input | A | **Teclado do pagamento** — reembaralha a cada tecla | ✅ |
@@ -72,7 +72,7 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 | HUD da sacola | 2.2.2, 3.2.3, 3.2.4, 2.4.3 |
 | Prateleira e arrastar produto | 2.5.7, 2.1.1, 1.1.1, 1.3.1, 4.1.2, 1.4.3 |
 | Tela de quantidade | 2.5.8, 3.3.2 |
-| Leitor de código de barras | 2.1.1 |
+| Leitor do caixa | 2.1.1, 2.5.7 |
 | Captcha | 2.1.1, 1.3.1, 3.3.8, 4.1.2 |
 | Pagamento | 2.1.2, 3.2.2, 3.3.2, 3.3.7, 3.3.8 |
 | Música de fundo | 1.4.2 |
@@ -226,14 +226,15 @@ estiver sobre ela, e é dispensável com `Esc`.
 
 - pegar produtos — `pointerdown`/`pointermove`/`pointerup` em
   `public/js/prateleira.js`, sem equivalente de teclado;
-- girar o código de barras no leitor — evento `wheel` em `public/js/caixa.js`,
-  impossível sem roda de mouse;
+- passar os produtos no leitor — arraste com `pointerdown`/`pointermove`/`pointerup` em
+  `public/js/caixa.js`, sem equivalente de teclado;
 - selecionar as células do captcha — apenas `click` em `<div>` não focáveis.
 
 Sem mouse, o jogo é interrompido logo na primeira prateleira.
 
 **A versão conforme seria:** selecionar produto com `Enter` e mover com as setas;
-girar o código com `[` e `]`; células do captcha como `<button>` alcançáveis por `Tab`.
+passar item no leitor com `Enter` sobre o item da pilha; células do captcha como
+`<button>` alcançáveis por `Tab`.
 
 ## 2.1.2 No Keyboard Trap · Nível A · ✅ implementado
 
@@ -415,12 +416,16 @@ if (d > VELOCIDADE_MAX) {
 }
 ```
 
-Não existe clique alternativo. Quem não consegue executar um arrasto lento e contínuo —
-por tremor, mobilidade reduzida ou uso de dispositivo alternativo — não consegue comprar
-nada.
+O leitor do caixa (`public/js/caixa.js`, `pegarItemScan`/`soltarItemScan`) repete o
+padrão: passar cada produto é só arrastá-lo até o leitor, sem clique alternativo.
+
+Não existe clique alternativo em nenhum dos dois. Quem não consegue executar um arrasto
+lento e contínuo — por tremor, mobilidade reduzida ou uso de dispositivo alternativo —
+não consegue comprar nada.
 
 **A versão conforme seria:** clicar no produto e depois clicar na sacola, ou um botão
-"adicionar" em cada card, mantendo o arraste apenas como atalho opcional.
+"adicionar" em cada card, e um clique simples para passar o item no leitor, mantendo o
+arraste apenas como atalho opcional.
 
 ## 2.5.8 Target Size (Minimum) · Nível AA · ✅ implementado
 

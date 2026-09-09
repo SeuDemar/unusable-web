@@ -42,8 +42,8 @@ Ações que na web real são instantâneas viram tarefas motoras.
 | Dirigir o carrinho | loja | inércia, atrito, esterçamento só em movimento |
 | Estacionar para interagir | loja | entrar na vaga e ficar parado 3 segundos |
 | Arrastar o produto | prateleira | mover rápido demais faz escorregar da mão |
+| Passar o produto no leitor | caixa | arrastar cada item da pilha até o leitor, sem clique alternativo |
 | Gravidade no produto | prateleira | o que escapa cai no chão e volta para a prateleira |
-| Girar o código de barras | caixa | roda do mouse gira de 7 em 7 graus, tolerância ±12° |
 
 ### 3.2 Controles hostis
 | Anti-padrão | Onde |
@@ -69,14 +69,12 @@ Ações que na web real são instantâneas viram tarefas motoras.
 |---|---|
 | Botões do HUD trocam de lugar a cada 4 s | HUD sobre o mapa |
 | "Ir pro caixa" e "Limpar tudo" trocam a cada 4 s | painel lateral |
-| Botão que executa o oposto do esperado ("Pular a fila" volta 15%) | caixa |
 | Botão que não faz nada ("Ir pro caixa" só manda você dirigir) | painel lateral |
 
 ### 3.5 Pressão temporal e perda
 | Anti-padrão | Onde |
 |---|---|
 | Carrinho recolhido por abandono após 60 s parado | loja |
-| Fila de ~18 s que você não pode acelerar | caixa |
 | Captcha errado regenera a grade inteira | caixa |
 
 ### 3.6 Padrões obscuros de e-commerce (a sátira)
@@ -132,8 +130,8 @@ Estas ideias são tentadoras e estão **fora**:
 - **Beco sem saída.** Qualquer estado do qual não dê para sair sem recarregar.
 - **Perder progresso sem aviso.** O recolhimento por abandono só existe porque tem
   contagem regressiva visível a partir dos 30 s.
-- **Aleatoriedade que pode não convergir.** Tolerâncias sempre alcançáveis; o passo de
-  rotação do leitor (7°) é menor que a janela de aceite (±12°) por isso.
+- **Aleatoriedade que pode não convergir.** Tolerâncias sempre alcançáveis: a janela de
+  aceite de qualquer mecânica motora precisa ser maior que o passo mínimo do controle.
 - **Sofrimento sem feedback.** Falhar em silêncio.
 - **Piscar acima de 3 Hz sem consentimento explícito.** Este é o único limite
   intransponível. Violar 2.3.1 pode desencadear convulsão em pessoas com epilepsia
@@ -168,10 +166,14 @@ Estas ideias são tentadoras e estão **fora**:
 Regra prática que emergiu do balanceamento atual: **no máximo dois anti-padrões
 exigentes por etapa**, e nunca dois do mesmo tipo motor em sequência.
 
-Exemplo do que já está calibrado: o caixa tem quatro etapas, mas só o leitor exige
-precisão motora. A fila exige paciência, o captcha exige atenção, o pagamento exige
+Exemplo do que já está calibrado: o caixa tem três etapas e cada uma cobra uma coisa
+diferente. O leitor exige arrasto, o captcha exige atenção, o pagamento exige
 persistência. Se o leitor virasse duas etapas motoras seguidas, a comédia viraria
 tédio.
+
+A fila cronometrada e o alinhamento do código de barras saíram justamente por aqui: a
+fila cobrava só espera, sem piada nova a cada segundo, e o alinhamento empilhava uma
+segunda exigência motora em cima do arrasto que a prateleira já cobra.
 
 ## 7. A exceção honesta: o painel de instruções
 

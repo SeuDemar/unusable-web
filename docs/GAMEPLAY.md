@@ -15,7 +15,6 @@ Manual do jogador e tabela de referência de todos os números ajustáveis.
 | `S` / `↓` | dá ré |
 | `A` / `←` | vira para a **direita** (invertido de propósito) |
 | `D` / `→` | vira para a **esquerda** (invertido de propósito) |
-| roda do mouse | gira o produto no leitor (etapa do caixa) |
 
 O carrinho só esterça em movimento. Não há rodinha empenada nem travamento aleatório:
 a dificuldade de dirigir vem só da inércia e dos controles invertidos.
@@ -36,13 +35,12 @@ a dificuldade de dirigir vem só da inércia e dos controles invertidos.
    Confirmar com 0 é recusado.
 5. **Passar compras** — com a lista completa, pare 3 segundos na vaga do **PASSAR
    COMPRAS**, o retângulo largo embaixo, perto de onde você começou.
-6. **Fila** — cerca de 18 segundos. O botão "Pular a fila" piora sua situação.
-7. **Leitor** — arraste cada produto até o leitor preto com o código de barras reto.
-   Use a roda do mouse para girar. Torto demais, erro de leitura.
-8. **Captcha** — marque todos os carrinhos 🛒 e nada além disso.
-9. **Pagamento** — digite `4242 4242 4242 4242` num teclado que reembaralha a cada
+6. **Leitor** — arraste cada produto da pilha até o leitor preto. Soltar em cima dele
+   passa o item; soltar fora não faz nada.
+7. **Captcha** — marque todos os carrinhos 🛒 e nada além disso.
+8. **Pagamento** — digite `4242 4242 4242 4242` num teclado que reembaralha a cada
    tecla. Dígito errado é recusado na hora.
-10. **Cupom** — apareceram taxas. Seu pedido foi cancelado com sucesso.
+9. **Cupom** — apareceram taxas. Seu pedido foi cancelado com sucesso.
 
 ### Coisas que valem saber
 
@@ -113,17 +111,10 @@ contagem.
 
 | Parâmetro | Valor |
 |---|---|
-| avanço da fila | `+0.55%` a cada `100 ms` (≈ 18 s no total) |
-| penalidade de "Pular a fila" | `-15%` |
-| passo de rotação do leitor | `7°` por notch da roda |
-| tolerância do leitor | `±12°` |
-| ângulo inicial do produto | aleatório entre `20°` e `340°` |
+| posição inicial do produto na pilha | aleatória em `440 × 262 px` |
 | carrinhos no captcha | `2` a `4` de 9 células |
 | número do cartão | `4242424242424242` (16 dígitos) |
 | reembaralhamento do teclado | a cada tecla pressionada |
-
-> O passo de rotação (7°) precisa ser menor que a tolerância (±12°), senão pode não
-> existir ângulo alcançável. Mexeu num, reveja o outro.
 
 ## 7. Parâmetros — anti-padrões ambientes
 
@@ -172,11 +163,11 @@ contagem.
 
 ## 10. Receitas rápidas de balanceamento
 
-**Deixar mais fácil (para demonstração):** `TEMPO_PARADO` `3000 → 1500`, tolerância do
-leitor `12 → 20`, velocidade de arraste `26 → 40`, fila `0.55 → 1.5`.
+**Deixar mais fácil (para demonstração):** `TEMPO_PARADO` `3000 → 1500`, velocidade de
+arraste `26 → 40`.
 
 **Deixar mais cruel:** `TEMPO_PARADO` `3000 → 6000`, velocidade de arraste `26 → 16`,
 abandono `60 s → 30 s`, volta dos cookies `7000 → 3000`.
 
-**Encurtar uma sessão de teste:** aumente o avanço da fila e reduza o cartão para 8
-dígitos (`CARTAO` em `public/js/caixa.js`) — mas devolva antes de commitar.
+**Encurtar uma sessão de teste:** reduza o cartão para 8 dígitos (`CARTAO` em
+`public/js/caixa.js`) — mas devolva antes de commitar.

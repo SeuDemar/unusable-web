@@ -142,17 +142,15 @@ posição aleatória dentro da área. Confirmar com 0 é recusado.
 
 Público: `iniciar`, `abrir`.
 
-### `public/js/caixa.js` — passar compras em 4 etapas
+### `public/js/caixa.js` — passar compras em 3 etapas
 Um overlay, quatro `<div class="etapa">` alternadas por `etapa(id)`.
 
-1. **Fila** — barra que avança `0,55%` a cada `100 ms` (~18 s). O botão "Pular a fila"
-   **subtrai** 15%.
-2. **Leitor** — uma carta por linha do carrinho, com ângulo inicial aleatório. A roda do
-   mouse gira de 7 em 7 graus; arrastar sobre o leitor só é aceito com erro `≤ 12°`.
-   Recusa devolve a carta para uma posição aleatória.
-3. **Captcha** — grade 3×3 com 2 a 4 carrinhos entre distratores; a verificação exige o
+1. **Leitor** — um card por linha do carrinho, mostrando o próprio produto (emoji, nome
+   e quantidade), espalhados em posições aleatórias na pilha. Arrastar e soltar sobre o
+   leitor passa o item; soltar fora não faz nada.
+2. **Captcha** — grade 3×3 com 2 a 4 carrinhos entre distratores; a verificação exige o
    conjunto exato, e errar regenera a grade.
-4. **Pagamento** — teclado de 10 teclas que **reembaralha após cada tecla**; valida
+3. **Pagamento** — teclado de 10 teclas que **reembaralha após cada tecla**; valida
    dígito a dígito contra `4242 4242 4242 4242`; dígito errado é recusado. Registra
    `prenderFoco` (keyboard trap intencional, WCAG 2.1.2), removido por `soltarFoco()`
    ao completar os 16 dígitos.
@@ -213,7 +211,7 @@ Loja.atualizar → verificarEstacionamento
   │   └ pedirQuantidade(produto)      soltou na cesta
   │       └ adicionarAoCarrinho()     confirmou
   └ Caixa.abrir()                     vaga do caixa, só com listaCompleta()
-      └ comecarFila → montarScanner → montarCaptcha → montarPagamento
+      └ montarScanner → montarCaptcha → montarPagamento
           └ Jogo.finalizar()          16º dígito correto
               ├ Loja.parar()
               └ mostrarTela('#tela-final')
@@ -243,11 +241,12 @@ Loja.atualizar → verificarEstacionamento
   modais têm medidas fixas, e o `body` tem `overflow: hidden`. Isso é a violação de
   WCAG 1.4.10 Reflow.
 - **Sem suporte a toque.** Usa eventos `pointer`, então funciona parcialmente, mas o
-  giro do leitor depende da roda do mouse — inacessível em touch.
+  arraste é a única forma de passar item no leitor.
 - **Reiniciar é recarregar.** `Loja.iniciar()` registra listeners de teclado toda vez
   que é chamado; chamar duas vezes duplicaria os handlers. Hoje só é chamado uma vez.
-- **O leitor escaneia uma carta por linha do carrinho**, não por unidade. Comprar 3
-  bananas é uma carta só.
-- **Sem áudio.** O "bip" do leitor é um toast de texto.
+- **O leitor escaneia um card por linha do carrinho**, não por unidade. Comprar 3
+  bananas é um card só.
+- **O "bip" do leitor é um toast de texto.** O áudio do projeto hoje é só a música de
+  fundo de `public/js/musica.js`.
 - **Sem minimapa.** Foi removido junto com o menu lateral; o mapa em tela cheia mostra
   quase tudo de uma vez.
