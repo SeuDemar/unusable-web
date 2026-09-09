@@ -3,8 +3,8 @@
 Recorte mínimo do catálogo completo em [`docs/WCAG.md`](WCAG.md), que traz todos os
 critérios com norma exigida, código e versão conforme.
 
-1. **1.1.1 Non-text Content** — o mapa é um `<canvas>` sem alternativa textual; produtos
-   são só emoji, sem nome associado.
+1. **1.1.1 Non-text Content** — o mapa é um `<canvas>` sem alternativa textual; células
+   do captcha são identificadas só por emoji, sem texto nem `aria-label`.
 2. **1.4.2 Audio Control** — música de elevador sintetizada toca sozinha e sem nenhum
    controle de pausa, mudo ou volume na página.
 3. **1.4.3 Contrast (Minimum)** — preço riscado e outros textos usam cinza-claro sobre

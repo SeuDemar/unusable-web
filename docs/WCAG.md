@@ -94,10 +94,15 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 equivalente.
 
 **Como o unusable viola:** o jogo inteiro acontece em `<canvas id="mapa">`, sem
-`aria-label`, sem descrição adjacente, sem versão textual do estado. Os produtos são
-identificados apenas por emoji dentro de um `<span class="emoji">`
-(`public/js/prateleira.js`, `montarProdutos`). Um leitor de tela não percebe que existe
-uma loja, um carrinho, prateleiras ou produtos.
+`aria-label`, sem descrição adjacente, sem versão textual do estado — inclusive os
+obstáculos, identificados só pelo emoji `📦` desenhado dentro do canvas. As células do
+captcha (`public/js/caixa.js`, `montarCaptcha`) também são só emoji, sem `aria-label`
+nem texto: um leitor de tela não distingue o carrinho `🛒` certo dos distratores. Um
+leitor de tela não percebe que existe uma loja, um carrinho, prateleiras ou produtos.
+
+(Os cards de produto na prateleira e no catálogo têm nome em texto ao lado do emoji —
+`.produto .nome` e `.item-topo .nome` — então não são um caso deste critério; a
+violação deles é estrutural, catalogada em 1.3.1 Info and Relationships.)
 
 A seta gigante, o círculo torto e a legenda que indicam onde está o produto escolhido
 (`public/js/loja.js`, `desenharSetas`) são desenhados no canvas e comunicam o objetivo
