@@ -10,6 +10,7 @@ var Jogo = (function () {
   function iniciar() {
     Prateleira.iniciar();
     Caixa.iniciar();
+    Musica.iniciar();
     ligarInstrucoes();
     ligarOferta();
     ligarCookies();

@@ -10,7 +10,7 @@ reembaralha a cada tecla. No fim, uma taxa de conveniência de 37% aparece do na
 
 Tudo funciona. Tudo é terminável. Nada é agradável.
 
-O projeto também é um exercício de acessibilidade às avessas: **27 critérios da WCAG 2.2
+O projeto também é um exercício de acessibilidade às avessas: **28 critérios da WCAG 2.2
 são violados deliberadamente**, catalogados em [`docs/WCAG.md`](docs/WCAG.md) com o que a
 norma exige, em qual funcionalidade a violação acontece, e como seria a versão conforme.
 
@@ -77,7 +77,7 @@ ficam de fora de propósito.
 
 | Documento | Para quê |
 |---|---|
-| [`docs/WCAG.md`](docs/WCAG.md) | **os 27 critérios violados**, com a funcionalidade que fere cada um |
+| [`docs/WCAG.md`](docs/WCAG.md) | **os 28 critérios violados**, com a funcionalidade que fere cada um |
 | [`AGENTS.md`](AGENTS.md) | regras, restrições e convenções para quem (ou o que) for editar |
 | [`docs/DESIGN.md`](docs/DESIGN.md) | o manifesto da má UX: taxonomia dos anti-padrões e o que é proibido |
 | [`docs/GAMEPLAY.md`](docs/GAMEPLAY.md) | manual do jogador e tabela de todos os parâmetros de balanceamento |

@@ -161,6 +161,22 @@ Ao completar os 16 dígitos, chama `Jogo.finalizar()`.
 
 Público: `iniciar`, `abrir`.
 
+### `public/js/musica.js` — trilha de elevador sintetizada
+Sem estado de jogo, sem DOM. Cria um `AudioContext`, um ganho mestre em `0.07` com
+fade-in de 3 s, e um agendador que roda a cada `150 ms` mantendo `0,6 s` de futuro já
+marcado no relógio do áudio (`setInterval` sozinho não tem precisão rítmica).
+
+Cada compasso agenda quatro camadas: colchão de acordes (`triangle`), baixo na tônica e
+na quinta (`sine`), melodia sorteada sobre as notas do acorde e chiado de bateria feito
+com buffer de ruído + `bandpass`. A harmonia é o loop ii-V-I-VI de `PROGRESSAO`.
+
+O contexto nasce suspenso por política de autoplay e é retomado no primeiro
+`pointerdown`, `keydown` ou `touchstart`; um vigia de `2000 ms` o retoma de novo se o
+sistema o suspender. **Não existe pausa, mudo nem volume em lugar nenhum** — é a
+violação de WCAG 1.4.2 Audio Control.
+
+Público: `iniciar`.
+
 ### `public/js/main.js` — cola, barra superior e telas
 `Jogo.iniciar()` (no `DOMContentLoaded`) inicializa `Prateleira` e `Caixa`, liga a barra
 superior e **começa o jogo imediatamente** — não há tela de título.

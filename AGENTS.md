@@ -110,13 +110,14 @@ public/js/estado.js          estado do jogo (lista, carrinho) e render do painel
 public/js/loja.js            canvas em tela cheia, física, colisão, estacionamento por tempo
 public/js/prateleira.js      overlay da prateleira: arrastar com gravidade + modal de quantidade
 public/js/caixa.js           overlay do caixa: fila, leitor, captcha, pagamento
+public/js/musica.js          musica de elevador sintetizada, sem controle nenhum (WCAG 1.4.2)
 public/js/main.js            telas, busca com cooldown, botões que fogem, tela final
 ```
 
 Ordem obrigatória no `public/index.html` (dependência de definição em tempo de carga):
 
 ```
-util.js → dados.js → estado.js → loja.js → prateleira.js → caixa.js → main.js
+util.js → dados.js → estado.js → loja.js → prateleira.js → caixa.js → musica.js → main.js
 ```
 
 Referências cruzadas entre módulos (`Loja` chama `Prateleira.abrir`, `Caixa` chama
@@ -140,6 +141,7 @@ Referências cruzadas entre módulos (`Loja` chama `Prateleira.abrir`, `Caixa` c
 | barra superior e cookies | `public/index.html` + `ligarOferta`/`ligarCookies` em `public/js/main.js` |
 | tempo de estacionamento | `TEMPO_PARADO` em `public/js/loja.js` |
 | painel de instruções | `public/index.html` (`#overlay-instrucoes`) + `ligarInstrucoes` |
+| mexer na música de fundo | `public/js/musica.js`, `PROGRESSAO` / `agendarCompasso` |
 | novo anti-padrão global reutilizável | `public/js/util.js` + registrar em `docs/DESIGN.md` |
 | nova violação de WCAG | implementar e registrar as 4 colunas em `docs/WCAG.md` |
 
@@ -163,6 +165,12 @@ pronta. "Compila" não é o mesmo que "ainda é possível estacionar".
 
 ## 8. Armadilhas conhecidas
 
+- A música de fundo (`public/js/musica.js`) **não tem controle de pausa por design** —
+  é a violação de WCAG 1.4.2. Não adicione botão de mudo achando que é esquecimento.
+  O que continua proibido é volume alto ou pico súbito: ver `docs/DESIGN.md`, seção 4.
+- O `AudioContext` nasce suspenso por política de autoplay do navegador e só toca no
+  primeiro gesto. Se um dia o painel de instruções deixar de abrir no boot, a música
+  passa a começar no primeiro clique dentro do jogo, e não no fechamento do painel.
 - `overlayAberto()` congela a física. Se você abrir um overlay novo, use a mesma
   classe `.overlay` / `.ativa`, senão o carrinho continua andando por baixo do modal.
 - O listener global de teclado ignora eventos vindos de `<input>`. Se adicionar outro

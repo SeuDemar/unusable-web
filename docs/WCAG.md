@@ -6,7 +6,7 @@ propósito, como parte do exercício de projetar a pior experiência possível.
 **Norma de referência:** Web Content Accessibility Guidelines (WCAG) 2.2, W3C
 Recommendation de 5 de outubro de 2023 — <https://www.w3.org/TR/WCAG22/>
 
-**Meta:** no mínimo 13 critérios. **Entregue:** 27 catalogados, sendo **19
+**Meta:** no mínimo 13 critérios. **Entregue:** 28 catalogados, sendo **20
 implementados e verificáveis** e 8 documentados.
 
 > **Nada aqui é acidental.** Cada linha registra o que a norma exige, como o app a
@@ -17,9 +17,9 @@ implementados e verificáveis** e 8 documentados.
 
 | Nível | Implementados | Documentados |
 |---|---|---|
-| A | 10 | 6 |
+| A | 11 | 6 |
 | AA | 9 | 2 |
-| **Total** | **19** | **8** |
+| **Total** | **20** | **8** |
 
 
 ## Resumo: o que foi quebrado e em qual funcionalidade
@@ -31,31 +31,32 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 |---|---|---|---|---|
 | 1 | 1.1.1 Non-text Content | A | **Mapa da loja** (canvas sem alternativa) e **cards de produto** (só emoji) | ✅ |
 | 2 | 1.3.1 Info and Relationships | A | **Cards de produto**, **grade do captcha** e **par de preços** riscado/atual | 📄 |
-| 3 | 1.4.3 Contrast (Minimum) | AA | **Preço riscado**, **status da busca**, **texto e botão de recusa dos cookies** | ✅ |
-| 4 | 1.4.4 Resize Text | AA | **Página inteira** — meta viewport bloqueia o zoom | ✅ |
-| 5 | 1.4.10 Reflow | AA | **Barra superior**, **HUD** e **modais**, todos de largura fixa | 📄 |
-| 6 | 1.4.13 Content on Hover or Focus | AA | **Busca do topo** — a lista de resultados se reordena sob o ponteiro | ✅ |
-| 7 | 2.1.1 Keyboard | A | **Arrastar produto**, **leitor de código de barras**, **captcha** | ✅ |
-| 8 | 2.1.2 No Keyboard Trap | A | **Etapa de pagamento** — o Tab não sai de lá | ✅ |
-| 9 | 2.2.1 Timing Adjustable | A | **Recolhimento da sacola por abandono** (60 s) e **mensagens de 400 ms** | ✅ |
-| 10 | 2.2.2 Pause, Stop, Hide | A | **Aviso de oferta**, **botões do HUD** que trocam de lugar, **barra de cookies** | ✅ |
-| 11 | 2.3.1 Three Flashes | A | **Aviso de oferta** — 2 Hz por padrão; acima de 3 Hz só via opt-in | 📄 |
-| 12 | 2.4.1 Bypass Blocks | A | **Barra superior** — sem skip link, sem landmarks | 📄 |
-| 13 | 2.4.2 Page Titled | A | **Título da página** — genérico e nunca atualizado | 📄 |
-| 14 | 2.4.3 Focus Order | A | **Ordem de tabulação global** — tabindex positivos arbitrários | ✅ |
-| 15 | 2.4.7 Focus Visible | AA | **Todos os controles** — outline zerado globalmente | ✅ |
-| 16 | 2.4.11 Focus Not Obscured | AA | **Barra de cookies** — fixa por cima, e volta sozinha | ✅ |
-| 17 | 2.5.7 Dragging Movements | AA | **Colocar produto na sacola** — a mecânica central, só por arrasto | ✅ |
-| 18 | 2.5.8 Target Size (Minimum) | AA | **Recusar cookies** (12×12), **fechar modal** (26×26), **botão + que foge** | ✅ |
-| 19 | 3.1.1 Language of Page | A | **Página inteira** — `lang="en"` em site português | ✅ |
-| 20 | 3.2.2 On Input | A | **Teclado do pagamento** — reembaralha a cada tecla | ✅ |
-| 21 | 3.2.3 Consistent Navigation | AA | **Botões do HUD** — trocam de ordem a cada 4 s | 📄 |
-| 22 | 3.2.4 Consistent Identification | AA | **Botão "Finalizar"** que não finaliza, **badge x HUD** com números diferentes, **cookies** | ✅ |
-| 23 | 3.3.1 Error Identification | A | **Todas as mensagens de erro** — toast de 400 ms, longe do campo | ✅ |
-| 24 | 3.3.2 Labels or Instructions | A | **Teclado do pagamento** e **tela de quantidade**, ambos sem rótulo | 📄 |
-| 25 | 3.3.7 Redundant Entry | A | **Pagamento** — "Limpar tudo" apaga os 16 dígitos, sem backspace | 📄 |
-| 26 | 3.3.8 Accessible Authentication | AA | **Pagamento** e **captcha** — teste de função cognitiva, sem colar | ✅ |
-| 27 | 4.1.2 Name, Role, Value | A | **Badge da sacola**, **captcha**, **cards de produto**, **recusar cookies** | ✅ |
+| 3 | 1.4.2 Audio Control | A | **Música de elevador de fundo** — começa sozinha e não tem pausa | ✅ |
+| 4 | 1.4.3 Contrast (Minimum) | AA | **Preço riscado**, **status da busca**, **texto e botão de recusa dos cookies** | ✅ |
+| 5 | 1.4.4 Resize Text | AA | **Página inteira** — meta viewport bloqueia o zoom | ✅ |
+| 6 | 1.4.10 Reflow | AA | **Barra superior**, **HUD** e **modais**, todos de largura fixa | 📄 |
+| 7 | 1.4.13 Content on Hover or Focus | AA | **Busca do topo** — a lista de resultados se reordena sob o ponteiro | ✅ |
+| 8 | 2.1.1 Keyboard | A | **Arrastar produto**, **leitor de código de barras**, **captcha** | ✅ |
+| 9 | 2.1.2 No Keyboard Trap | A | **Etapa de pagamento** — o Tab não sai de lá | ✅ |
+| 10 | 2.2.1 Timing Adjustable | A | **Recolhimento da sacola por abandono** (60 s) e **mensagens de 400 ms** | ✅ |
+| 11 | 2.2.2 Pause, Stop, Hide | A | **Aviso de oferta**, **botões do HUD** que trocam de lugar, **barra de cookies** | ✅ |
+| 12 | 2.3.1 Three Flashes | A | **Aviso de oferta** — 2 Hz por padrão; acima de 3 Hz só via opt-in | 📄 |
+| 13 | 2.4.1 Bypass Blocks | A | **Barra superior** — sem skip link, sem landmarks | 📄 |
+| 14 | 2.4.2 Page Titled | A | **Título da página** — genérico e nunca atualizado | 📄 |
+| 15 | 2.4.3 Focus Order | A | **Ordem de tabulação global** — tabindex positivos arbitrários | ✅ |
+| 16 | 2.4.7 Focus Visible | AA | **Todos os controles** — outline zerado globalmente | ✅ |
+| 17 | 2.4.11 Focus Not Obscured | AA | **Barra de cookies** — fixa por cima, e volta sozinha | ✅ |
+| 18 | 2.5.7 Dragging Movements | AA | **Colocar produto na sacola** — a mecânica central, só por arrasto | ✅ |
+| 19 | 2.5.8 Target Size (Minimum) | AA | **Recusar cookies** (12×12), **fechar modal** (26×26), **botão + que foge** | ✅ |
+| 20 | 3.1.1 Language of Page | A | **Página inteira** — `lang="en"` em site português | ✅ |
+| 21 | 3.2.2 On Input | A | **Teclado do pagamento** — reembaralha a cada tecla | ✅ |
+| 22 | 3.2.3 Consistent Navigation | AA | **Botões do HUD** — trocam de ordem a cada 4 s | 📄 |
+| 23 | 3.2.4 Consistent Identification | AA | **Botão "Finalizar"** que não finaliza, **badge x HUD** com números diferentes, **cookies** | ✅ |
+| 24 | 3.3.1 Error Identification | A | **Todas as mensagens de erro** — toast de 400 ms, longe do campo | ✅ |
+| 25 | 3.3.2 Labels or Instructions | A | **Teclado do pagamento** e **tela de quantidade**, ambos sem rótulo | 📄 |
+| 26 | 3.3.7 Redundant Entry | A | **Pagamento** — "Limpar tudo" apaga os 16 dígitos, sem backspace | 📄 |
+| 27 | 3.3.8 Accessible Authentication | AA | **Pagamento** e **captcha** — teste de função cognitiva, sem colar | ✅ |
+| 28 | 4.1.2 Name, Role, Value | A | **Badge da sacola**, **captcha**, **cards de produto**, **recusar cookies** | ✅ |
 
 ✅ implementado e verificável · 📄 analisado, não reforçado nesta rodada
 
@@ -74,6 +75,7 @@ violação acontece. O detalhamento de cada uma está nas seções seguintes.
 | Leitor de código de barras | 2.1.1 |
 | Captcha | 2.1.1, 1.3.1, 3.3.8, 4.1.2 |
 | Pagamento | 2.1.2, 3.2.2, 3.3.2, 3.3.7, 3.3.8 |
+| Música de fundo | 1.4.2 |
 | Mensagens do sistema (toast) | 3.3.1, 2.2.1 |
 | Recolhimento da sacola por abandono | 2.2.1 |
 | Documento e metadados da página | 1.4.4, 2.4.2, 3.1.1 |
@@ -108,6 +110,46 @@ são dois `<span>` irmãos, sem relação declarada — nada indica que um é o 
 
 **A versão conforme seria:** `<button>` para elementos acionáveis, `<del>` e `<ins>` para
 a relação entre preços, cabeçalhos e listas refletindo a hierarquia visual.
+
+## 1.4.2 Audio Control · Nível A · ✅ implementado
+
+**A norma exige:** se um áudio toca automaticamente por mais de 3 segundos, precisa
+existir um mecanismo para pausar ou parar o som, ou para controlar o volume dele
+independentemente do volume geral do sistema.
+
+**Como o unusable viola:** `public/js/musica.js` sintetiza uma música de elevador em loop
+infinito na Web Audio API e a página não oferece nenhum controle — não há botão de
+pausa, de mudo nem de volume em lugar nenhum da interface.
+
+O navegador só libera áudio depois de um gesto do usuário, então o `AudioContext` nasce
+suspenso e é retomado no primeiro `pointerdown`, `keydown` ou `touchstart`. Como o jogo
+abre com o painel de instruções na frente, esse primeiro gesto é sempre o clique que
+fecha o painel: a pessoa nunca pediu música e mesmo assim ela começa. Um vigia de 2 em 2
+segundos retoma o contexto caso o sistema o suspenda, o que remove também a última brecha
+de "parar sem querer".
+
+Detalhes que importam para o critério:
+
+| Aspecto | Valor |
+|---|---|
+| Duração | infinita — o loop de 4 compassos se reagenda para sempre |
+| Volume | ganho mestre `0.07`, com fade-in de 3 s |
+| Mecanismo de pausa | nenhum |
+| Mecanismo de volume | nenhum |
+| Saída possível | só fora da página: mudo da aba, do navegador ou do sistema |
+
+Silenciar a aba pelo navegador não satisfaz o critério: a norma pede um mecanismo *na
+página*, e controle no nível do sistema operacional obriga a pessoa a calar também o
+leitor de tela, que é exatamente o conflito que o 1.4.2 existe para evitar.
+
+Não há arquivo de áudio: o projeto não aceita asset binário, então a trilha é
+sintetizada — quatro compassos de ii-V-I-VI com colchão de acordes, baixo, chiado de
+bateria barata e uma melodia sorteada sobre as notas do acorde. Ela nunca se repete
+igual e mesmo assim soa sempre igual, que é a definição de música de elevador.
+
+**A versão conforme seria:** não tocar nada sem ação explícita do usuário ou, mantendo a
+música, expor um botão de pausa/mudo persistente, alcançável por teclado, entre os
+primeiros elementos focáveis da página, com estado anunciado por `aria-pressed`.
 
 ## 1.4.3 Contrast (Minimum) · Nível AA · ✅ implementado
 

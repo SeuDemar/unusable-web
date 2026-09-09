@@ -140,6 +140,12 @@ contagem.
 | reordenação dos resultados | a cada `1100 ms` com o mouse em cima | `public/js/main.js` |
 | troca dos botões do título | a cada `3200 ms` | `public/js/main.js` |
 | troca dos botões do painel | a cada `4000 ms` | `public/js/main.js` |
+| música de fundo: volume mestre | `0.07` | `public/js/musica.js` |
+| música de fundo: fade-in | `3 s` | `public/js/musica.js` |
+| música de fundo: andamento | `0,5 s` por tempo = 120 BPM, compasso de 4 tempos | `public/js/musica.js` |
+| música de fundo: loop harmônico | 4 compassos (ii-V-I-VI), `8 s` | `public/js/musica.js` |
+| música de fundo: densidade da melodia | `38 %` de chance de nota por tempo | `public/js/musica.js` |
+| música de fundo: vigia que religa o áudio | a cada `2000 ms` | `public/js/musica.js` |
 
 ## 8. Parâmetros — cupom final
 `public/js/main.js`, `finalizar`

@@ -107,6 +107,22 @@ esses vícios. A regra aqui é: **frio, mas legível**.
 > quem está jogando* — o texto que carrega regra de jogo continua com contraste
 > suficiente. Decoração pode falhar; instrução, não.
 
+### 3.8 Trilha sonora que não desliga
+A loja tem música de elevador tocando o tempo todo, e não existe botão de pausa, mudo
+nem volume em lugar nenhum da página. É o anti-padrão sonoro clássico do e-commerce
+antigo, e viola WCAG 1.4.2 Audio Control (ver `docs/WCAG.md`).
+
+| Anti-padrão | Onde |
+|---|---|
+| Música começa sozinha no primeiro gesto, sem ter sido pedida | global |
+| Loop infinito de 4 compassos que nunca resolve | global |
+| Nenhum controle de pausa, mudo ou volume na interface | global |
+| O contexto de áudio religa sozinho se o sistema o suspender | global |
+
+A música é sintetizada na Web Audio API porque o projeto não aceita asset binário. O
+volume fica em `0.07` com fade-in de 3 s: a graça é ser inescapável, não ser alta. Ver
+a regra de volume na seção 4.
+
 ---
 
 ## 4. O que é proibido
@@ -124,6 +140,9 @@ Estas ideias são tentadoras e estão **fora**:
   fotossensível — é dano físico, não frustração. O aviso de oferta pisca a 2 Hz por padrão, e a
   versão acima do limiar existe só atrás de um opt-in com aviso nomeado e confirmação.
   Nunca ative isso por padrão, nunca remova o aviso.
+- **Áudio alto ou com pico súbito.** A música de fundo é inescapável de propósito, mas
+  entra com fade-in e fica em volume baixo. Susto sonoro e volume que machuca são dano
+  físico, como o piscar acima de 3 Hz — não são frustração cômica.
 - **Sabotar o painel de instruções.** Ele é a exceção honesta deliberada do projeto.
   Ver seção 7.
 - **Enganar sobre dinheiro real.** É um jogo; nenhum campo coleta dado real. O número

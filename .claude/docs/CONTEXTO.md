@@ -43,7 +43,7 @@ Duas coisas importantes saem daí:
 | Sem rodinha empenada e sem trava de roda | Pedido do autor. O foco é a má experiência de uso, não a dificuldade motora de pilotar. |
 | Sem tela de título | Pedido do autor. A página carrega já jogável; as instruções foram para um botão na barra superior. |
 | Barra superior enxuta + barra de cookies | Restaram como superfície mínima para as violações de WCAG que precisam de cromo de site: busca, oferta piscante, badge e o par aceitar/recusar. |
-| Violar WCAG 2.2 e documentar | Segundo objetivo do projeto, com peso igual ao humor. Mínimo pedido: 13 critérios. Entregue: 27 catalogados, 19 implementados. |
+| Violar WCAG 2.2 e documentar | Segundo objetivo do projeto, com peso igual ao humor. Mínimo pedido: 13 critérios. Entregue: 28 catalogados, 20 implementados. |
 | Instruções honestas | Único componente acessível. Serve de régua para as violações e mantém o jogo compreensível. |
 
 ## 3. Princípio de design que guia tudo
@@ -87,7 +87,7 @@ padrão e a versão acima do limiar só existe atrás de um opt-in com aviso e c
     teclado que reembaralha a cada tecla, **keyboard trap intencional**.
 13. Cupom final com taxa de conveniência de 37% e frete "grátis" de R$ 18,50.
 14. **Painel de instruções honesto**, que pausa o jogo ao abrir.
-15. **27 critérios da WCAG 2.2 catalogados em `docs/WCAG.md`**, 19 implementados, com
+15. **28 critérios da WCAG 2.2 catalogados em `docs/WCAG.md`**, 20 implementados, com
     tabela ligando cada critério à funcionalidade que o fere.
 
 **Publicado na Cloudflare** a partir do repositório `SeuDemar/unusable-web`, branch
